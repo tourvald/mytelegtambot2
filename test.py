@@ -3,11 +3,12 @@ import time
 from avito_parcer_script import avito_parce_soup, avito_parce
 from my_libs.libs_selenium import create_chrome_driver_object
 from bs4 import BeautifulSoup
-from multiprocessing import Pool
+
 urls = []
 outputs = []
 item_urls = []
 myphones_data = []
+
 def myphones_get_avarage_prices():
     with open('data/myphones.txt', 'r') as f:
         myphones = f.readlines()
@@ -25,6 +26,7 @@ def myphones_get_avarage_prices():
         driver.switch_to.new_window()
     time.sleep(3)
     prices = []
+
     for i in range(len(urls)):
         driver.switch_to.window(driver.window_handles[i])
         contents = driver.page_source

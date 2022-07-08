@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from my_libs.libs_selenium import create_chrome_driver_object
 import mylibs
 from archive import get_key_link
+from my_libs.libs_google_sheets import get_myphones_spreadsheet
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -150,11 +151,10 @@ def avito_parce_soup(soup):
     print(av_price_old, av_price_std)
     return av_price_std, search_request.lower()
 
-def myphones_get_avarage_prices():
+def myphones_get_avarage_prices_old():
 
     urls =[]
-    with open('/Users/dmitry/Desktop/mytelegtambot2/data/myphones.txt', 'r') as f:
-        myphones = f.readlines()
+    values = get
     for myphone in myphones:
         key = myphone.split(':')[1]
         key_link = get_key_link(key)
@@ -190,4 +190,34 @@ def myphones_get_avarage_prices():
         return_.append(f'{myphones[i].split(":")[0]}, - {prices[i]}"/"{myprice}')
     return_.append(f'Средняя цена -  {sum(prices)}')
     return_.append(f'Примерная цена продажи -  {sum(myprices)}')
+    return return_
+
+def myphones_get_avarage_prices():
+    sum_av_price = 0
+    sum_sell_price = 0
+    with open('data/checked_proxies.txt', 'r', encoding='UTF-8') as f:
+        proxies = f.readlines()
+    print(proxies)
+    proxies.reverse()
+    proxy_cycle = 0
+    driver = create_chrome_driver_object(proxy=proxies[proxy_cycle])
+    return_ = []
+    myphones = get_myphones_spreadsheet()
+    for myphone in myphones['values']:
+        key = myphone[1]
+        print(key)
+        key_link = myphone[3]
+        index = myphone[2]
+        print(index)
+        print (key_link)
+        driver.get(key_link)
+        contents = driver.page_source
+        soup = (BeautifulSoup(contents, 'lxml'))
+        av_price, key = avito_parce_soup(soup)
+        sellprice = int(int(av_price) * float(myphone[2]))
+        return_.append(f'{myphone[0]}, - {av_price}"/"{sellprice}')
+        sum_av_price += av_price
+        sum_sell_price += sellprice
+    return_.append(f'Средняя цена -  {sum_av_price}')
+    return_.append(f'Примерная цена продажи -  {sum_sell_price}')
     return return_

@@ -1,1 +1,1 @@
-/Users/dmitry/Desktop/mytelegtambot2/chromedriver
+chromedriver.exe

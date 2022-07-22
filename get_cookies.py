@@ -19,12 +19,12 @@ options.add_argument("user-agent=Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:84.0
 options.add_argument("--disable-blink-features=AutomationControlled")
 
 driver = webdriver.Chrome(
-    executable_path="/Users/dmitry/Desktop/mytelegtambot2/chromedriver",
+    executable_path="/Users/dmitry/Desktop/mytelegtambot2/chromedriver_mac",
     options=options
 )
 
-# "C:\\users\\selenium_python\\chromedriver\\chromedriver.exe"
-# r"C:\users\selenium_python\chromedriver\chromedriver.exe"
+# "C:\\users\\selenium_python\\chromedriver_mac\\chromedriver_mac.exe"
+# r"C:\users\selenium_python\chromedriver_mac\chromedriver_mac.exe"
 
 try:
     driver.get("https://avito.ru")

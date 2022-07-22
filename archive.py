@@ -33,30 +33,37 @@ def archive(search_date, search_link, av_price, search_request):
     #     print (archive[search_request][item])
     return()
 
-def get_keys_list (req):
+def load_archive():
     with open('data/archive.json', 'r', encoding='utf-8') as f:
         arch = json.loads(f.read())
-        f.close()
+    return arch
+
+def get_keys_list (req):
+    arch = load_archive()
     keys = [key for key in arch.keys() if req in key]
     list(keys)
     return keys
 
-def get_last_price(req):
-    with open('data/archive.json', 'r', encoding='utf-8') as f:
-        arch = json.loads(f.read())
-        f.close()
-    keys = [key for key in arch.keys() if req in key]
-    if len(keys) == 1:
+def get_last_date(req):
+    arch = load_archive()
+    keys = get_keys_list(req)
+    try:
         date = list(arch[keys[0]].keys())[-1]
-        price = arch[keys[0]][date]['price']
+        return date
+    except:
+        return 'Запросов больше одного либо таких запросов не существует'
+
+def get_last_price(req):
+    arch = load_archive()
+    try:
+        date = get_last_date(req)
+        price = arch[req][date]['price']
         return (price)
-    else:
+    except:
         return 'Запросов больше одного либо таких запросов не существует'
 
 def get_key_link (req):
-    with open('data/archive.json', 'r', encoding='utf-8') as f:
-        arch = json.loads(f.read())
-        f.close()
+    arch = load_archive()
     keys = [key for key in arch.keys() if req in key]
     if len(keys) == 1:
         date = list(arch[keys[0]].keys())[-1]
@@ -66,9 +73,7 @@ def get_key_link (req):
         return 'Запросов больше одного либо таких запросов не существует'
 
 def change_key_link (req, link):
-    with open('data/archive.json', 'r', encoding='utf-8') as f:
-        arch = json.loads(f.read())
-        f.close()
+    arch = load_archive()
     keys = [key for key in arch.keys() if req in key]
     if len(keys) == 1:
         date = list(arch[keys[0]].keys())[-1]
@@ -86,15 +91,4 @@ def change_key_link (req, link):
     else:
         return 'Запросов больше одного либо таких запросов не существует'
 
-
-def get_last_date(req):
-    with open('data/archive.json', 'r', encoding='utf-8') as f:
-        arch = json.loads(f.read())
-        f.close()
-    keys = [key for key in arch.keys() if req in key]
-    if len(keys) == 1:
-        date = list(arch[keys[0]].keys())[-1]
-        return date
-    else:
-        return 'Запросов больше одного либо таких запросов не существует'
 

@@ -14,8 +14,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-
-
 def avito_parce(url):
     print (url)
     driver = create_chrome_driver_object()
@@ -147,8 +145,7 @@ def avito_parce_soup(soup):
     for price in div_catalog_serp.find_all('meta', {'itemprop': 'price'}):  # Перебираем подблоки блока div_catalog_serp
         price_list.append(price.get('content'))  # Достаем из них цены и добавляем в список цен
     av_price_std = mylibs.av_price_sdt(price_list)
-    av_price_old = mylibs.av_price_old(price_list)
-    print(av_price_old, av_price_std)
+    print(av_price_std)
     return av_price_std, search_request.lower()
 
 def myphones_get_avarage_prices_old():

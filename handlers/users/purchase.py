@@ -1,17 +1,16 @@
-import logging
-import archive
-from avito_parcer_script import myphones_get_avarage_prices, get_soup_for_avito_parce, avito_parce_soup
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from aiogram.dispatcher.filters.state import State, StatesGroup
-from aiogram.dispatcher import FSMContext
-from aiogram.types import Message, CallbackQuery
-from avito_parcer_script import avito_parce
-from keyboards.inline.choice_buttons import choice
-from keyboards.inline.equipment import box, charger, check, scratches, chips, scuffs
-from loader import dp, bot
 import datetime
 import json
 
+from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import Message, CallbackQuery
+
+import archive
+from avito_parcer_script import myphones_get_avarage_prices, get_soup_for_avito_parce, avito_parce_soup
+from keyboards.inline.choice_buttons import choice
+from keyboards.inline.equipment import box, charger, check, scratches, chips
+from loader import dp, bot
 
 ti = 0
 data = {}
@@ -42,7 +41,7 @@ async def find_command(message: Message):
         raise
     for req in reqs:  # Обрабатываем каждый совпадающий с архивом запрос
         time_delta = (datetime.datetime.today() - datetime.datetime.strptime(list(arch.get(req))[-1], '%Y-%m-%d')).days
-        if time_delta > 0:  # Если запрос в базе был менее 7 дней назад то добавляем его цену в список для вывода
+        if time_delta > 3:  # Если запрос в базе был менее 7 дней назад то добавляем его цену в список для вывода
             if "-" in req:
                 req1 = req
             else:
@@ -84,11 +83,18 @@ async def echo(message: Message):
     url = message.text
     try:
         soup = get_soup_for_avito_parce(url)
-        price = avito_parce_soup(soup)
+        price, search_request = avito_parce_soup(soup)
+        try:
+            last_date = archive.get_last_date(search_request.lower())
+            time_delta = (datetime.datetime.today() - datetime.datetime.strptime(last_date, '%Y-%m-%d')).days
+        except:
+            time_delta = 10
+        if time_delta > 3:
+            archive.archive(datetime.date.today(), url, price, search_request.lower())
     except Exception as e:
         price = e
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
-    await message.answer(disable_web_page_preview = True, text=price)
+    await message.answer(disable_web_page_preview = True, text=f'{price}, {search_request.lower()}')
 
 @dp.message_handler(commands='work')
 async def myphones(message: Message):
@@ -126,10 +132,14 @@ async def show_link(call: CallbackQuery):
         url = archive.get_key_link(f.readline())
     try:
         soup = get_soup_for_avito_parce(url)
-        price = avito_parce_soup(soup)
+        price, search_request = avito_parce_soup(soup)
+        last_date = archive.get_last_date(search_request.lower())
+        time_delta = (datetime.datetime.today() - datetime.datetime.strptime(last_date, '%Y-%m-%d')).days
+        if time_delta > 3:
+            archive.archive(datetime.date.today(), url, price, search_request.lower())
     except Exception as e:
         price = e
-    await call.message.answer(price)
+    await call.message.answer(f'{price}, {search_request.lower()}')
 
 @dp.callback_query_handler(text_contains="show_link")
 async def show_link(call: CallbackQuery):
@@ -144,7 +154,6 @@ async def show_link(call: CallbackQuery):
                                 text=text,
                                 reply_markup=choice)
 
-
 @dp.callback_query_handler(text_contains="change_key_link", state=None)
 async def change_key_link(call: CallbackQuery):
     with open('working_button.txt') as f:
@@ -154,7 +163,6 @@ async def change_key_link(call: CallbackQuery):
                                 message_id=call.message.message_id,
                                 text=f'Отправьте пожалуйста новую ссылку для запроса {working_button}')
     await FSM_change_link.waiting_for_new_link.set()
-
 
 @dp.message_handler(state=FSM_change_link.waiting_for_new_link)
 async def waiting_for_new_link(message: Message, state: FSMContext):
@@ -166,23 +174,11 @@ async def waiting_for_new_link(message: Message, state: FSMContext):
     await message.delete()
     await state.finish()
 
-
-
-
 @dp.callback_query_handler(text_contains='buy')
 async def buy_phone(call: CallbackQuery):
     await call.message.answer('Что есть у телефона в комплекте?', reply_markup=box)
     with open('quality.txt', 'w') as f:
         f.write('1')
-
-def change_quality(amount):
-    with open('quality.txt') as f:
-        quality = f.readline()
-    quality = round((float(quality) - amount),2)
-    with open('quality.txt', 'w') as f:
-        f.write(str(quality))
-    print(quality)
-
 
 @dp.callback_query_handler(text_contains='charger')
 async def charger_(call: CallbackQuery):
@@ -210,15 +206,6 @@ async def chips_(call: CallbackQuery):
         change_quality(0.04)
     await call.message.answer('Есть ли сколы?', reply_markup=chips)
 
-@dp.callback_query_handler(text_contains='chips')
-async def scuffs_(call: CallbackQuery):
-    if call.data.split(':')[1] == 'yes':
-        change_quality(0.03)
-        print('Есть потертости')
-    await call.message.answer('Есть ли потертости?', reply_markup=scuffs)
-
-
-
 @dp.callback_query_handler(text_contains='rate')
 async def rate_(call: CallbackQuery):
     global ti
@@ -245,6 +232,10 @@ async def finish_r(call: CallbackQuery):
     print ('WORKED')
     await call.message.reply('Оценка завершена', reply_markup=chips)
 
+@dp.callback_query_handler(text_contains='cancel')
+async def finish_r(call: CallbackQuery):
+    print ('WORKED')
+    await call.message.reply('Оценка завершена', reply_markup=chips)
 
 @dp.message_handler(text_contains='myphones_price')
 async def myphones_prices(message: Message):

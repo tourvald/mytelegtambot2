@@ -1,5 +1,6 @@
 import datetime
 import json
+import os
 
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
@@ -246,6 +247,12 @@ async def myphones_prices(message: Message):
     except Exception as e:
         output = e
         await message.answer(output)
+
+@dp.message_handler(text_contains='restart')
+async def myphones_prices(message: Message):
+    os.system('shutdown -r -t 0')
+
+
 
 
 

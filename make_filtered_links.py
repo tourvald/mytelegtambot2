@@ -155,8 +155,9 @@ def get_new_items_lite(url):
             driver.add_cookie(cookie)
         time.sleep(random.uniform(1,3))
         driver.refresh()
+        print('Куки загружены')
     except Exception as e:
-        print (e)
+        print ('Не удалось загрузить куки')
 
     for i in range(10):
         try:
@@ -186,9 +187,9 @@ def get_new_items_lite(url):
                 time.sleep(10+i1*3)
                 print(e)
 
-    with open('test_cookies.pkl', 'wb') as f:
-       f.close()
-    pickle.dump(driver.get_cookies(), open('cookies/test_cookies.pkl', 'wb'))
+    # with open('test_cookies.pkl', 'wb') as f:
+    #    f.close()
+    # pickle.dump(driver.get_cookies(), open('cookies/test_cookies.pkl', 'wb'))
 
     driver.close()
     driver.quit()

@@ -1,5 +1,3 @@
-import time
-import pickle
 from mylibs import get_bs4_content
 
 
@@ -27,7 +25,6 @@ def check_text_for_stop_words(stop_list, text):
             return False
 
 def make_awesome_link_list(link_number):
-    stop_search = False
     soup = get_bs4_content(get_link(link_number, 'links.txt'),headless=True)
     div_with_items = soup.find('div', class_='items-items-kAJAg')
     try:
@@ -52,6 +49,11 @@ def make_awesome_link_list_2(soup):
             item_to_del.clear()
     except Exception as e:
         print(e)
+    try:
+        logged_in = soup.find('div', class_='index-services-menu-item_username-_YDXo')
+        print(logged_in.text)
+    except:
+        print('Нет авторизации')
 
 
     items = div_with_items.find_all('div', {'data-marker':'item'})
@@ -72,7 +74,7 @@ def make_awesome_link_list_2(soup):
             items_tuple['description'] = item.find('div', class_="iva-item-descriptionStep-C0ty1").text
             stop_list = get_stop_list()
             for stop_word in stop_list:
-                if stop_word.lower().strip() in items_tuple['description'].lower():
+                if stop_word.lower().strip() in items_tuple['description'].lower().strip():
                     stop_words_counter += 1
                     continue_ = 1
                     break
@@ -120,15 +122,6 @@ def make_awesome_link_list_2(soup):
     print(f'Заблокировано из - зарейтинга - {bad_rating_counter} объявлений')
     return stop_search
 
-
-# with open ('item_links.txt', 'w') as f:
-#     f.close()
-# links_quanity = count_links_quanity('links.txt')
-# for link_number in range(links_quanity):
-#     stop_search = make_awesome_link_list(link_number)
-#     if stop_search == True:
-#         break
-#     time.sleep(10)
 
 
 

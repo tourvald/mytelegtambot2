@@ -19,7 +19,7 @@ options.add_argument("user-agent=Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:84.0
 options.add_argument("--disable-blink-features=AutomationControlled")
 
 driver = webdriver.Chrome(
-    executable_path="/Users/dmitry/Desktop/mytelegtambot2/chromedriver_mac",
+    executable_path="settings/chromedriver_mac",
     options=options
 )
 

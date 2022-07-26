@@ -1,6 +1,23 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from keyboards.inline.callback_datas import buy_callback, sell_callback
 
+cancel_button = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [
+            InlineKeyboardButton(text='Отмена', callback_data='cancel')
+        ]
+    ]
+)
+
+admin = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [
+            InlineKeyboardButton(text="torrent", callback_data='torrent'),
+            InlineKeyboardButton(text="restart", callback_data='restart')
+        ]
+    ]
+)
+
 choice = InlineKeyboardMarkup(
     inline_keyboard=[
         [

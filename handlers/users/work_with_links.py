@@ -101,12 +101,12 @@ async def initiate_work_with_links(message: Message):
 
     urls = [
         'https://www.avito.ru/moskva/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?f=ASgBAQECAUSwwQ2I_DcBQOjrDjT~_dsC_P3bAvr92wIBRcaaDBh7ImZyb20iOjgwMDAsInRvIjo1MDAwMH0&q=обмен&s=104&user=1',
-        'https://www.avito.ru/moskva/audio_i_video/televizory_i_proektory/televizory-ASgBAgICAkSIArgJ0sENkLA5?f=ASgBAQICAkSIArgJ0sENkLA5AUDqvA0U_NE0&q=обмен&s=104&user=1',
-        'https://www.avito.ru/moskva/audio_i_video/naushniki-ASgBAgICAUSIAtRO?cd=1&f=ASgBAQICAUSIAtROAUDqvA0U_NE0&q=обмен&s=104&user=1',
-        'https://www.avito.ru/moskva/planshety_i_elektronnye_knigi?cd=1&f=ASgCAQICAUD0vA0UkNI0&q=обмен&s=104&user=1',
-        'https://www.avito.ru/moskva/igry_pristavki_i_programmy/igrovye_pristavki-ASgBAgICAUSSAsoJ?f=ASgBAQICAUSSAsoJAUDsvA0UgNI0&q=обмен&s=104&user=1',
-        'https://www.avito.ru/moskva/sport_i_otdyh/drugoe-ASgBAgICAUTKAuIK?f=ASgBAQICAUTKAuIKAUCIvQ0UuNI0&q=электросамокат+обмен&s=104&user=1',
-        'https://www.avito.ru/moskva/nastolnye_kompyutery?f=ASgCAQICAUDuvA0UhNI0&q=mac+обмен&s=104&user=1'
+        # 'https://www.avito.ru/moskva/audio_i_video/televizory_i_proektory/televizory-ASgBAgICAkSIArgJ0sENkLA5?f=ASgBAQICAkSIArgJ0sENkLA5AUDqvA0U_NE0&q=обмен&s=104&user=1',
+        # 'https://www.avito.ru/moskva/audio_i_video/naushniki-ASgBAgICAUSIAtRO?cd=1&f=ASgBAQICAUSIAtROAUDqvA0U_NE0&q=обмен&s=104&user=1',
+        # 'https://www.avito.ru/moskva/planshety_i_elektronnye_knigi?cd=1&f=ASgCAQICAUD0vA0UkNI0&q=обмен&s=104&user=1',
+        # 'https://www.avito.ru/moskva/igry_pristavki_i_programmy/igrovye_pristavki-ASgBAgICAUSSAsoJ?f=ASgBAQICAUSSAsoJAUDsvA0UgNI0&q=обмен&s=104&user=1',
+        # 'https://www.avito.ru/moskva/sport_i_otdyh/drugoe-ASgBAgICAUTKAuIK?f=ASgBAQICAUTKAuIKAUCIvQ0UuNI0&q=электросамокат+обмен&s=104&user=1',
+        # 'https://www.avito.ru/moskva/nastolnye_kompyutery?f=ASgCAQICAUDuvA0UhNI0&q=mac+обмен&s=104&user=1'
     ]
     p = Pool(processes=1)
     p.map(get_new_items_lite, urls)
@@ -120,15 +120,12 @@ async def initiate_work_with_links(message: Message):
         f.writelines(item_links)
     with open('new_links.txt', 'a') as f:
         f.writelines(links_to_add)
-    await bot.send_message(text=f'Ссылки добавлены. Сейчас {len(links_to_add)}', chat_id=message.chat.id,
+    await bot.send_message(text=f'Добавлено {len(links_to_add)} ссылки', chat_id=message.chat.id,
                            disable_web_page_preview=True)
-
-
-@dp.message_handler(content_types=['document'])
-async def get_photo(message: Message):
-    await message.document.download()
-    with open ('new_links.txt', 'r') as f:
-        new_links = f.readlines()
-    print (new_links)
-    with open ('item_links.txt', 'a') as f:
-        f.writelines(new_links)
+    with open('new_links.txt', 'r') as f:
+        string = f.readlines()
+    msg = string[0]
+    string.pop(0)
+    with open('new_links.txt', 'w') as f:
+        f.writelines(string)
+    await bot.send_message(text=str(len(string))+':'+msg, reply_markup=keyboard, chat_id=message.chat.id, disable_web_page_preview = True)

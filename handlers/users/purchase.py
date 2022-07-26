@@ -9,7 +9,7 @@ from aiogram.types import Message, CallbackQuery
 
 import archive
 from avito_parcer_script import myphones_get_avarage_prices, get_soup_for_avito_parce, avito_parce_soup
-from keyboards.inline.choice_buttons import choice
+from keyboards.inline.choice_buttons import choice, admin, cancel_button
 from keyboards.inline.equipment import box, charger, check, scratches, chips
 from loader import dp, bot
 
@@ -17,6 +17,9 @@ ti = 0
 data = {}
 class FSM_change_link(StatesGroup):
     waiting_for_new_link = State()
+
+class FSM_waiting_for_torrent(StatesGroup):
+    waiting_for_torrent = State()
 
 class FSM_buy_phone(StatesGroup):
     equipment = State()
@@ -249,9 +252,47 @@ async def myphones_prices(message: Message):
         await message.answer(output)
 
 @dp.message_handler(text_contains='restart')
-async def myphones_prices(message: Message):
+async def restart_command(message: Message):
     os.system('shutdown -r -t 0')
 
+@dp.message_handler(commands='admin')
+async def myphones(message: Message):
+    await message.answer('Выберите пожалуйста одну из моделей', reply_markup=admin)
+
+@dp.callback_query_handler(text_contains='restart')
+async def restart(call: CallbackQuery):
+    os.system('shutdown -r -t 0')
+    print(call.from_user.id)
+    await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
+
+@dp.callback_query_handler(text_contains='torrent')
+async def restart(call: CallbackQuery):
+    await bot.edit_message_text(chat_id=call.message.chat.id,
+                                message_id=call.message.message_id,
+                                text=f'Ожидание торрент - файла',
+                                reply_markup=cancel_button)
+    await FSM_waiting_for_torrent.waiting_for_torrent.set()
+
+@dp.message_handler(content_types=['document'])
+async def waiting_for_new_link(message: Message, state: FSMContext):
+    name = message.document.file_name
+    print(name)
+    if name.split('.')[-1] == 'torrent':
+        await message.document.download(destination_file=f'__pycache__/{name}')
+    elif name.split('.')[-1] == 'pkl':
+        await message.document.download(destination_file=f'cookies/test_cookies.pkl')
+    else:
+        await message.answer(text=f'Формат файла не поддерживается')
+    await state.finish()
+
+
+@dp.callback_query_handler(text_contains='cancel')
+async def restart(call: CallbackQuery):
+    print('Yeaaaaa')
+    state.finish()
+    await bot.delete_message(chat_id=call.message.chat.id,
+                             message_id=call.message.message_id,
+                             text='Ждем ваших команд')
 
 
 

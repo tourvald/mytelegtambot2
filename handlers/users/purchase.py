@@ -100,9 +100,9 @@ async def echo(message: Message):
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
     await message.answer(disable_web_page_preview = True, text=f'{price}, {search_request.lower()}')
 
-@dp.message_handler(commands='work')
+@dp.message_handler()
 async def myphones(message: Message):
-    buttons = archive.get_keys_list(message.text.lower()[6:])
+    buttons = archive.get_keys_list(message.text.lower())
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
     if buttons:
         menu = InlineKeyboardMarkup(row_width=1)
@@ -137,6 +137,7 @@ async def show_link(call: CallbackQuery):
     try:
         soup = get_soup_for_avito_parce(url)
         price, search_request = avito_parce_soup(soup)
+        print(f'QQQQQQQQQQQQ{search_request}')
         last_date = archive.get_last_date(search_request.lower())
         time_delta = (datetime.datetime.today() - datetime.datetime.strptime(last_date, '%Y-%m-%d')).days
         if time_delta > 3:
@@ -210,22 +211,11 @@ async def chips_(call: CallbackQuery):
         change_quality(0.04)
     await call.message.answer('Есть ли сколы?', reply_markup=chips)
 
-@dp.callback_query_handler(text_contains='rate')
+@dp.callback_query_handler(text_contains='delete')
 async def rate_(call: CallbackQuery):
-    global ti
-    ti += 1
-    print(ti)
-    rate = InlineKeyboardMarkup(
-    inline_keyboard=[
-        [
-            InlineKeyboardButton(text="Нет",
-                                 callback_data='rate'
-                                 ),
-            InlineKeyboardButton(text="Да",
-                                 callback_data='finish'
-                                 )
-        ]]
-    )
+    with open('working_button.txt') as f:
+        archive.delete_key(f.readline())
+    await call.message.answer('Пока не работает')
 
 
 
@@ -246,10 +236,10 @@ async def myphones_prices(message: Message):
     try:
         outputs = myphones_get_avarage_prices()
         for output in outputs:
-            await message.answer(output)
+            await bot.send_message(chat_id=324029452, text=output)
     except Exception as e:
         output = e
-        await message.answer(output)
+        await bot.send_message(chat_id=324029452, text=output)
 
 @dp.message_handler(text_contains='restart')
 async def restart_command(message: Message):
@@ -265,34 +255,21 @@ async def restart(call: CallbackQuery):
     print(call.from_user.id)
     await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
 
-@dp.callback_query_handler(text_contains='torrent')
-async def restart(call: CallbackQuery):
-    await bot.edit_message_text(chat_id=call.message.chat.id,
-                                message_id=call.message.message_id,
-                                text=f'Ожидание торрент - файла',
-                                reply_markup=cancel_button)
-    await FSM_waiting_for_torrent.waiting_for_torrent.set()
+
 
 @dp.message_handler(content_types=['document'])
 async def waiting_for_new_link(message: Message, state: FSMContext):
-    name = message.document.file_name
-    print(name)
-    if name.split('.')[-1] == 'torrent':
-        await message.document.download(destination_file=f'__pycache__/{name}')
-    elif name.split('.')[-1] == 'pkl':
+    file_name = message.document.file_name
+    print(file_name)
+    if file_name.split('.')[-1] == 'torrent':
+        await message.document.download(destination_file=f'__pycache__/{file_name}')
+        await message.answer(text=f'{file_name} успешно загружен')
+    elif file_name.split('.')[-1] == 'pkl':
         await message.document.download(destination_file=f'cookies/test_cookies.pkl')
+        await message.answer(text=f'{file_name} успешно загружен')
     else:
         await message.answer(text=f'Формат файла не поддерживается')
-    await state.finish()
 
-
-@dp.callback_query_handler(text_contains='cancel')
-async def restart(call: CallbackQuery):
-    print('Yeaaaaa')
-    state.finish()
-    await bot.delete_message(chat_id=call.message.chat.id,
-                             message_id=call.message.message_id,
-                             text='Ждем ваших команд')
 
 
 

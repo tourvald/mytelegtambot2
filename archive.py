@@ -1,9 +1,7 @@
 import json
 def archive(search_date, search_link, av_price, search_request):
-
     with open('data/archive.json', 'r', encoding='utf-8') as f:
         file=f.read()
-        f.close()
     archive = json.loads(file)
     if str(archive.get(search_request)) == "None":
         print("Такого ключа нет")
@@ -91,4 +89,16 @@ def change_key_link (req, link):
     else:
         return 'Запросов больше одного либо таких запросов не существует'
 
+def delete_key (req):
+    with open('data/archive.json', 'r', encoding='utf-8') as f:
+        file=f.read()
+    archive = json.loads(file)
+    keys = get_keys_list(req)
+    print(keys)
+    print(len(archive))
+    del archive[keys[0]]
+    print(len(archive))
+    with open("data/archive.json", "w") as f:
+        json.dump(archive, f, indent=1)
+        f.close()
 

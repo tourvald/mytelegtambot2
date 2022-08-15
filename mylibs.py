@@ -109,7 +109,7 @@ def get_bs4_content(url, headless=True, path_to_webdriver='settings/webdriver.tx
     print ('Ссылка успешно загружена')
     contents = driver.page_source
     soup = BeautifulSoup(contents, 'lxml')
-    pickle.dump(driver.get_cookies(), open('cookies/test_cookies2.pkl', "wb"))
+    pickle.dump(driver.get_cookies(), open('cookies/avito.pkl', "wb"))
     driver.close()
     driver.quit()
     return soup

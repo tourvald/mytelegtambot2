@@ -147,7 +147,7 @@ def get_new_items_lite(url):
     print(proxies)
     proxies.reverse()
     proxy_cycle = 0
-    driver = create_chrome_driver_object(proxy=proxies[proxy_cycle])
+    driver = create_chrome_driver_object(proxy=proxies[proxy_cycle], headless=False)
     driver.get(url)
     driver.implicitly_wait(10)
     try:

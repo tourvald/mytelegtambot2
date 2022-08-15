@@ -12,7 +12,6 @@ cancel_button = InlineKeyboardMarkup(
 admin = InlineKeyboardMarkup(
     inline_keyboard=[
         [
-            InlineKeyboardButton(text="torrent", callback_data='torrent'),
             InlineKeyboardButton(text="restart", callback_data='restart')
         ]
     ]
@@ -25,7 +24,7 @@ choice = InlineKeyboardMarkup(
                 item="iphone 12 pro max 128", price="99000"
             )),
             InlineKeyboardButton(text="Myphones", callback_data='myphones'),
-            InlineKeyboardButton(text="Оценить", callback_data='rate')
+            InlineKeyboardButton(text="Удалить", callback_data='delete')
         ],
         [
             InlineKeyboardButton(text="Ссылка", callback_data='show_link'),

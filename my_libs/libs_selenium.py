@@ -23,10 +23,11 @@ def create_chrome_driver_object(headless=True, proxy=None):
         path_to_webdriver = os.getenv("PATH_TO_WEBDRIVER_MAC")
     elif platform == "win32":
         path_to_webdriver = os.getenv("PATH_TO_WEBDRIVER_PC")
+
     chromeOptions = selenium.webdriver.ChromeOptions()
-    prefs = {"profile.managed_default_content_settings.images": 2}
+    # prefs = {"profile.managed_default_content_settings.images": 2}
     chromeOptions.page_load_strategy = 'eager'
-    chromeOptions.add_experimental_option("prefs", prefs)
+    # chromeOptions.add_experimental_option("prefs", prefs)
     if headless ==  True:
         print(f'headless={headless}', end=', ')
         chromeOptions.add_argument('headless')
@@ -38,10 +39,10 @@ def create_chrome_driver_object(headless=True, proxy=None):
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.115 Safari/537.36")
     chromeOptions.add_experimental_option("excludeSwitches", ["enable-automation"])
     chromeOptions.add_experimental_option('useAutomationExtension', False)
-    if 'NAA' not in proxy:
-        if proxy:
-            print(f'proxy={proxy}')
-            chromeOptions.add_argument(f'--proxy-server={proxy}')
+    # if 'NAA' not in proxy:
+    #     if proxy:
+    #         print(f'proxy={proxy}')
+    #         chromeOptions.add_argument(f'--proxy-server={proxy}')
     s = Service(executable_path=path_to_webdriver)
     driver = webdriver.Chrome(service=s, options=chromeOptions)
     return driver

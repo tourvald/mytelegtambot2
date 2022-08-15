@@ -101,12 +101,12 @@ async def initiate_work_with_links(message: Message):
 
     urls = [
         'https://www.avito.ru/moskva/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?f=ASgBAQECAUSwwQ2I_DcBQOjrDjT~_dsC_P3bAvr92wIBRcaaDBh7ImZyb20iOjgwMDAsInRvIjo1MDAwMH0&q=обмен&s=104&user=1',
-        # 'https://www.avito.ru/moskva/audio_i_video/televizory_i_proektory/televizory-ASgBAgICAkSIArgJ0sENkLA5?f=ASgBAQICAkSIArgJ0sENkLA5AUDqvA0U_NE0&q=обмен&s=104&user=1',
-        # 'https://www.avito.ru/moskva/audio_i_video/naushniki-ASgBAgICAUSIAtRO?cd=1&f=ASgBAQICAUSIAtROAUDqvA0U_NE0&q=обмен&s=104&user=1',
-        # 'https://www.avito.ru/moskva/planshety_i_elektronnye_knigi?cd=1&f=ASgCAQICAUD0vA0UkNI0&q=обмен&s=104&user=1',
-        # 'https://www.avito.ru/moskva/igry_pristavki_i_programmy/igrovye_pristavki-ASgBAgICAUSSAsoJ?f=ASgBAQICAUSSAsoJAUDsvA0UgNI0&q=обмен&s=104&user=1',
-        # 'https://www.avito.ru/moskva/sport_i_otdyh/drugoe-ASgBAgICAUTKAuIK?f=ASgBAQICAUTKAuIKAUCIvQ0UuNI0&q=электросамокат+обмен&s=104&user=1',
-        # 'https://www.avito.ru/moskva/nastolnye_kompyutery?f=ASgCAQICAUDuvA0UhNI0&q=mac+обмен&s=104&user=1'
+        'https://www.avito.ru/moskva/audio_i_video/televizory_i_proektory/televizory-ASgBAgICAkSIArgJ0sENkLA5?f=ASgBAQICAkSIArgJ0sENkLA5AUDqvA0U_NE0&q=обмен&s=104&user=1',
+        'https://www.avito.ru/moskva/audio_i_video/naushniki-ASgBAgICAUSIAtRO?cd=1&f=ASgBAQICAUSIAtROAUDqvA0U_NE0&q=обмен&s=104&user=1',
+        'https://www.avito.ru/moskva/planshety_i_elektronnye_knigi?cd=1&f=ASgCAQICAUD0vA0UkNI0&q=обмен&s=104&user=1',
+        'https://www.avito.ru/moskva/igry_pristavki_i_programmy/igrovye_pristavki-ASgBAgICAUSSAsoJ?f=ASgBAQICAUSSAsoJAUDsvA0UgNI0&q=обмен&s=104&user=1',
+        'https://www.avito.ru/moskva/sport_i_otdyh/drugoe-ASgBAgICAUTKAuIK?f=ASgBAQICAUTKAuIKAUCIvQ0UuNI0&q=электросамокат+обмен&s=104&user=1',
+        'https://www.avito.ru/moskva/nastolnye_kompyutery?f=ASgCAQICAUDuvA0UhNI0&q=mac+обмен&s=104&user=1'
     ]
     p = Pool(processes=1)
     p.map(get_new_items_lite, urls)

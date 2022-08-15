@@ -333,6 +333,14 @@
   "2022-07-20": {
    "price": 48135,
    "link": "https://www.avito.ru/moskva/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&cd=1&f=ASgBAQICAUSwwQ2I_DcBQOjrDjT~_dsC_P3bAvr92wI&q=iphone+12+128+-pro+-max+-mini&s=104&user=1"
+  },
+  "2022-08-03": {
+   "price": 49522,
+   "link": "https://www.avito.ru/moskva/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&cd=1&f=ASgBAQICAUSwwQ2I_DcBQOjrDjT~_dsC_P3bAvr92wI&q=iphone+12+128+-pro+-max+-mini&s=104&user=1"
+  },
+  "2022-08-15": {
+   "price": 47422,
+   "link": "https://www.avito.ru/moskva/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&cd=1&f=ASgBAQICAUSwwQ2I_DcBQOjrDjT~_dsC_P3bAvr92wI&q=iphone+12+128+-pro+-max+-mini&s=104&user=1"
   }
  },
  "iphone 12 64 -pro -max -mini": {
@@ -4121,6 +4129,10 @@
   "2022-04-13": {
    "price": "25711",
    "link": "https://www.avito.ru/moskva/chasy_i_ukrasheniya/kupit-chasy-ASgBAgICAUTQAYYG?bt=1&f=ASgBAQICAUTQAYYGAUDmvA0U9NE0&q=apple+watch+6+44&user=1"
+  },
+  "2022-08-03": {
+   "price": 22511,
+   "link": "https://www.avito.ru/moskva/chasy_i_ukrasheniya/chasy-ASgBAgICAUTQAYYG?bt=1&f=ASgBAQICAUTQAYYGAUDmvA0U9NE0&q=apple+watch+6+44&s=104"
   }
  },
  "redmi note 9 64 -pro -9s -9c": {
@@ -4626,7 +4638,11 @@
   },
   "2022-04-13": {
    "price": "44379",
-   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+12+2015&user=1"
+   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&cd=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+12+2015&s=104"
+  },
+  "2022-08-01": {
+   "price": 34981,
+   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&cd=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+12+2015&s=104"
   }
  },
  "macbook 12 2016": {
@@ -4718,7 +4734,11 @@
   },
   "2022-04-13": {
    "price": "53654",
-   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+12+2017&user=1"
+   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+12+2017&s=104"
+  },
+  "2022-08-01": {
+   "price": 44536,
+   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+12+2017&s=104"
   }
  },
  "iphone 11 64 -pro -max": {
@@ -5810,7 +5830,11 @@
   },
   "2022-04-23": {
    "price": "44820",
-   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+air+13+2017&s=104&user=1"
+   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&cd=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+air+13+2017&s=104"
+  },
+  "2022-08-01": {
+   "price": 40054,
+   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&cd=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+air+13+2017&s=104"
   }
  },
  "redmi note 8 64 -pro -8t -4x -t": {
@@ -9766,6 +9790,10 @@
   },
   "2022-06-08": {
    "price": "32300, 32503",
+   "link": "https://www.avito.ru/moskva_i_mo/chasy_i_ukrasheniya/chasy-ASgBAgICAUTQAYYG?bt=1&f=ASgBAQICAUTQAYYGAUDmvA0U9NE0&q=apple+watch+7+45&s=104&user=1"
+  },
+  "2022-08-03": {
+   "price": 30893,
    "link": "https://www.avito.ru/moskva_i_mo/chasy_i_ukrasheniya/chasy-ASgBAgICAUTQAYYG?bt=1&f=ASgBAQICAUTQAYYGAUDmvA0U9NE0&q=apple+watch+7+45&s=104&user=1"
   }
  },
@@ -14251,52 +14279,6 @@
    "link": "https://www.avito.ru/moskva/igry_pristavki_i_programmy/igrovye_pristavki-ASgBAgICAUSSAsoJ?bt=1&f=ASgBAQICAUSSAsoJAUDsvA0UgNI0&q=playstation+4+slim+500gb&s=104&user=1"
   }
  },
- "galaxy s21 plus 128 -ultra": {
-  "2022-03-13": {
-   "price": "57399",
-   "link": "https://www.avito.ru/rossiya/telefony?bt=1&cd=1&f=ASgCAQICAUD2vA0UlNI0&q=galaxy+s21+plus+128+-ultra&user=1"
-  },
-  "2022-03-14": {
-   "price": "59783",
-   "link": "https://www.avito.ru/rossiya/telefony?bt=1&cd=1&f=ASgCAQICAUD2vA0UlNI0&q=galaxy+s21+plus+128+-ultra&user=1"
-  },
-  "2022-03-15": {
-   "price": "60382",
-   "link": "https://www.avito.ru/rossiya/telefony?bt=1&cd=1&f=ASgCAQICAUD2vA0UlNI0&q=galaxy+s21+plus+128+-ultra&user=1"
-  },
-  "2022-03-16": {
-   "price": "60382",
-   "link": "https://www.avito.ru/rossiya/telefony?bt=1&cd=1&f=ASgCAQICAUD2vA0UlNI0&q=galaxy+s21+plus+128+-ultra&user=1"
-  },
-  "2022-03-17": {
-   "price": "61920",
-   "link": "https://www.avito.ru/rossiya/telefony?bt=1&cd=1&f=ASgCAQICAUD2vA0UlNI0&q=galaxy+s21+plus+128+-ultra&user=1"
-  },
-  "2022-03-18": {
-   "price": "53000",
-   "link": "https://www.avito.ru/rossiya/telefony?bt=1&cd=1&f=ASgCAQICAUD2vA0UlNI0&q=galaxy+s21+plus+128+-ultra&user=1"
-  },
-  "2022-03-19": {
-   "price": "53000",
-   "link": "https://www.avito.ru/rossiya/telefony?bt=1&cd=1&f=ASgCAQICAUD2vA0UlNI0&q=galaxy+s21+plus+128+-ultra&user=1"
-  },
-  "2022-03-21": {
-   "price": "65096",
-   "link": "https://www.avito.ru/rossiya/telefony?bt=1&cd=1&f=ASgCAQICAUD2vA0UlNI0&q=galaxy+s21+plus+128+-ultra&user=1"
-  },
-  "2022-03-22": {
-   "price": "65107",
-   "link": "https://www.avito.ru/rossiya/telefony?bt=1&cd=1&f=ASgCAQICAUD2vA0UlNI0&q=galaxy+s21+plus+128+-ultra&user=1"
-  },
-  "2022-04-11": {
-   "price": "64540",
-   "link": "https://www.avito.ru/rossiya/telefony?bt=1&cd=1&f=ASgCAQICAUD2vA0UlNI0&q=galaxy+s21+plus+128+-ultra&user=1"
-  },
-  "2022-04-13": {
-   "price": "66995",
-   "link": "https://www.avito.ru/rossiya/telefony?bt=1&cd=1&f=ASgCAQICAUD2vA0UlNI0&q=galaxy+s21+plus+128+-ultra&user=1"
-  }
- },
  "galaxy s21 plus 256 -ultra": {
   "2022-03-13": {
    "price": "66623",
@@ -14746,7 +14728,11 @@
  "xiaomi mi 11 lite ne 128": {
   "2022-04-25": {
    "price": "24027",
-   "link": "https://www.avito.ru/moskva/telefony/mobilnye_telefony/xiaomi-ASgBAgICAkS0wA3erjmwwQ2I_Dc?bt=1&f=ASgBAQICAkS0wA3erjmwwQ2I_DcBQOjrDjT~_dsC_P3bAvr92wI&q=xiaomi+mi+11+lite+ne+128&s=104&user=1"
+   "link": "https://www.avito.ru/moskva/telefony/mobilnye_telefony/xiaomi-ASgBAgICAkS0wA3erjmwwQ2I_Dc?cd=1&f=ASgBAQICA0SywA2OiKACtMAN3q45sMENiPw3AkDm4A0U9sFc6OsONP792wL8_dsC~v3bAg&q=xiaomi+mi+11+lite+ne+128&s=104"
+  },
+  "2022-08-03": {
+   "price": 19373,
+   "link": "https://www.avito.ru/moskva/telefony/mobilnye_telefony/xiaomi-ASgBAgICAkS0wA3erjmwwQ2I_Dc?cd=1&f=ASgBAQICA0SywA2OiKACtMAN3q45sMENiPw3AkDm4A0U9sFc6OsONP792wL8_dsC~v3bAg&q=xiaomi+mi+11+lite+ne+128&s=104"
   }
  },
  "iphone 11 pro 512 -max": {
@@ -14873,6 +14859,18 @@
   "2022-07-22": {
    "price": 24271,
    "link": "https://www.avito.ru/rossiya/telefony/mobilnye_telefony/realme-ASgBAgICAkS0wA3QqzmwwQ2I_Dc?cd=1&f=ASgBAQICA0SywA3EgTy0wA3QqzmwwQ2I_DcDQOTgDRSOwlzm4A0U~MFc6OsONP792wL8_dsC~v3bAg&q=Realme+x3+superzoom+256&s=104"
+  }
+ },
+ "samsung s21 fe 128": {
+  "2022-08-01": {
+   "price": 38921,
+   "link": "https://www.avito.ru/rossiya/telefony/mobilnye_telefony/samsung-ASgBAgICAkS0wA2crzmwwQ2I_Dc?bt=1&f=ASgBAQICA0SywA2wnqAQtMANnK85sMENiPw3AkDm4A0U9sFc6OsONP792wL8_dsC~v3bAg&q=samsung+s21+fe+128&s=104&user=1"
+  }
+ },
+ "macbook air 13 2019": {
+  "2022-08-01": {
+   "price": 55049,
+   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&cd=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+air+13+2019&s=104"
   }
  }
 }

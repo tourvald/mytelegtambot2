@@ -74,7 +74,7 @@ def make_awesome_link_list_2(soup):
             items_tuple['description'] = item.find('div', class_="iva-item-descriptionStep-C0ty1").text
             stop_list = get_stop_list()
             for stop_word in stop_list:
-                if stop_word.lower().strip() in items_tuple['description'].lower().strip():
+                if stop_word.lower().strip().replace('\n', '') in items_tuple['description'].lower().replace('/n', ' '):
                     stop_words_counter += 1
                     continue_ = 1
                     break

@@ -1,6 +1,20 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from keyboards.inline.callback_datas import buy_callback, sell_callback
 
+
+next_link_buttons = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [
+            InlineKeyboardButton(text="Поддходит",
+                                 callback_data='next:yes'
+                                 ),
+            InlineKeyboardButton(text="Не подходит",
+                                 callback_data='next:no'
+                                 )
+        ]]
+)
+
+
 cancel_button = InlineKeyboardMarkup(
     inline_keyboard=[
         [
@@ -8,6 +22,7 @@ cancel_button = InlineKeyboardMarkup(
         ]
     ]
 )
+
 
 admin = InlineKeyboardMarkup(
     inline_keyboard=[
@@ -17,12 +32,10 @@ admin = InlineKeyboardMarkup(
     ]
 )
 
+
 choice = InlineKeyboardMarkup(
     inline_keyboard=[
         [
-            InlineKeyboardButton(text="Купить", callback_data=buy_callback.new(
-                item="iphone 12 pro max 128", price="99000"
-            )),
             InlineKeyboardButton(text="Myphones", callback_data='myphones'),
             InlineKeyboardButton(text="Удалить", callback_data='delete')
         ],
@@ -32,10 +45,11 @@ choice = InlineKeyboardMarkup(
             InlineKeyboardButton(text="Парсинг", callback_data='parce')
         ],
         [
-            InlineKeyboardButton(text="Отмена", callback_data="cancel")
+            InlineKeyboardButton(text="Отмена", callback_data="cancel_main")
         ]
     ]
 )
+
 
 quality = InlineKeyboardMarkup(
     inline_keyboard=[

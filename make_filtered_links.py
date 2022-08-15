@@ -141,13 +141,14 @@ def get_new_items(url):
     driver.quit()
 
 def get_new_items_lite(url):
+    print(f'В ОБРАБОТКЕ {url}')
     i1 = 0
     with open('data/checked_proxies.txt', 'r', encoding='UTF-8') as f:
         proxies = f.readlines()
     print(proxies)
     proxies.reverse()
     proxy_cycle = 0
-    driver = create_chrome_driver_object(proxy=proxies[proxy_cycle], headless=False)
+    driver = create_chrome_driver_object(proxy=proxies[proxy_cycle], headless=True)
     driver.get(url)
     driver.implicitly_wait(10)
     try:
@@ -155,7 +156,7 @@ def get_new_items_lite(url):
             driver.add_cookie(cookie)
         time.sleep(random.uniform(1,3))
         driver.refresh()
-        print('Куки загружены')
+        # print('Куки загружены')
     except Exception as e:
         print ('Не удалось загрузить куки')
 

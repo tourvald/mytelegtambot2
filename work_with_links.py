@@ -1,5 +1,5 @@
 from mylibs import get_bs4_content
-
+from multiprocessing import Pool
 
 def get_stop_list():
     """Получаем стоп лист из файла stop_list.txt"""
@@ -121,6 +121,7 @@ def make_awesome_link_list_2(soup):
     print (f'Заблокировано по стоп - словам - {stop_words_counter} объявлений')
     print(f'Заблокировано из - зарейтинга - {bad_rating_counter} объявлений')
     return stop_search
+
 
 
 

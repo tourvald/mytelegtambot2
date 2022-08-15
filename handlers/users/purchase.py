@@ -1,7 +1,9 @@
 import datetime
 import json
 import os
-
+import time
+from multiprocessing import Pool
+from make_filtered_links import add_links_to_db, get_new_items, get_new_items_lite
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -24,9 +26,47 @@ class FSM_waiting_for_torrent(StatesGroup):
 class FSM_buy_phone(StatesGroup):
     equipment = State()
 
+
 @dp.message_handler(commands=['start'])
 async def find_command(message: Message):
     await message.answer('Дратути')
+
+
+@dp.message_handler(text_contains='restart')
+async def restart_command(message: Message):
+    os.system('shutdown -r -t 0')
+
+
+@dp.message_handler(commands=['add_links_lite'])
+async def initiate_work_with_links(message: Message):
+    '''добавляет новые ссылки с объявлениями по обменам за вчерашний день'''
+    with open('item_links.txt', 'w', encoding='UTF-8') as f:
+        f.close()
+    with open('data/links_to_parce.txt', 'r', encoding='UTF-8') as f:
+        urls = f.readlines()
+
+    p = Pool(processes=1)
+    p.map(get_new_items_lite, urls)
+
+    with open('item_links.txt', 'r', encoding='UTF-8') as f:
+        item_links = f.readlines()
+    with open('old_links.txt', 'r', encoding='UTF-8') as f:
+        old_links = f.readlines()
+    links_to_add = set(item_links) - set(old_links)
+    with open('old_links.txt', 'w', encoding='UTF-8') as f:
+        f.writelines(item_links)
+    with open('new_links.txt', 'a', encoding='UTF-8') as f:
+        f.writelines(links_to_add)
+    await bot.send_message(text=f'Добавлено {len(links_to_add)} ссылки', chat_id=message.chat.id,
+                           disable_web_page_preview=True)
+    with open('new_links.txt', 'r', encoding='UTF-8') as f:
+        string = f.readlines()
+    msg = string[0]
+    string.pop(0)
+    with open('new_links.txt', 'w', encoding='UTF-8') as f:
+        f.writelines(string)
+    await bot.send_message(text=str(len(string))+':'+msg, reply_markup=keyboard, chat_id=message.chat.id, disable_web_page_preview = True)
+
 
 @dp.message_handler(commands=['find'])
 async def find_command(message: Message):
@@ -81,6 +121,17 @@ async def find_command(message: Message):
     for req in reqs:  # Обрабатываем каждый совпадающий с архивом запрос
         outputs.append(f'{req} : {list(arch.get(req))[-1]} : {arch[req][list(arch.get(req))[-1]]["price"]}')
     [await message.answer(f'/find {output}')for output in sorted(outputs)]
+
+
+@dp.message_handler(text_contains='/myphones_price')
+async def call_myphones(message: Message):
+    try:
+        outputs = myphones_get_avarage_prices()
+        for output in outputs:
+            await message.answer(text=output)
+    except Exception as e:
+        output = e
+        await message.answer(text=output)
 
 @dp.message_handler(text_contains='http')
 async def echo(message: Message):
@@ -226,10 +277,11 @@ async def finish_r(call: CallbackQuery):
     print ('WORKED')
     await call.message.reply('Оценка завершена', reply_markup=chips)
 
-@dp.callback_query_handler(text_contains='cancel')
-async def finish_r(call: CallbackQuery):
-    print ('WORKED')
-    await call.message.reply('Оценка завершена', reply_markup=chips)
+
+@dp.callback_query_handler(text_contains='cancel_main')
+async def call_myphones(call: CallbackQuery):
+    await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
+
 
 @dp.message_handler(text_contains='myphones_price')
 async def myphones_prices(message: Message):
@@ -241,9 +293,6 @@ async def myphones_prices(message: Message):
         output = e
         await bot.send_message(chat_id=324029452, text=output)
 
-@dp.message_handler(text_contains='restart')
-async def restart_command(message: Message):
-    os.system('shutdown -r -t 0')
 
 @dp.message_handler(commands='admin')
 async def myphones(message: Message):

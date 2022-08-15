@@ -63,12 +63,12 @@ def get_last_price(req):
 def get_key_link (req):
     arch = load_archive()
     keys = [key for key in arch.keys() if req in key]
-    if len(keys) == 1:
-        date = list(arch[keys[0]].keys())[-1]
-        link = arch[keys[0]][date]['link']
+    if req in keys:
+        date = list(arch[req].keys())[-1]
+        link = arch[req][date]['link']
         return link
     else:
-        return 'Запросов больше одного либо таких запросов не существует'
+        return 'Не удалось найти ссылку по такому запросу'
 
 def change_key_link (req, link):
     arch = load_archive()
@@ -101,4 +101,6 @@ def delete_key (req):
     with open("data/archive.json", "w") as f:
         json.dump(archive, f, indent=1)
         f.close()
+
+# print(get_key_link('apple watch 6 44'))
 

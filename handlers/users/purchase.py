@@ -3,7 +3,8 @@ import json
 import os
 import time
 from multiprocessing import Pool
-from make_filtered_links import add_links_to_db, get_new_items, get_new_items_lite
+
+from add_links_lite import work_with_links
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -11,7 +12,7 @@ from aiogram.types import Message, CallbackQuery
 
 import archive
 from avito_parcer_script import myphones_get_avarage_prices, get_soup_for_avito_parce, avito_parce_soup
-from keyboards.inline.choice_buttons import choice, admin, cancel_button
+from keyboards.inline.choice_buttons import choice, admin, cancel_button, next_link_buttons
 from keyboards.inline.equipment import box, charger, check, scratches, chips
 from loader import dp, bot
 
@@ -40,32 +41,9 @@ async def restart_command(message: Message):
 @dp.message_handler(commands=['add_links_lite'])
 async def initiate_work_with_links(message: Message):
     '''добавляет новые ссылки с объявлениями по обменам за вчерашний день'''
-    with open('item_links.txt', 'w', encoding='UTF-8') as f:
-        f.close()
-    with open('data/links_to_parce.txt', 'r', encoding='UTF-8') as f:
-        urls = f.readlines()
-
-    p = Pool(processes=1)
-    p.map(get_new_items_lite, urls)
-
-    with open('item_links.txt', 'r', encoding='UTF-8') as f:
-        item_links = f.readlines()
-    with open('old_links.txt', 'r', encoding='UTF-8') as f:
-        old_links = f.readlines()
-    links_to_add = set(item_links) - set(old_links)
-    with open('old_links.txt', 'w', encoding='UTF-8') as f:
-        f.writelines(item_links)
-    with open('new_links.txt', 'a', encoding='UTF-8') as f:
-        f.writelines(links_to_add)
-    await bot.send_message(text=f'Добавлено {len(links_to_add)} ссылки', chat_id=message.chat.id,
-                           disable_web_page_preview=True)
-    with open('new_links.txt', 'r', encoding='UTF-8') as f:
-        string = f.readlines()
-    msg = string[0]
-    string.pop(0)
-    with open('new_links.txt', 'w', encoding='UTF-8') as f:
-        f.writelines(string)
-    await bot.send_message(text=str(len(string))+':'+msg, reply_markup=keyboard, chat_id=message.chat.id, disable_web_page_preview = True)
+    new_links_quanity, msg = work_with_links()
+    await bot.send_message(chat_id=324029452, text=f'Добавлено {new_links_quanity} ссылок')
+    await bot.send_message(chat_id=324029452, text=msg, disable_web_page_preview=True, reply_markup=next_link_buttons)
 
 
 @dp.message_handler(commands=['find'])

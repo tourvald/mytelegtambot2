@@ -17,7 +17,7 @@ def get_last_checked_proxy_number():
         bot_settings = json.loads(f.read())
     return bot_settings['get_last_checked_proxy_number']
 
-def create_chrome_driver_object(headless=True, proxy=None):
+def create_chrome_driver_object(headless=True):
     load_dotenv()
     if platform == "darwin":
         path_to_webdriver = os.getenv("PATH_TO_WEBDRIVER_MAC")
@@ -43,6 +43,7 @@ def create_chrome_driver_object(headless=True, proxy=None):
     #     if proxy:
     #         print(f'proxy={proxy}')
     #         chromeOptions.add_argument(f'--proxy-server={proxy}')
+    print(path_to_webdriver)
     s = Service(executable_path=path_to_webdriver)
     driver = webdriver.Chrome(service=s, options=chromeOptions)
     return driver

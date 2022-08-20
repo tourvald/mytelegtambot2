@@ -121,7 +121,6 @@ def create_chrome_driver_object(path_to_webdriver='settings/webdriver.txt', head
     prefs = {"profile.managed_default_content_settings.images": 2}
     chromeOptions.page_load_strategy = 'eager'
     chromeOptions.add_experimental_option("prefs", prefs)
-    print (headless)
     if headless ==  True:
         print(f'headless={headless}')
         chromeOptions.add_argument('headless')

@@ -165,13 +165,16 @@ async def show_link(call: CallbackQuery):
         url = archive.get_key_link(f.readline())
     try:
         soup = get_soup_for_avito_parce(url)
+        print('Суп получен!!!')
         price, search_request = avito_parce_soup(soup)
+        print(price, search_request)
         print(f'QQQQQQQQQQQQ{search_request}')
         last_date = archive.get_last_date(search_request.lower())
         time_delta = (datetime.datetime.today() - datetime.datetime.strptime(last_date, '%Y-%m-%d')).days
         if time_delta > 3:
             archive.archive(datetime.date.today(), url, price, search_request.lower())
     except Exception as e:
+        print(e, 'Не вышло!!')
         price = e
     await call.message.answer(f'{price}, {search_request.lower()}')
 
@@ -213,32 +216,6 @@ async def buy_phone(call: CallbackQuery):
     await call.message.answer('Что есть у телефона в комплекте?', reply_markup=box)
     with open('quality.txt', 'w') as f:
         f.write('1')
-
-@dp.callback_query_handler(text_contains='charger')
-async def charger_(call: CallbackQuery):
-    if call.data.split(':')[1] == 'no':
-        change_quality(0.04)
-    await call.message.answer('Есть ли родная зарядка?', reply_markup=charger)
-
-@dp.callback_query_handler(text_contains='cheсk')
-async def check_(call: CallbackQuery):
-    if call.data.split(':')[1] == 'no':
-        change_quality(0.04)
-    await call.message.answer('Есть ли чек?', reply_markup=check)
-
-@dp.callback_query_handler(text_contains='scratches')
-async def scratches_(call: CallbackQuery):
-    if call.data.split(':')[1] == 'no':
-        change_quality(0.04)
-        print('нет чека')
-    await call.message.answer('Есть ли царапины?', reply_markup=scratches)
-
-@dp.callback_query_handler(text_contains='chips')
-async def chips_(call: CallbackQuery):
-    if call.data.split(':')[1] == 'yes':
-        print ('есть царапины')
-        change_quality(0.04)
-    await call.message.answer('Есть ли сколы?', reply_markup=chips)
 
 @dp.callback_query_handler(text_contains='delete')
 async def rate_(call: CallbackQuery):

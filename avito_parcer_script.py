@@ -88,9 +88,10 @@ def get_soup_for_avito_parce_old(url):
     return soup
 
 def get_soup_for_avito_parce(url):
+
     with open('data/checked_proxies.txt', 'r', encoding='UTF-8') as f:
         proxies = f.readlines()
-    print (proxies)
+    print (f'Мои прокси - {proxies}')
     proxies.reverse()
     proxy_cycle = 0
     retryes = 0

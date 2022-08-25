@@ -1,8 +1,6 @@
 import asyncio
 import aioschedule
-from handlers.users.work_with_links import initiate_work_with_links
 from avito_parcer_script import myphones_get_avarage_prices
-from handlers.users.purchase import myphones_prices
 from add_links_lite import work_with_links
 
 

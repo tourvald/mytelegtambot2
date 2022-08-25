@@ -37,6 +37,16 @@ async def find_command(message: Message):
 async def restart_command(message: Message):
     os.system('shutdown -r -t 0')
 
+@dp.message_handler(commands=['обмен'])
+async def initiate_work_with_links(message: Message):
+    '''начало работы с ссылками, переводит в замкнутый блок CallBackQuery'''
+    with open('new_links.txt', 'r') as f:
+        string = f.readlines()
+    msg = string[0]
+    string.pop(0)
+    with open('new_links.txt', 'w') as f:
+        f.writelines(string)
+    await bot.send_message(text=msg, reply_markup=keyboard, chat_id=message.chat.id, disable_web_page_preview = True)
 
 @dp.message_handler(commands=['add_links_lite'])
 async def initiate_work_with_links(message: Message):

@@ -4,7 +4,8 @@ import time
 
 from bs4 import BeautifulSoup
 import pickle
-from mylibs import get_bs4_content, create_chrome_driver_object
+from mylibs import get_bs4_content
+from my_libs.libs_selenium import create_chrome_driver_object
 
 def get_stop_list():
     """возвращает стоп лист из файла stop_list.txt"""
@@ -129,18 +130,44 @@ def get_link(link_number, path_to_file):
 
 # ДОБАВЛЕНИЕ НОВЫХ ССЫЛОК С ОБЪЯВЛЕНИЯМИ ПО ОБМЕНУ
 
-def make_awesome_link_list(soup):
-    """Принимает СУП ссылки на поиск
-    Добавляет в файл item_links.txt ссылки на объявления с обменами"""
-    stop_search = False
-    div_with_items = soup.find('div', class_='items-items-kAJAg')
+def delete_bad_items(div_with_items):
     try:
         items_to_del = div_with_items.find_all('div', class_="items-vip-KXPvy")
+        print(len(div_with_items))
         for item_to_del in items_to_del:
             item_to_del.clear()
         items_to_del = div_with_items.find_all('div', class_="items-witcher-VlS6v")
         for item_to_del in items_to_del:
             item_to_del.clear()
+        print('Ненужные блоки удалены')
+        print(len(div_with_items))
+    except Exception as e:
+        print('Ненужные блоки не найдены')
+
+def make_awesome_link_list(soup):
+    """Принимает СУП ссылки на поиск
+    Добавляет в файл item_links.txt ссылки на объявления с обменами"""
+    stop_search = False
+    div_with_items = soup.find('div', class_='items-items-kAJAg')
+    # print(len(div_with_items))
+    # delete_bad_items(div_with_items)
+    # print(len(div_with_items))
+    # time.sleep(10)
+
+    try:
+        items_to_del = div_with_items.find_all('div', class_="items-vip-KXPvy")
+        print(items_to_del)
+        print(len(div_with_items))
+        for item_to_del in items_to_del:
+            item_to_del.clear()
+        items_to_del = div_with_items.find_all('div', class_="items-witcher-VlS6v")
+        print(items_to_del)
+        for item_to_del in items_to_del:
+            item_to_del.clear()
+        print(len(div_with_items))
+        div_with_items = soup.find('div', class_='items-items-kAJAg')
+        print(len(div_with_items))
+        time.sleep(10)
     except Exception as e:
         print(e)
     try:
@@ -165,9 +192,11 @@ def make_awesome_link_list(soup):
 
         if item.find('div', class_="iva-item-descriptionStep-C0ty1"):
             items_tuple['description'] = item.find('div', class_="iva-item-descriptionStep-C0ty1").text
+            print (items_tuple['description'])
             stop_list = get_stop_list()
             for stop_word in stop_list:
-                if stop_word.lower().strip().replace('\n', '') in items_tuple['description'].lower().replace('/n', ' '):
+                if stop_word.lower().strip().replace('\n', '') in items_tuple['description'].lower().replace('/n', ''):
+                    print ('Заблокировано по стоп слову', stop_word.lower().strip().replace("\n", ""))
                     stop_words_counter += 1
                     continue_ = 1
                     break

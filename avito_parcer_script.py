@@ -1,6 +1,7 @@
 import time
 import lxml
 import random
+import unidecode
 import datetime
 from archive import archive
 from bs4 import BeautifulSoup
@@ -9,6 +10,7 @@ import mylibs
 from archive import get_key_link
 from my_libs.libs_google_sheets import get_myphones_spreadsheet
 from selenium import webdriver
+from mylibs import get_bs4_from_driver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -219,3 +221,20 @@ def myphones_get_avarage_prices():
     return_.append(f'Средняя цена -  {sum_av_price}')
     return_.append(f'Примерная цена продажи -  {sum_sell_price}')
     return return_
+
+def parce_page(driver, url):
+    result = []
+    soup = get_bs4_from_driver(driver,url)
+    name = soup.find('span', {'data-marker': 'item-view/title-info'})
+    price = soup.find('span', {'itemprop': 'price'})
+    result.append(name.text)
+    result.append(unidecode.unidecode(price.text))
+    return result
+
+
+
+if __name__ == "__main__":
+    print('работаем')
+    url = 'https://www.avito.ru/moskva/telefony/iphone_14_pro_max_128_gb_fioletovyy_2594047038'
+    driver = create_chrome_driver_object()
+    parce_page(driver, url)

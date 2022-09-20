@@ -11,10 +11,11 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.types import Message, CallbackQuery
 from my_libs.myphones_lib import get_last_3_months_report
 import archive
-from avito_parcer_script import myphones_get_avarage_prices, get_soup_for_avito_parce, avito_parce_soup
+from avito_parcer_script import myphones_get_avarage_prices, get_soup_for_avito_parce, avito_parce_soup, parce_page
 from keyboards.inline.choice_buttons import choice, admin, cancel_button, next_link_buttons
 from keyboards.inline.equipment import box, charger, check, scratches, chips
 from loader import dp, bot
+from my_libs.libs_selenium import create_chrome_driver_object
 
 ti = 0
 data = {}
@@ -286,7 +287,7 @@ async def waiting_for_new_link(message: Message, state: FSMContext):
 
 
 @dp.callback_query_handler(text_contains='myphones')
-async def restart(call: CallbackQuery):
+async def myphones(call: CallbackQuery):
     reports = get_last_3_months_report()
     await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
     for report in reports:
@@ -295,16 +296,19 @@ async def restart(call: CallbackQuery):
             await call.message.answer(row)
 
 @dp.callback_query_handler(text_contains='14_pro_prices')
-async def restart(call: CallbackQuery):
+async def iphone_14_parce(call: CallbackQuery):
     reports = []
     reports.append(['biggeek.ru'])
     reports.append(get_price_from_site('https://biggeek.ru/catalog/apple-iphone-14-pro', 'Apple iPhone 14 Pro 256GB Deep Purple'))
     reports.append(get_price_from_site('https://biggeek.ru/catalog/apple-iphone-14-pro-max', 'Apple iPhone 14 Pro Max 128GB Deep Purple'))
+    reports.append(['filin-smart.ru'])
+    driver = create_chrome_driver_object()
+    reports.append((parce_page(driver, 'https://www.avito.ru/moskva/telefony/iphone_14_pro_max_128_gb_fioletovyy_2594047038')))
+    reports.append((parce_page(driver, 'https://www.avito.ru/moskva/telefony/iphone_14_pro_256_fioletovyy_2594701075')))
     await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
     for report in reports:
-        for row in report:
-            time.sleep(0.1)
-            await call.message.answer(row)
+        time.sleep(0.1)
+        await call.message.answer(report)
 
 
 

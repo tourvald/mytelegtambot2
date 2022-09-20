@@ -4,6 +4,9 @@ from avito_parcer_script import myphones_get_avarage_prices
 from add_links_lite import work_with_links
 from my_libs.big_geek_parce import get_price_from_site
 from keyboards.inline.choice_buttons import next_link_buttons
+from avito_parcer_script import parce_page
+from my_libs.libs_selenium import create_chrome_driver_object
+from mylibs import get_bs4_from_driver
 
 
 async def on_startup(_):
@@ -26,6 +29,11 @@ async def parce_14_pro_price():
     reports.append(['biggeek.ru'])
     reports.append(get_price_from_site('https://biggeek.ru/catalog/apple-iphone-14-pro', 'Apple iPhone 14 Pro 256GB Deep Purple'))
     reports.append(get_price_from_site('https://biggeek.ru/catalog/apple-iphone-14-pro-max', 'Apple iPhone 14 Pro Max 128GB Deep Purple'))
+    reports.append(['filin-smart.ru'])
+    driver = create_chrome_driver_object()
+    reports.append((parce_page(driver, 'https://www.avito.ru/moskva/telefony/iphone_14_pro_max_128_gb_fioletovyy_2594047038')))
+    reports.append((parce_page(driver, 'https://www.avito.ru/moskva/telefony/iphone_14_pro_256_fioletovyy_2594701075')))
+
     for row in reports:
         await bot.send_message(chat_id=324029452, text=row)
 
@@ -33,10 +41,9 @@ async def parce_14_pro_price():
 
 async def scheduler():
     aioschedule.every().day.at("04:00").do(choose_your_dinner)
-    aioschedule.every().day.at("05:00").do(parce_14_pro_price)
+    aioschedule.every().day.at("07:00").do(parce_14_pro_price)
     aioschedule.every().day.at("21:00").do(add_links)
     aioschedule.every().day.at("09:00").do(add_links)
-    aioschedule.every().day.at("15:46").do(add_links)
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)

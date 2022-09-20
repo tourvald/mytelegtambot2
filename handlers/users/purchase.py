@@ -3,13 +3,13 @@ import json
 import os
 import time
 from multiprocessing import Pool
-
+from my_libs.big_geek_parce import get_price_from_site
 from add_links_lite import work_with_links
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.types import Message, CallbackQuery
-
+from my_libs.myphones_lib import get_last_3_months_report
 import archive
 from avito_parcer_script import myphones_get_avarage_prices, get_soup_for_avito_parce, avito_parce_soup
 from keyboards.inline.choice_buttons import choice, admin, cancel_button, next_link_buttons
@@ -285,6 +285,26 @@ async def waiting_for_new_link(message: Message, state: FSMContext):
         await message.answer(text=f'Формат файла не поддерживается')
 
 
+@dp.callback_query_handler(text_contains='myphones')
+async def restart(call: CallbackQuery):
+    reports = get_last_3_months_report()
+    await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
+    for report in reports:
+        for row in report:
+            time.sleep(0.1)
+            await call.message.answer(row)
+
+@dp.callback_query_handler(text_contains='14_pro_prices')
+async def restart(call: CallbackQuery):
+    reports = []
+    reports.append(['biggeek.ru'])
+    reports.append(get_price_from_site('https://biggeek.ru/catalog/apple-iphone-14-pro', 'Apple iPhone 14 Pro 256GB Deep Purple'))
+    reports.append(get_price_from_site('https://biggeek.ru/catalog/apple-iphone-14-pro-max', 'Apple iPhone 14 Pro Max 128GB Deep Purple'))
+    await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
+    for report in reports:
+        for row in report:
+            time.sleep(0.1)
+            await call.message.answer(row)
 
 
 

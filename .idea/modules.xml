@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../MytelegramBot3/.idea/myphones.iml" filepath="$PROJECT_DIR$/../MytelegramBot3/.idea/myphones.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/mytelegtambot2.iml" filepath="$PROJECT_DIR$/.idea/mytelegtambot2.iml" />
     </modules>
   </component>

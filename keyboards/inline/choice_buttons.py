@@ -37,6 +37,7 @@ choice = InlineKeyboardMarkup(
     inline_keyboard=[
         [
             InlineKeyboardButton(text="Myphones", callback_data='myphones'),
+            InlineKeyboardButton(text="14 Pro Prices", callback_data='14_pro_prices'),
             InlineKeyboardButton(text="Удалить", callback_data='delete')
         ],
         [

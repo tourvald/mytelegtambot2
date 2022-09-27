@@ -1,1 +1,1 @@
-settings/chromedriver
+settings/chromedriver_mac

@@ -102,5 +102,23 @@ def delete_key (req):
         json.dump(archive, f, indent=1)
         f.close()
 
-# print(get_key_link('apple watch 6 44'))
+def get_price_history(req:str) -> list:
+    return_ = []
+    archive = load_archive()
+    keys = get_keys_list(req)
+    dates = archive[keys[0]].keys()
+    for date in dates:
+        return_.append([date, archive[keys[0]][date]['price']])
+    return return_
+
+
+if __name__ == '__main__':
+    prices_history = get_price_history('iphone 13 pro max 128')
+    previous_month = '0'
+    for price in prices_history:
+        month = price[0].split('-')[1]
+        if month != previous_month and month != '0':
+            print(price)
+
+        previous_month = month
 

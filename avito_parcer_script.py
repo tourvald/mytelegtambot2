@@ -38,7 +38,7 @@ def avito_parce(url):
         price_list.append(price.get('content'))  # Достаем из них цены и добавляем в список цен
     av_price_std = mylibs.av_price_sdt(price_list)
     av_price_old = mylibs.av_price_old(price_list)
-    av_price = f'{av_price_old}, {av_price_std}'
+    av_price = f'{av_price_std}'
     print(av_price_old, av_price_std)
     archive(datetime.date.today(), url, av_price, search_request.lower())
     return av_price_std, search_request.lower()

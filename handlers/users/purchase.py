@@ -3,6 +3,8 @@ import json
 import os
 import time
 from multiprocessing import Pool
+
+import avito_parcer_script
 from my_libs.big_geek_parce import get_price_from_site
 from add_links_lite import work_with_links
 from aiogram.dispatcher import FSMContext
@@ -12,7 +14,7 @@ from aiogram.types import Message, CallbackQuery
 from my_libs.myphones_lib import get_last_3_months_report
 import archive
 from avito_parcer_script import myphones_get_avarage_prices, get_soup_for_avito_parce, avito_parce_soup, parce_page
-from keyboards.inline.choice_buttons import choice, admin, cancel_button, next_link_buttons
+from keyboards.inline.choice_buttons import choice, admin, cancel_button, next_link_buttons, main_menu
 from keyboards.inline.equipment import box, charger, check, scratches, chips
 from loader import dp, bot
 from my_libs.libs_selenium import create_chrome_driver_object
@@ -31,7 +33,7 @@ class FSM_buy_phone(StatesGroup):
 
 @dp.message_handler(commands=['start'])
 async def find_command(message: Message):
-    await message.answer('Дратути')
+    await message.answer('Дратути', reply_markup=main_menu)
 
 
 @dp.message_handler(text_contains='restart')
@@ -305,6 +307,28 @@ async def iphone_14_parce(call: CallbackQuery):
     driver = create_chrome_driver_object()
     reports.append((parce_page(driver, 'https://www.avito.ru/moskva/telefony/iphone_14_pro_max_128_gb_fioletovyy_2594047038')))
     reports.append((parce_page(driver, 'https://www.avito.ru/moskva/telefony/iphone_14_pro_256_fioletovyy_2594701075')))
+    await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
+    for report in reports:
+        time.sleep(0.1)
+        await call.message.answer(report)
+
+
+@dp.callback_query_handler(text_contains='14_pro_avito')
+async def iphone_14_parce(call: CallbackQuery):
+    reports = []
+    reports.append(avito_parcer_script.avito_parce('https://www.avito.ru/moskva_i_mo/telefony/mobilnye_telefony/apple-ASgBAgICAkS0wA3OqzmwwQ2I_Dc?cd=1&f=ASgBAQICA0SywA3YjuUQtMANzqs5sMENiPw3AkDm4A0U9sFc6OsONPz92wL~_dsC~v3bAg&q=iphone+14+pro+max+128'))
+    reports.append(avito_parcer_script.avito_parce('https://www.avito.ru/moskva_i_mo/telefony/mobilnye_telefony/apple-ASgBAgICAkS0wA3OqzmwwQ2I_Dc?f=ASgBAQICA0SywA3OjuUQtMANzqs5sMENiPw3AkDm4A0U~MFc6OsONPz92wL~_dsC~v3bAg&q=iphone+14+pro+256&s=104'))
+
+    await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
+    for report in reports:
+        time.sleep(0.1)
+        await call.message.answer(report)
+
+
+@dp.callback_query_handler(text_contains='14_pro_history')
+async def iphone_14_parce(call: CallbackQuery):
+    reports = []
+    reports = archive.get_price_history('iphone 14 pro max 128')
     await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
     for report in reports:
         time.sleep(0.1)

@@ -328,7 +328,7 @@ async def iphone_14_parce(call: CallbackQuery):
 @dp.callback_query_handler(text_contains='14_pro_history')
 async def _pro_history(call: CallbackQuery):
     reports = []
-    reports = archive.get_price_history('iphone 14 pro max 128')
+    reports = archive.get_whole_price_history('iphone 14 pro max 128')
     await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
     for report in reports:
         time.sleep(0.1)

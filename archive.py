@@ -120,6 +120,19 @@ def get_price_history(req:str) -> list:
     return return_
 
 
+def get_whole_price_history(req:str) -> list:
+    prices_history = []
+    return_ = []
+    previous_month = '0'
+    archive = load_archive()
+    keys = get_keys_list(req)
+    dates = archive[keys[0]].keys()
+    for date in dates:
+        return_.append([date, archive[keys[0]][date]['price']])
+
+    return return_
+
+
 if __name__ == '__main__':
     history = get_price_history('iphone 13 pro max')
     for his in history:

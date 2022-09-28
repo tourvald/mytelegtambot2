@@ -130,13 +130,13 @@ async def echo(message: Message):
     try:
         soup = get_soup_for_avito_parce(url)
         price, search_request = avito_parce_soup(soup)
-        try:
-            last_date = archive.get_last_date(search_request.lower())
-            time_delta = (datetime.datetime.today() - datetime.datetime.strptime(last_date, '%Y-%m-%d')).days
-        except:
-            time_delta = 10
-        if time_delta > 3:
-            archive.archive(datetime.date.today(), url, price, search_request.lower())
+        # try:
+        #     last_date = archive.get_last_date(search_request.lower())
+        #     time_delta = (datetime.datetime.today() - datetime.datetime.strptime(last_date, '%Y-%m-%d')).days
+        # except:
+        #     time_delta = 10
+        # if time_delta > 3:
+        archive.archive(datetime.date.today(), url, price, search_request.lower())
     except Exception as e:
         price = e
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
@@ -182,10 +182,10 @@ async def show_link(call: CallbackQuery):
         price, search_request = avito_parce_soup(soup)
         print(price, search_request)
         print(f'QQQQQQQQQQQQ{search_request}')
-        last_date = archive.get_last_date(search_request.lower())
-        time_delta = (datetime.datetime.today() - datetime.datetime.strptime(last_date, '%Y-%m-%d')).days
-        if time_delta > 3:
-            archive.archive(datetime.date.today(), url, price, search_request.lower())
+        # last_date = archive.get_last_date(search_request.lower())
+        # time_delta = (datetime.datetime.today() - datetime.datetime.strptime(last_date, '%Y-%m-%d')).days
+        # if time_delta > 3:
+        archive.archive(datetime.date.today(), url, price, search_request.lower())
     except Exception as e:
         print(e, 'Не вышло!!')
         price = e
@@ -316,8 +316,8 @@ async def iphone_14_parce(call: CallbackQuery):
 @dp.callback_query_handler(text_contains='14_pro_avito')
 async def iphone_14_parce(call: CallbackQuery):
     reports = []
-    reports.append(avito_parcer_script.avito_parce('https://www.avito.ru/moskva_i_mo/telefony/mobilnye_telefony/apple-ASgBAgICAkS0wA3OqzmwwQ2I_Dc?cd=1&f=ASgBAQICA0SywA3YjuUQtMANzqs5sMENiPw3AkDm4A0U9sFc6OsONPz92wL~_dsC~v3bAg&q=iphone+14+pro+max+128'))
-    reports.append(avito_parcer_script.avito_parce('https://www.avito.ru/moskva_i_mo/telefony/mobilnye_telefony/apple-ASgBAgICAkS0wA3OqzmwwQ2I_Dc?f=ASgBAQICA0SywA3OjuUQtMANzqs5sMENiPw3AkDm4A0U~MFc6OsONPz92wL~_dsC~v3bAg&q=iphone+14+pro+256&s=104'))
+    reports.append(avito_parcer_script.avito_parce('https://www.avito.ru/moskva_i_mo/telefony/mobilnye_telefony/apple-ASgBAgICAkS0wA3OqzmwwQ2I_Dc?cd=1&f=ASgBAQICA0SywA3YjuUQtMANzqs5sMENiPw3AkDm4A0U9sFc6OsORPj92wL8_dsC_v3bAvr92wI&q=iphone+14+pro+max+128'))
+    reports.append(avito_parcer_script.avito_parce('https://www.avito.ru/moskva_i_mo/telefony/mobilnye_telefony/apple-ASgBAgICAkS0wA3OqzmwwQ2I_Dc?f=ASgBAQICA0SywA3OjuUQtMANzqs5sMENiPw3AkDm4A0U~MFc6OsORPj92wL8_dsC_v3bAvr92wI&q=iphone+14+pro+256&s=104'))
 
     await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
     for report in reports:
@@ -326,7 +326,7 @@ async def iphone_14_parce(call: CallbackQuery):
 
 
 @dp.callback_query_handler(text_contains='14_pro_history')
-async def iphone_14_parce(call: CallbackQuery):
+async def _pro_history(call: CallbackQuery):
     reports = []
     reports = archive.get_price_history('iphone 14 pro max 128')
     await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
@@ -334,6 +334,17 @@ async def iphone_14_parce(call: CallbackQuery):
         time.sleep(0.1)
         await call.message.answer(report)
 
+@dp.callback_query_handler(text_contains='price_history')
+async def price_history(call: CallbackQuery):
+
+    with open('working_button.txt') as f:
+        key = f.readline()
+    reports = []
+    reports = archive.get_price_history(key)
+    await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
+    for report in reports:
+        time.sleep(0.1)
+        await call.message.answer(report)
 
 
 

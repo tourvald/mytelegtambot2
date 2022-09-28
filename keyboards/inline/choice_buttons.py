@@ -41,6 +41,7 @@ main_menu = choice = InlineKeyboardMarkup(
         ],
 
         [
+            InlineKeyboardButton(text="Myphones", callback_data='myphones'),
             InlineKeyboardButton(text="Отмена", callback_data="cancel_main")
         ]
     ]
@@ -50,9 +51,9 @@ main_menu = choice = InlineKeyboardMarkup(
 choice = InlineKeyboardMarkup(
     inline_keyboard=[
         [
-            InlineKeyboardButton(text="Myphones", callback_data='myphones'),
-            InlineKeyboardButton(text="14 Pro Prices", callback_data='14_pro_prices'),
-            InlineKeyboardButton(text="Удалить", callback_data='delete')
+            InlineKeyboardButton(text="Удалить", callback_data='delete'),
+            InlineKeyboardButton(text="История цен", callback_data='price_history')
+
         ],
         [
             InlineKeyboardButton(text="Ссылка", callback_data='show_link'),

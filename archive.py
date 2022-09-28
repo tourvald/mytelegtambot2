@@ -103,22 +103,33 @@ def delete_key (req):
         f.close()
 
 def get_price_history(req:str) -> list:
+    prices_history = []
     return_ = []
+    previous_month = '0'
     archive = load_archive()
     keys = get_keys_list(req)
     dates = archive[keys[0]].keys()
     for date in dates:
-        return_.append([date, archive[keys[0]][date]['price']])
+        prices_history.append([date, archive[keys[0]][date]['price']])
+
+    for price in prices_history:
+        month = price[0].split('-')[1]
+        if month != previous_month and month != '0':
+            return_.append(price)
+        previous_month = month
     return return_
 
 
 if __name__ == '__main__':
-    prices_history = get_price_history('iphone 13 pro max 128')
-    previous_month = '0'
-    for price in prices_history:
-        month = price[0].split('-')[1]
-        if month != previous_month and month != '0':
-            print(price)
-
-        previous_month = month
+    history = get_price_history('iphone 13 pro max')
+    for his in history:
+        print(his)
+    # prices_history = get_price_history('iphone 13 pro max 128')
+    # previous_month = '0'
+    # for price in prices_history:
+    #     month = price[0].split('-')[1]
+    #     if month != previous_month and month != '0':
+    #         print(price)
+    #
+    #     previous_month = month
 

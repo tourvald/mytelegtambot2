@@ -116,11 +116,10 @@ def get_last_3_months_report():
     for month, year in zip(months, years):
         reports.append(get_month_report(year, month, values))
     return reports
-reports = get_last_3_months_report()
 
 # for report in reports:
 #     print (report)
 # values = get_myphones_spreadsheet()
 # for value in values['values']:
 #     if len(value) > 3:
-#         print(value)
+#         print(value)/myphones_price

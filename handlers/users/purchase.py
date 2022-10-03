@@ -234,7 +234,7 @@ async def buy_phone(call: CallbackQuery):
 async def rate_(call: CallbackQuery):
     with open('working_button.txt') as f:
         archive.delete_key(f.readline())
-    await call.message.answer('Пока не работает')
+    await call.message.answer('Запись удалена')
 
 
 
@@ -290,12 +290,11 @@ async def waiting_for_new_link(message: Message, state: FSMContext):
 
 @dp.callback_query_handler(text_contains='myphones')
 async def myphones(call: CallbackQuery):
-    reports = get_last_3_months_report()
+    reports = myphones_get_avarage_prices()
     await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
     for report in reports:
-        for row in report:
-            time.sleep(0.1)
-            await call.message.answer(row)
+        time.sleep(0.1)
+        await call.message.answer(report)
 
 @dp.callback_query_handler(text_contains='14_pro_prices')
 async def iphone_14_parce(call: CallbackQuery):

@@ -7,7 +7,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 import os
 
-def get_myphones_spreadsheet():
+def get_mysells_spreadsheet():
     CREDENTIALS_FILE = 'settings/api_google_sheets_token.json'
     spreadsheet_id = '1nJHlfoRuqu3boqb7Bf3ymI-NRdV0kIkzE80PqI5igVg'
 
@@ -35,7 +35,7 @@ def get_myphones_spreadsheet():
     service = apiclient.discovery.build('sheets', 'v4', http = httpAuth)
     values = service.spreadsheets().values().get(
         spreadsheetId=spreadsheet_id,
-        range='mysells',
+        range='myphones',
         majorDimension='ROWS',
     ).execute()
     return values

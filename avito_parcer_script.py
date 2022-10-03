@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from my_libs.libs_selenium import create_chrome_driver_object
 import mylibs
 from archive import get_key_link
-from my_libs.libs_google_sheets import get_myphones_spreadsheet
+from my_libs.libs_google_sheets import get_myphones_spreadsheet, get_mysells_spreadsheet
 from selenium import webdriver
 from mylibs import get_bs4_from_driver
 from selenium.webdriver.common.by import By
@@ -205,11 +205,8 @@ def myphones_get_avarage_prices():
     myphones = get_myphones_spreadsheet()
     for myphone in myphones['values']:
         key = myphone[1]
-        print(key)
         key_link = myphone[3]
         index = myphone[2]
-        print(index)
-        print (key_link)
         driver.get(key_link)
         contents = driver.page_source
         soup = (BeautifulSoup(contents, 'lxml'))
@@ -234,7 +231,4 @@ def parce_page(driver, url):
 
 
 if __name__ == "__main__":
-    print('работаем')
-    url = 'https://www.avito.ru/moskva/telefony/iphone_14_pro_max_128_gb_fioletovyy_2594047038'
-    driver = create_chrome_driver_object()
-    parce_page(driver, url)
+    myphones_get_avarage_prices()

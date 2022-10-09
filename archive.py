@@ -133,16 +133,9 @@ def get_whole_price_history(req:str) -> list:
     return return_
 
 
+
+
 if __name__ == '__main__':
-    history = get_price_history('iphone 13 pro max')
-    for his in history:
-        print(his)
-    # prices_history = get_price_history('iphone 13 pro max 128')
-    # previous_month = '0'
-    # for price in prices_history:
-    #     month = price[0].split('-')[1]
-    #     if month != previous_month and month != '0':
-    #         print(price)
-    #
-    #     previous_month = month
+    update_archive(1)
+
 

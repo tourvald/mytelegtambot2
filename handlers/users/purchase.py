@@ -345,6 +345,15 @@ async def price_history(call: CallbackQuery):
         time.sleep(0.1)
         await call.message.answer(report)
 
+@dp.callback_query_handler(text_contains='add_links')
+async def add_links(call: CallbackQuery):
+    '''добавляет новые ссылки с объявлениями по обменам за вчерашний день'''
+    await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
+    new_links_quanity, msg = work_with_links()
+    await bot.send_message(chat_id=324029452, text=f'Добавлено {new_links_quanity} ссылок')
+    await bot.send_message(chat_id=324029452, text=msg, disable_web_page_preview=True, reply_markup=next_link_buttons)
+
+
 
 
 

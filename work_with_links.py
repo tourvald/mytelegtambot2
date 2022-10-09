@@ -16,7 +16,7 @@ def get_stop_list():
 def check_text_for_stop_words(stop_list, text):
     """проверяет содержит ли текст слово из стоп листа"""
     for stop_word in stop_list:
-        if stop_word in text:
+        if stop_word.lower().strip() in text.lower():
             return True
         else:
             return False

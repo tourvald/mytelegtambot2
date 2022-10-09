@@ -142,9 +142,9 @@ def get_bs4_from_driver(driver, url='https://vk.com', cookies=False):
             time.sleep(2)
         driver.refresh()
         time.sleep(3)
+    time.sleep(2)
     contents = driver.page_source
     soup = BeautifulSoup(contents, 'lxml')
-    print ('soup')
     return soup
 
 

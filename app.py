@@ -1,6 +1,6 @@
 import asyncio
 import aioschedule
-from avito_parcer_script import myphones_get_avarage_prices
+from avito_parcer_script import myphones_get_avarage_prices, update_archive
 from add_links_lite import work_with_links
 from my_libs.big_geek_parce import get_price_from_site
 from keyboards.inline.choice_buttons import next_link_buttons, main_menu
@@ -15,10 +15,16 @@ async def on_startup(_):
     await bot.send_message(user_should_be_notified, 'Бот запущен', reply_markup=main_menu)
 
 async def choose_your_dinner():
+    await bot.send_message(chat_id=324029452, text='Добавляем ссылки')
     outputs = myphones_get_avarage_prices()
     for output in outputs:
         await bot.send_message(chat_id=324029452, text=output)
 
+async def update_my_archive():
+    await bot.send_message(chat_id=324029452, text='Обновляем базу')
+    amount_of_keys = 30
+    update_archive(amount_of_keys)
+    await bot.send_message(chat_id=324029452, text=f'Обновлено {amount_of_keys} позиций')
 async def add_links():
     new_links_quanity, msg = work_with_links()
     await bot.send_message(chat_id=324029452, text=f'Добавлено {new_links_quanity} ссылок')
@@ -27,6 +33,7 @@ async def add_links():
 
 async def scheduler():
     aioschedule.every().day.at("04:00").do(choose_your_dinner)
+    aioschedule.every().day.at("01:42").do(update_my_archive)
     aioschedule.every().day.at("08:00").do(add_links)
     while True:
         await aioschedule.run_pending()

@@ -3,7 +3,7 @@ import lxml
 import random
 import unidecode
 import datetime
-from archive import archive
+from archive import archive, load_archive, get_last_date
 from bs4 import BeautifulSoup
 from my_libs.libs_selenium import create_chrome_driver_object
 import mylibs
@@ -229,6 +229,26 @@ def parce_page(driver, url):
     return result
 
 
+def update_archive(amount_of_keys:int):
+    amount = 0
+    arch = load_archive()
+    for key in arch:
+        date = get_last_date(key)
+        timedelta = (datetime.datetime.today() - datetime.datetime.strptime(date, '%Y-%m-%d')).days
+
+        if  timedelta > 14:
+            url = get_key_link(key)
+            print('Ссылка = ',url)
+            try:
+                soup = get_soup_for_avito_parce(url)
+                av_price_std = avito_parce_soup(soup)
+                archive(datetime.date.today(), url, av_price_std, key)
+                amount +=1
+                time.sleep(random.uniform(1,10))
+            except Exception as e:
+                print (e)
+        if amount == amount_of_keys:
+            break
 
 if __name__ == "__main__":
-    myphones_get_avarage_prices()
+    update_archive(5)

@@ -33,7 +33,7 @@ async def add_links():
 
 async def scheduler():
     aioschedule.every().day.at("04:00").do(choose_your_dinner)
-    aioschedule.every().day.at("01:42").do(update_my_archive)
+    aioschedule.every().day.at("01:46").do(update_my_archive)
     aioschedule.every().day.at("08:00").do(add_links)
     while True:
         await aioschedule.run_pending()

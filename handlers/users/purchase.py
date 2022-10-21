@@ -3,7 +3,7 @@ import json
 import os
 import time
 from multiprocessing import Pool
-
+import threading
 import avito_parcer_script
 from my_libs.big_geek_parce import get_price_from_site
 from add_links_lite import work_with_links
@@ -18,6 +18,7 @@ from keyboards.inline.choice_buttons import choice, admin, cancel_button, next_l
 from keyboards.inline.equipment import box, charger, check, scratches, chips
 from loader import dp, bot
 from my_libs.libs_selenium import create_chrome_driver_object
+import asyncio
 
 ti = 0
 data = {}
@@ -147,6 +148,7 @@ async def myphones(message: Message):
     buttons = archive.get_keys_list(message.text.lower())
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
     if buttons:
+        buttons.sort()
         menu = InlineKeyboardMarkup(row_width=1)
         for button in buttons:
             key = button
@@ -171,17 +173,14 @@ async def send_choice_keyboard(call: CallbackQuery):
                                 text=text,
                                 reply_markup=choice)
 
-@dp.callback_query_handler(text_contains="parce")
+@dp.callback_query_handler(text_contains="parcer")
 async def show_link(call: CallbackQuery):
     await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
     with open('working_button.txt') as f:
         url = archive.get_key_link(f.readline())
     try:
         soup = get_soup_for_avito_parce(url)
-        print('Суп получен!!!')
         price, search_request = avito_parce_soup(soup)
-        print(price, search_request)
-        print(f'QQQQQQQQQQQQ{search_request}')
         # last_date = archive.get_last_date(search_request.lower())
         # time_delta = (datetime.datetime.today() - datetime.datetime.strptime(last_date, '%Y-%m-%d')).days
         # if time_delta > 3:
@@ -190,6 +189,8 @@ async def show_link(call: CallbackQuery):
         print(e, 'Не вышло!!')
         price = e
     await call.message.answer(f'{price}, {search_request.lower()}')
+
+
 
 @dp.callback_query_handler(text_contains="show_link")
 async def show_link(call: CallbackQuery):

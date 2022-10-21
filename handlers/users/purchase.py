@@ -149,6 +149,7 @@ async def myphones(message: Message):
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
     if buttons:
         buttons.sort()
+
         menu = InlineKeyboardMarkup(row_width=1)
         for button in buttons:
             key = button

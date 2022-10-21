@@ -154,13 +154,26 @@ async def myphones(message: Message):
         for button in buttons:
             key = button
             button = button[:button.find('-')] if '-' in button else button
-            menu.insert(InlineKeyboardButton(text=button, callback_data=f'working_button:{key}'))
+            menu.insert(InlineKeyboardButton(text=button, callback_data=f'wb:{key}'))
         await message.answer('Выберите пожалуйста одну из моделей', reply_markup=menu)
         menu.clean()
     else:
         await message.answer(f'По запросу "{message.text}" в базе ничего не найдено')
 
 @dp.callback_query_handler(text_contains="working_button")
+async def send_choice_keyboard(call: CallbackQuery):
+    with open('working_button.txt', 'w') as f:
+        f.write(call.data.split(":")[1])
+    key = call.data.split(":")[1]
+    text = f'Работаем с {key}, Последняя цена - {archive.get_last_price(key)} от {archive.get_last_date(key)}'
+    link = archive.get_key_link(key)
+    if 'dsC_P3bAvr92' not in link:
+        text = text + '  Рекомендуется проверить ссылку'
+    await bot.edit_message_text(chat_id=call.message.chat.id,
+                                message_id=call.message.message_id,
+                                text=text,
+                                reply_markup=choice)
+@dp.callback_query_handler(text_contains="wb")
 async def send_choice_keyboard(call: CallbackQuery):
     with open('working_button.txt', 'w') as f:
         f.write(call.data.split(":")[1])

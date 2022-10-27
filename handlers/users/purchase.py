@@ -13,7 +13,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.types import Message, CallbackQuery
 from my_libs.myphones_lib import get_last_3_months_report
 import archive
-from avito_parcer_script import myphones_get_avarage_prices, get_soup_for_avito_parce, avito_parce_soup, parce_page
+from avito_parcer_script import myphones_get_avarage_prices, get_soup_for_avito_parce, avito_parce_soup, parce_page, avito_auto_parce_soup
 from keyboards.inline.choice_buttons import choice, admin, cancel_button, next_link_buttons, main_menu
 from keyboards.inline.equipment import box, charger, check, scratches, chips
 from loader import dp, bot
@@ -125,6 +125,27 @@ async def call_myphones(message: Message):
         output = e
         await message.answer(text=output)
 
+
+@dp.message_handler(text_contains='avtomobili')
+async def echo(message: Message):
+    url = message.text
+    try:
+        soup = get_soup_for_avito_parce(url)
+        price, search_request = avito_auto_parce_soup(soup)
+        price_std, search_request = avito_parce_soup(soup)
+        # try:
+        #     last_date = archive.get_last_date(search_request.lower())
+        #     time_delta = (datetime.datetime.today() - datetime.datetime.strptime(last_date, '%Y-%m-%d')).days
+        # except:
+        #     time_delta = 10
+        # if time_delta > 3:
+        archive.archive(datetime.date.today(), url, price, search_request.lower())
+        print ('ПроХОДИИИИИИИТ!!!!!!!!')
+    except Exception as e:
+        price = e
+    await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
+    await message.answer(disable_web_page_preview = True, text=f'{price},{price_std}, {search_request.lower()}')
+
 @dp.message_handler(text_contains='http')
 async def echo(message: Message):
     url = message.text
@@ -154,7 +175,7 @@ async def myphones(message: Message):
         for button in buttons:
             key = button
             button = button[:button.find('-')] if '-' in button else button
-            menu.insert(InlineKeyboardButton(text=button, callback_data=f'wb:{key}'))
+            menu.insert(InlineKeyboardButton(text=button, callback_data=f'w_b:{key}'))
         await message.answer('Выберите пожалуйста одну из моделей', reply_markup=menu)
         menu.clean()
     else:
@@ -173,7 +194,7 @@ async def send_choice_keyboard(call: CallbackQuery):
                                 message_id=call.message.message_id,
                                 text=text,
                                 reply_markup=choice)
-@dp.callback_query_handler(text_contains="wb")
+@dp.callback_query_handler(text_contains="w_b")
 async def send_choice_keyboard(call: CallbackQuery):
     with open('working_button.txt', 'w') as f:
         f.write(call.data.split(":")[1])
@@ -187,7 +208,7 @@ async def send_choice_keyboard(call: CallbackQuery):
                                 text=text,
                                 reply_markup=choice)
 
-@dp.callback_query_handler(text_contains="parcer")
+@dp.callback_query_handler(text_contains="parce")
 async def show_link(call: CallbackQuery):
     await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
     with open('working_button.txt') as f:

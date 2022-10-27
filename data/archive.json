@@ -381,6 +381,10 @@
   "2022-10-19": {
    "price": 41563,
    "link": "https://www.avito.ru/moskva/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&cd=1&f=ASgBAQICAUSwwQ2I_DcBQOjrDjT~_dsC_P3bAvr92wI&q=iphone+12+128+-pro+-max+-mini&s=104&user=1"
+  },
+  "2022-10-27": {
+   "price": 41048,
+   "link": "https://www.avito.ru/moskva/telefony/mobilnye_telefony/apple-ASgBAgICAkS0wA3OqzmwwQ2I_Dc?cd=1&f=ASgBAQICA0SywA36gTy0wA3OqzmwwQ2I_DcCQObgDRT2wVzo6w40_v3bAvz92wL6_dsC&q=iphone+12+128+-pro+-max+-mini&s=104&user=1"
   }
  },
  "iphone 12 64 -pro -max -mini": {
@@ -5168,6 +5172,13 @@
   "2022-08-01": {
    "price": 44536,
    "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+12+2017&s=104"
+  },
+  "2022-10-22": {
+   "price": [
+    40924,
+    "macbook 12 2017"
+   ],
+   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+12+2017&s=104"
   }
  },
  "iphone 11 64 -pro -max": {
@@ -5419,6 +5430,13 @@
   },
   "2022-08-15": {
    "price": 12906,
+   "link": "https://www.avito.ru/moskva/telefony/mobilnye_telefony/xiaomi-ASgBAgICAkS0wA3erjmwwQ2I_Dc?cd=1&f=ASgBAQICAkS0wA3erjmwwQ2I_DcDQOTgDRSKwlzm4A0U9MFc6OsONP792wL8_dsC~v3bAg&q=Redmi+note+10S+64&s=104"
+  },
+  "2022-10-22": {
+   "price": [
+    12765,
+    "redmi note 10s 64"
+   ],
    "link": "https://www.avito.ru/moskva/telefony/mobilnye_telefony/xiaomi-ASgBAgICAkS0wA3erjmwwQ2I_Dc?cd=1&f=ASgBAQICAkS0wA3erjmwwQ2I_DcDQOTgDRSKwlzm4A0U9MFc6OsONP792wL8_dsC~v3bAg&q=Redmi+note+10S+64&s=104"
   }
  },
@@ -6940,6 +6958,13 @@
   "2022-04-13": {
    "price": "6000",
    "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=Honor+8a+32+-pro&s=104&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    4800,
+    "honor 8a 32 -pro"
+   ],
+   "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=Honor+8a+32+-pro&s=104&user=1"
   }
  },
  "iphone 6 plus 16 -6s": {
@@ -7441,6 +7466,13 @@
   "2022-04-13": {
    "price": "35722",
    "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&cd=1&f=ASgCAQICAUDwvA0UiNI0&q=MacBook+Pro+17+2011"
+  },
+  "2022-10-22": {
+   "price": [
+    27766,
+    "macbook pro 17 2011"
+   ],
+   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&cd=1&f=ASgCAQICAUDwvA0UiNI0&q=MacBook+Pro+17+2011"
   }
  },
  "macbook pro 13 touch 2016": {
@@ -7490,6 +7522,13 @@
   },
   "2022-04-13": {
    "price": "71500",
+   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+pro+13+touch+2016&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    50332,
+    "macbook pro 13 touch 2016"
+   ],
    "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+pro+13+touch+2016&user=1"
   }
  },
@@ -7545,6 +7584,13 @@
   "2022-04-18": {
    "price": "8020",
    "link": "https://www.avito.ru/moskva_i_mo/telefony?bt=1&f=ASgCAQICAUD2vA0UlNI0&q=Redmi+9c+64&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    6890,
+    "redmi 9c 64"
+   ],
+   "link": "https://www.avito.ru/moskva_i_mo/telefony?bt=1&f=ASgCAQICAUD2vA0UlNI0&q=Redmi+9c+64&user=1"
   }
  },
  "oneplus 7 pro 256": {
@@ -7598,6 +7644,13 @@
   },
   "2022-04-13": {
    "price": "26642",
+   "link": "https://www.avito.ru/moskva_i_mo/telefony?bt=1&f=ASgCAQICAUD2vA0UlNI0&q=Oneplus+7+pro+256&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    19050,
+    "oneplus 7 pro 256"
+   ],
    "link": "https://www.avito.ru/moskva_i_mo/telefony?bt=1&f=ASgCAQICAUD2vA0UlNI0&q=Oneplus+7+pro+256&user=1"
   }
  },
@@ -7673,6 +7726,13 @@
   "2022-06-14": {
    "price": "89250, 80130",
    "link": "https://www.avito.ru/moskva_i_mo/telefony?bt=1&f=ASgCAQICAUD2vA0UlNI0&q=iphone+13+256+-pro+-max+-mini&s=104&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    53687,
+    "iphone 13 256 -pro -max -mini"
+   ],
+   "link": "https://www.avito.ru/moskva_i_mo/telefony?bt=1&f=ASgCAQICAUD2vA0UlNI0&q=iphone+13+256+-pro+-max+-mini&s=104&user=1"
   }
  },
  "honor 10i 128": {
@@ -7718,6 +7778,13 @@
   },
   "2022-04-20": {
    "price": "8916",
+   "link": "https://www.avito.ru/moskva_i_mo/telefony?bt=1&f=ASgCAQICAUD2vA0UlNI0&q=Honor+10i+128&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    7612,
+    "honor 10i 128"
+   ],
    "link": "https://www.avito.ru/moskva_i_mo/telefony?bt=1&f=ASgCAQICAUD2vA0UlNI0&q=Honor+10i+128&user=1"
   }
  },
@@ -7769,6 +7836,13 @@
   "2022-04-13": {
    "price": "19158",
    "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&cd=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=Samsung+note+9+128&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    12833,
+    "samsung note 9 128"
+   ],
+   "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&cd=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=Samsung+note+9+128&user=1"
   }
  },
  "macbook pro 13 2009": {
@@ -7815,6 +7889,13 @@
   "2022-04-13": {
    "price": "16425",
    "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+pro+13+2009&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    12172,
+    "macbook pro 13 2009"
+   ],
+   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+pro+13+2009&user=1"
   }
  },
  "xiaomi mi 8 lite 64": {
@@ -7856,6 +7937,13 @@
   },
   "2022-04-13": {
    "price": "7798",
+   "link": "https://www.avito.ru/rossiya/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=Xiaomi+Mi+8+lite+64&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    5564,
+    "xiaomi mi 8 lite 64"
+   ],
    "link": "https://www.avito.ru/rossiya/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=Xiaomi+Mi+8+lite+64&user=1"
   }
  },
@@ -7902,6 +7990,13 @@
   },
   "2022-04-13": {
    "price": "8416",
+   "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=Honor+9x+128+-premium&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    7873,
+    "honor 9x 128 -premium"
+   ],
    "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=Honor+9x+128+-premium&user=1"
   }
  },
@@ -7957,6 +8052,13 @@
   "2022-04-23": {
    "price": "104225",
    "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+air+m1&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    72088,
+    "macbook air m1"
+   ],
+   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+air+m1&user=1"
   }
  },
  "xiaomi redmi 9c 32": {
@@ -8010,6 +8112,13 @@
   },
   "2022-04-18": {
    "price": "8260",
+   "link": "https://www.avito.ru/moskva_i_mo/telefony?bt=1&f=ASgCAQICAUD2vA0UlNI0&q=xiaomi+redmi+9c+32&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    5842,
+    "xiaomi redmi 9c 32"
+   ],
    "link": "https://www.avito.ru/moskva_i_mo/telefony?bt=1&f=ASgCAQICAUD2vA0UlNI0&q=xiaomi+redmi+9c+32&user=1"
   }
  },
@@ -8103,6 +8212,13 @@
   "2022-04-13": {
    "price": "14333",
    "link": "https://www.avito.ru/rossiya/telefony?bt=1&f=ASgCAQICAUD2vA0UlNI0&q=Oppo+Reno+4+lite+128&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    12775,
+    "oppo reno 4 lite 128"
+   ],
+   "link": "https://www.avito.ru/rossiya/telefony?bt=1&f=ASgCAQICAUD2vA0UlNI0&q=Oppo+Reno+4+lite+128&user=1"
   }
  },
  "redmi 9 64 -pro -9c -note -9t": {
@@ -8191,6 +8307,13 @@
   "2022-04-13": {
    "price": "44308",
    "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&cd=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+pro+retina+15+2012&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    26288,
+    "macbook pro retina 15 2012"
+   ],
+   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&cd=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+pro+retina+15+2012&user=1"
   }
  },
  "macbook pro retina 15 2013": {
@@ -8228,6 +8351,13 @@
   },
   "2022-04-13": {
    "price": "50461",
+   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+pro+retina+15+2013&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    41506,
+    "macbook pro retina 15 2013"
+   ],
    "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+pro+retina+15+2013&user=1"
   }
  },
@@ -8305,6 +8435,13 @@
   "2022-04-13": {
    "price": "67697",
    "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+pro+retina+15+2015&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    51044,
+    "macbook pro retina 15 2015"
+   ],
+   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&f=ASgCAQICAUDwvA0UiNI0&q=macbook+pro+retina+15+2015&user=1"
   }
  },
  "macbook pro 15 2012 -retina": {
@@ -8342,6 +8479,13 @@
   },
   "2022-04-13": {
    "price": "38111",
+   "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&cd=1&f=ASgCAQICAUDwvA0UiNI0&q=MacBook+Pro+15+2012+-retina&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    30994,
+    "macbook pro 15 2012 -retina"
+   ],
    "link": "https://www.avito.ru/moskva_i_mo/noutbuki?bt=1&cd=1&f=ASgCAQICAUDwvA0UiNI0&q=MacBook+Pro+15+2012+-retina&user=1"
   }
  },
@@ -8459,6 +8603,13 @@
   "2022-04-16": {
    "price": "90680",
    "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=iphone+12+pro+max+512&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    63139,
+    "iphone 12 pro max 512"
+   ],
+   "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=iphone+12+pro+max+512&user=1"
   }
  },
  "iphone 12 pro 128 -max": {
@@ -8517,6 +8668,13 @@
   "2022-04-25": {
    "price": "71562",
    "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=iphone+12+pro+128+-max&s=104&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    45583,
+    "iphone 12 pro 128 -max"
+   ],
+   "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=iphone+12+pro+128+-max&s=104&user=1"
   }
  },
  "iphone 12 pro 256 -max": {
@@ -8571,6 +8729,13 @@
   "2022-04-13": {
    "price": "84616",
    "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=iphone+12+pro+256+-max&s=104&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    48088,
+    "iphone 12 pro 256 -max"
+   ],
+   "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=iphone+12+pro+256+-max&s=104&user=1"
   }
  },
  "iphone 12 pro 512 -max": {
@@ -8620,6 +8785,13 @@
   },
   "2022-04-13": {
    "price": "87498",
+   "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcCQPa8DRSU0jTo6w40_v3bAvz92wL6_dsC&q=iphone+12+pro+512+-max&s=104&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    52842,
+    "iphone 12 pro 512 -max"
+   ],
    "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcCQPa8DRSU0jTo6w40_v3bAvz92wL6_dsC&q=iphone+12+pro+512+-max&s=104&user=1"
   }
  },
@@ -8722,6 +8894,13 @@
   },
   "2022-06-17": {
    "price": "40267, 39581",
+   "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=iphone+12+mini+64&s=104&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    32787,
+    "iphone 12 mini 64"
+   ],
    "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=iphone+12+mini+64&s=104&user=1"
   }
  },
@@ -8893,6 +9072,13 @@
   "2022-06-19": {
    "price": "45340, 45038",
    "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&cd=1&f=ASgBAQICAUSwwQ2I_DcBQOjrDjT~_dsC_P3bAvr92wI&q=iphone+12+mini+128&s=104&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    35846,
+    "iphone 12 mini 128"
+   ],
+   "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&cd=1&f=ASgBAQICAUSwwQ2I_DcBQOjrDjT~_dsC_P3bAvr92wI&q=iphone+12+mini+128&s=104&user=1"
   }
  },
  "iphone 12 mini 256": {
@@ -8967,6 +9153,13 @@
   "2022-06-14": {
    "price": "50390, 47809",
    "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=iphone+12+mini+256&s=104&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    38040,
+    "iphone 12 mini 256"
+   ],
+   "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=iphone+12+mini+256&s=104&user=1"
   }
  },
  "redmi note 9 pro 128": {
@@ -9017,6 +9210,13 @@
   "2022-04-17": {
    "price": "13571",
    "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&cd=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=redmi+note+9+pro+128&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    10313,
+    "redmi note 9 pro 128"
+   ],
+   "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&cd=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=redmi+note+9+pro+128&user=1"
   }
  },
  "huawei p40 lite -e": {
@@ -9055,6 +9255,13 @@
   "2022-04-13": {
    "price": "12004",
    "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=huawei+p40+lite+-e&s=104&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    9962,
+    "huawei p40 lite -e"
+   ],
+   "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=huawei+p40+lite+-e&s=104&user=1"
   }
  },
  "samsung a5 2016": {
@@ -9092,6 +9299,13 @@
   },
   "2022-04-13": {
    "price": "4836",
+   "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=Samsung+a5+2016&user=1"
+  },
+  "2022-10-22": {
+   "price": [
+    3125,
+    "samsung a5 2016"
+   ],
    "link": "https://www.avito.ru/moskva_i_mo/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?bt=1&f=ASgBAQICAUSwwQ2I_DcBQPa8DRSU0jQ&q=Samsung+a5+2016&user=1"
   }
  },
@@ -11657,6 +11871,10 @@
   "2022-07-21": {
    "price": 10904,
    "link": "https://www.avito.ru/moskva/telefony/mobilnye_telefony/honor-ASgBAgICAkS0wA3u_juwwQ2I_Dc?bt=1&f=ASgBAQICA0SywA2agDy0wA3u_juwwQ2I_DcCQObgDRT2wVzo6w40_v3bAvz92wL6_dsC&s=104"
+  },
+  "2022-10-27": {
+   "price": 545292,
+   "link": "https://www.avito.ru/moskva/avtomobili?f=ASgBAQECBETyCrCKAeC2DaKbMeK2DeSbMeq2Dc6cMQFA8LYNFOy3KAFF~AIXeyJmcm9tIjo4NTgxLCJ0byI6ODU4MX0&radius=0&s=104"
   }
  },
  "redmi note 7 64 -pro -lite": {
@@ -15529,6 +15747,46 @@
   "2022-10-21": {
    "price": 617409,
    "link": "https://www.avito.ru/all/avtomobili?f=ASgBAQECA0Tgtg2cmCjitg3CpSjqtg2M9CgBQPC2DRTstygBRfgCGXsiZnJvbSI6MTYzODEsInRvIjoxNjM4MX0&q=Ford+Focus%2C+2016%2C+\u043c\u0435\u0445\u0430\u043d\u0438\u043a\u0430%2C+\u0443\u043d\u0438\u0432\u0435\u0440\u0441\u0430\u043b&s=104"
+  },
+  "2022-10-27": {
+   "price": 588949,
+   "link": "https://www.avito.ru/moskva/avtomobili?f=ASgBAQECA0Tgtg2cmCjitg3CpSjqtg2M9CgBQPC2DRTstygBRfgCGXsiZnJvbSI6MTYzODEsInRvIjoxNjM4MX0&q=Ford+Focus%2C+2016%2C+\u043c\u0435\u0445\u0430\u043d\u0438\u043a\u0430%2C+\u0443\u043d\u0438\u0432\u0435\u0440\u0441\u0430\u043b&radius=2000&s=104"
+  }
+ },
+ "volkswagen polo, 2018, \u0430\u0432\u0442\u043e\u043c\u0430\u0442": {
+  "2022-10-27": {
+   "price": 884530,
+   "link": "https://www.avito.ru/all/avtomobili?f=ASgBAQECA0Tgtg24mSjitg2IrSjqtg3A8SgBQPC2DRTutygBRfgCGXsiZnJvbSI6MjAzMDMsInRvIjoyMDMwM30&q=Volkswagen+Polo%2C+2018%2C+\u0430\u0432\u0442\u043e\u043c\u0430\u0442&s=104"
+  }
+ },
+ "nissan almera 2017 \u043c\u0435\u0445\u0430\u043d\u0438\u043a\u0430": {
+  "2022-10-27": {
+   "price": 582674,
+   "link": "https://www.avito.ru/moskva/avtomobili?f=ASgBAQECA0Tgtg36mCjitg2inijqtg3Q3ygBQPC2DRTstygBRfgCGXsiZnJvbSI6MTk3NzUsInRvIjoxOTc3NX0&q=nissan+almera+2017+\u043c\u0435\u0445\u0430\u043d\u0438\u043a\u0430&radius=1000&s=104"
+  }
+ },
+ "volkswagen polo, 2017, \u043c\u0435\u0445\u0430\u043d\u0438\u043a\u0430": {
+  "2022-10-27": {
+   "price": 782210,
+   "link": "https://www.avito.ru/moskva/avtomobili?f=ASgBAQECA0Tgtg24mSjitg2IrSjqtg3A8SgBQPC2DRTstygBRfgCGXsiZnJvbSI6MTk3NzUsInRvIjoxOTc3NX0&q=Volkswagen+Polo%2C+2017%2C+\u043c\u0435\u0445\u0430\u043d\u0438\u043a\u0430&radius=0&s=104"
+  }
+ },
+ "hyundai solaris, 2017, \u0430\u0432\u0442\u043e\u043c\u0430\u0442": {
+  "2022-10-27": {
+   "price": 916163,
+   "link": "https://www.avito.ru/moskva/avtomobili?f=ASgBAQECA0Tgtg2imzHitg3kmzHqtg3MnTEBQPC2DRTutygBRfgCGXsiZnJvbSI6MTk3NzUsInRvIjoxOTc3NX0&q=Hyundai+Solaris%2C+2017%2C+\u0430\u0432\u0442\u043e\u043c\u0430\u0442&radius=0&s=104"
+  }
+ },
+ "hyundai solaris, 2018, \u0430\u0432\u0442\u043e\u043c\u0430\u0442": {
+  "2022-10-27": {
+   "price": 944903,
+   "link": "https://www.avito.ru/moskva/avtomobili?f=ASgBAQECA0Tgtg2imzHitg3kmzHqtg3MnTEBQPC2DRTutygBRfgCGXsiZnJvbSI6MjAzMDMsInRvIjoyMDMwM30&q=Hyundai+Solaris%2C+2018%2C+\u0430\u0432\u0442\u043e\u043c\u0430\u0442&radius=0&s=104"
+  }
+ },
+ "hyundai solaris, 2013, \u043c\u0435\u0445\u0430\u043d\u0438\u043a\u0430": {
+  "2022-10-27": {
+   "price": 544492,
+   "link": "https://www.avito.ru/moskva/avtomobili?f=ASgBAQECA0Tgtg2imzHitg3kmzHqtg3OnDEBQPC2DRTstygBRfgCF3siZnJvbSI6ODU4MSwidG8iOjg1ODF9&q=Hyundai+Solaris%2C+2013%2C+\u043c\u0435\u0445\u0430\u043d\u0438\u043a\u0430&radius=0&s=104"
   }
  }
 }

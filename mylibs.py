@@ -32,6 +32,17 @@ def av_price_sdt(price_list):
     print(f'Средняя цена = {av_price}')
     return av_price
 
+def av_price_auto(price_list):
+    print(f'START{price_list}')
+    price_list = sorted(int(i) for i in price_list if re.fullmatch(r'\d+', i))
+    print(f'SORTED{len(price_list),price_list}')
+    #price_list = price_list[len(price_list)//10:(len(price_list)-len(price_list)//10)]
+    price_list = price_list[4:44]
+    print(f'SLICED{len(price_list),price_list}')
+    av_price = int(np.average(price_list))
+    print(f'Средняя цена = {av_price}')
+    return av_price
+
 
 def av_price_old(price_list):
     [price_list.remove(i) for i in price_list.copy() if i == "..."]  # Удаляем из списка значения без цен

@@ -1,5 +1,5 @@
 from pprint import pprint
-
+import os
 import httplib2
 import apiclient.discovery
 from oauth2client.service_account import ServiceAccountCredentials
@@ -24,7 +24,7 @@ def get_mysells_spreadsheet():
         majorDimension='ROWS'
     ).execute()
     return values
-def get_myphones_spreadsheet():
+def get_myphones_spreadsheet(range='myphones'):
     CREDENTIALS_FILE = 'settings/api_google_sheets_token.json'
     spreadsheet_id = '1nJHlfoRuqu3boqb7Bf3ymI-NRdV0kIkzE80PqI5igVg'
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
@@ -35,7 +35,11 @@ def get_myphones_spreadsheet():
     service = apiclient.discovery.build('sheets', 'v4', http = httpAuth)
     values = service.spreadsheets().values().get(
         spreadsheetId=spreadsheet_id,
-        range='myphones',
+        range=range,
         majorDimension='ROWS',
     ).execute()
+    print(values)
     return values
+# os.chdir('..')
+# values = get_myphones_spreadsheet(range='mycars')
+# print(values)

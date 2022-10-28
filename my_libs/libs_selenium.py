@@ -50,7 +50,6 @@ def create_chrome_driver_object(headless=True, proxy=False):
 
 def check_proxy_list():
     working = 0
-    os.chdir('..')
     print(os.getcwd())
     with open('data/proxies.txt', 'r', encoding='UTF-8') as f:
         proxies = f.readlines()

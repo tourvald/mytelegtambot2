@@ -1,6 +1,7 @@
 import asyncio
 import aioschedule
-from avito_parcer_script import myphones_get_avarage_prices, update_archive, avito_auto_parce_soup, get_soup_for_avito_parce, avito_parce_soup
+from avito_parcer_script import myphones_get_avarage_prices, update_archive, avito_auto_parce_soup, \
+    get_soup_for_avito_parce, avito_parce_soup, mycars_get_avarage_prices
 from add_links_lite import work_with_links
 from my_libs.big_geek_parce import get_price_from_site
 from keyboards.inline.choice_buttons import next_link_buttons, main_menu
@@ -31,18 +32,17 @@ async def add_links():
     await bot.send_message(chat_id=324029452, text=msg, disable_web_page_preview=True, reply_markup=next_link_buttons)
 
 async def check_auto():
-    soup = get_soup_for_avito_parce('https://www.avito.ru/moskva/avtomobili?f=ASgBAQECA0Tgtg24mSjitg2IrSjqtg3A8SgBQPC2DRTstygBRfgCGXsiZnJvbSI6MTk3NzUsInRvIjoxOTc3NX0&q=Volkswagen+Polo%2C+2017%2C+механика&radius=0&s=104')
-    price, search_request = avito_auto_parce_soup(soup)
-    price_std, search_request = avito_parce_soup(soup)
-    with open('auto.txt', 'a', encoding='UTF-8') as f:
-        f.writelines(f'{price}, {price_std}, {search_request}\n')
-    await bot.send_message(chat_id=324029452, text=f'{price}, {price_std}, {search_request}\n')
+    await bot.send_message(chat_id=324029452, text='Добавляем ссылки')
+    outputs = mycars_get_avarage_prices()
+    with open('data/auto_average.txt', 'a', encoding='UTF-8') as f:
+        f.writelines(f'{outputs[-1].split()[-1].strip()}\n')
+    await bot.send_message(chat_id=324029452, text=outputs[-1])
 
 async def scheduler():
     aioschedule.every().day.at("04:00").do(choose_your_dinner)
     aioschedule.every().day.at("01:46").do(update_my_archive)
     aioschedule.every().day.at("08:00").do(add_links)
-    aioschedule.every().hour.at(':51').do(check_auto)
+    aioschedule.every().hour.at(':03').do(check_auto)
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)

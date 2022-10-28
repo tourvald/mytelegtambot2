@@ -13,7 +13,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.types import Message, CallbackQuery
 from my_libs.myphones_lib import get_last_3_months_report
 import archive
-from avito_parcer_script import myphones_get_avarage_prices, get_soup_for_avito_parce, avito_parce_soup, parce_page, avito_auto_parce_soup
+from avito_parcer_script import myphones_get_avarage_prices, get_soup_for_avito_parce, avito_parce_soup, parce_page, avito_auto_parce_soup, mycars_get_avarage_prices
 from keyboards.inline.choice_buttons import choice, admin, cancel_button, next_link_buttons, main_menu
 from keyboards.inline.equipment import box, charger, check, scratches, chips
 from loader import dp, bot
@@ -125,6 +125,16 @@ async def call_myphones(message: Message):
         output = e
         await message.answer(text=output)
 
+@dp.message_handler(text_contains='/mycars')
+async def call_myphones(message: Message):
+    try:
+        outputs = mycars_get_avarage_prices()
+        for output in outputs:
+            await message.answer(text=output)
+    except Exception as e:
+        output = e
+        await message.answer(text=output)
+
 
 @dp.message_handler(text_contains='avtomobili')
 async def echo(message: Message):
@@ -144,7 +154,7 @@ async def echo(message: Message):
     except Exception as e:
         price = e
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
-    await message.answer(disable_web_page_preview = True, text=f'{price},{price_std}, {search_request.lower()}')
+    await message.answer(disable_web_page_preview = True, text=f'{price}, {price_std}, {search_request.lower()}')
 
 @dp.message_handler(text_contains='http')
 async def echo(message: Message):

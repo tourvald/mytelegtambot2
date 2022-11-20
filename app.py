@@ -42,7 +42,7 @@ async def scheduler():
     aioschedule.every().day.at("04:00").do(choose_your_dinner)
     aioschedule.every().day.at("01:46").do(update_my_archive)
     aioschedule.every().day.at("08:00").do(add_links)
-    aioschedule.every().hour.at(':03').do(check_auto)
+    #aioschedule.every().hour.at(':03').do(check_auto)
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)

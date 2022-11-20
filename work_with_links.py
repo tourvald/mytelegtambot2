@@ -13,160 +13,28 @@ def get_stop_list():
         stop_list = f.readlines()
         return stop_list
 
-def check_text_for_stop_words(stop_list, text):
-    """проверяет содержит ли текст слово из стоп листа"""
-    for stop_word in stop_list:
-        if stop_word.lower().strip() in text.lower():
-            return True
-        else:
-            return False
-
-def generate_yesterdays_links():
-    links_quanity = count_links_quanity('links.txt')
-    for link_number in range(links_quanity):
-        stop_search = make_awesome_link_list(link_number)
-        if stop_search == True:
-            break
-        time.sleep(10)
-
-def filter_links_by_content(file_with_links):
-    links_quanity = count_links_quanity('data/work_with_links/item_links.txt')
-    url = get_link(5,'data/work_with_links/item_links.txt')
-    soup = get_bs4_content(url)
-    item_owner_status = soup.find('div', class_='item-owner-status-root-3jRSs')
-    item_owner_rating = soup.find('span', class_='style-seller-info-rating-score-KA-Kw')
-    item_owner_info_value = soup.find_all('div', class_="style-seller-info-value-2YyZm")
-
-    if item_owner_status:
-        print (f'Онлайн статус найден- {item_owner_status.text}')
-    else:
-        print (f'Онлайн статус не найден - {item_owner_status}')
-
-    if item_owner_rating:
-        item_owner_rating = item_owner_rating.text.replace(',','.')
-        if float(item_owner_rating) > 3.7:
-            print (f'Рейтинг продавца подходит - {float(item_owner_rating)}')
-        else:
-            print (f'Рейтинг продавца НЕ подходит - {float(item_owner_rating)}')
-    else:
-        print (item_owner_rating)
-
-    if item_owner_info_value[1]:
-        print (item_owner_info_value[1].text.split(' ')[-1])
-    else:
-        print ('Вэлью нету нихуя')
-    print(url)
-
-def add_links_to_db(url):
-    generate_pagination_links(url)
-    generate_yesterdays_links()
-
-def get_new_items(url):
-    with open('data/checked_proxies.txt', 'r', encoding='UTF-8') as f:
-        proxies = f.readlines()
-    print(proxies)
-    proxies.reverse()
-    proxy_cycle = 0
-    driver = create_chrome_driver_object(proxy=proxies[proxy_cycle])
-    driver.get(url)
-    try:
-        for cookie in pickle.load(open('cookies/test_cookies.pkl', "rb")):
-            driver.add_cookie(cookie)
-        time.sleep(random.uniform(1,3))
-        driver.refresh()
-    except Exception as e:
-        print (e)
-
-    for i in range(5):
-        try:
-            contents = driver.page_source
-            soup = BeautifulSoup(contents, 'lxml')
-            pages = generate_pagination_links_2(soup)
-            break
-        except Exception as e:
-            driver.refresh()
-            print ('Ждем 5 сек')
-            time.sleep(5)
-            print (e)
-
-    for i in range(1,len(pages)):
-        time.sleep(random.uniform(1, 2))
-        driver.get(pages[i])
-        driver.switch_to.new_window()
-        if i > 5:
-            break
-    time.sleep(random.uniform(1,5))
-    for i in range(1,len(pages)):
-        driver.switch_to.window(driver.window_handles[i - 1])
-        for i1 in range(5):
-            try:
-                contents = driver.page_source
-                soup = BeautifulSoup(contents, 'lxml')
-                make_awesome_link_list_2(soup)
-                break
-            except Exception as e:
-                driver.refresh()
-                print ('Ждем 5 сек')
-                time.sleep(5)
-                print (e)
-        if i > 4:
-            break
-    driver.close()
-    driver.quit()
-
-def count_links_quanity(path_to_file):
-    with open (path_to_file, 'r') as f:
-        links = f.readlines()
-    return int(len(links))
-
 def get_link(link_number, path_to_file):
     with open (path_to_file, 'r') as f:
         link = f.readlines()[link_number]
     return link
 
 
-
-
-
 # ДОБАВЛЕНИЕ НОВЫХ ССЫЛОК С ОБЪЯВЛЕНИЯМИ ПО ОБМЕНУ
-
-def delete_bad_items(div_with_items):
-    try:
-        items_to_del = div_with_items.find_all('div', class_="items-vip-KXPvy")
-        print(len(div_with_items))
-        for item_to_del in items_to_del:
-            item_to_del.clear()
-        items_to_del = div_with_items.find_all('div', class_="items-witcher-VlS6v")
-        for item_to_del in items_to_del:
-            item_to_del.clear()
-        print('Ненужные блоки удалены')
-        print(len(div_with_items))
-    except Exception as e:
-        print('Ненужные блоки не найдены')
 
 def make_awesome_link_list(soup):
     """Принимает СУП ссылки на поиск
     Добавляет в файл item_links.txt ссылки на объявления с обменами"""
     stop_search = False
     div_with_items = soup.find('div', class_='items-items-kAJAg')
-    # print(len(div_with_items))
-    # delete_bad_items(div_with_items)
-    # print(len(div_with_items))
-    # time.sleep(10)
 
     try:
         items_to_del = div_with_items.find_all('div', class_="items-vip-KXPvy")
-        print(items_to_del)
-        print(len(div_with_items))
         for item_to_del in items_to_del:
             item_to_del.clear()
         items_to_del = div_with_items.find_all('div', class_="items-witcher-VlS6v")
-        print(items_to_del)
         for item_to_del in items_to_del:
             item_to_del.clear()
-        print(len(div_with_items))
         div_with_items = soup.find('div', class_='items-items-kAJAg')
-        print(len(div_with_items))
         time.sleep(10)
     except Exception as e:
         print(e)
@@ -180,6 +48,7 @@ def make_awesome_link_list(soup):
     stop_words_counter = 0
     bad_rating_counter = 0
     for item in items:
+        # werwer = input()
         continue_ = 0
         items_tuple = {}
         items_tuple['url'] = 'https://www.avito.ru'+item.find('a').get('href')
@@ -190,23 +59,51 @@ def make_awesome_link_list(soup):
             if int(feedback) > 20:
                 continue_ = 1
 
+        item_name = item.find('h3', itemprop ="name").text
+        # print(f'item_name = {item_name.text}')
+
         if item.find('div', class_="iva-item-descriptionStep-C0ty1"):
-            items_tuple['description'] = item.find('div', class_="iva-item-descriptionStep-C0ty1").text
-            print (items_tuple['description'])
+            items_tuple['description'] = item.find('div', class_="iva-item-descriptionStep-C0ty1").text.replace('/n', ' ')
+            # print (items_tuple['description'])
             stop_list = get_stop_list()
             for stop_word in stop_list:
-                if stop_word.lower().strip().replace('\n', '') in items_tuple['description'].lower().replace('/n', ''):
+                if stop_word.lower().strip().replace('\n', '') in item_name.lower().replace('/n', ''):
                     print ('Заблокировано по стоп слову', stop_word.lower().strip().replace("\n", ""))
                     stop_words_counter += 1
                     continue_ = 1
+                elif stop_word.lower().strip().replace('\n', '') in items_tuple['description'].lower().replace('/n', ''):
                     break
-        else:
-            items_tuple['description'] = 'Не удалось выгрузить описание'
-            print (items_tuple['description'])
-            print (items_tuple['url'])
 
         if continue_== 1:
             continue
+        # else:
+        #     items_tuple['description'] = 'Не удалось выгрузить описание'
+            # print (items_tuple['description'])
+            # print (items_tuple['url'])
+        # print(items_tuple['description'])
+        if 'обмен' in item_name:
+            print ('поиск обмена в названии - ', item_name)
+            white_word_string = item_name
+            print (white_word_string)
+        elif 'обмен' in items_tuple['description']:
+            white_word_position = int(items_tuple['description'].find('обмен'))
+            # print ('поиск обмена в строке - ', white_word_position)
+            # start = [white_word_position - 8 if white_word_position > 8 else 1]
+            if white_word_position > 11:
+                start = white_word_position - 12
+            else:
+                start = 0
+            print('Старт - ', start)
+            stop = white_word_position + 16
+
+            print('Стоп - ', stop)
+            white_word_string = items_tuple['description'][start:stop]
+            #[white_word_position - 10: white_word_position + 16]
+            print ('отрывок - ', white_word_string)
+        else:
+            print("Пропускаем, поскольку нет ключевого слова обмен")
+            continue
+
 
         item_date = item.find('div', {'data-marker':'item-date'})
         if '1 день назад' not in item_date.text:
@@ -231,13 +128,16 @@ def make_awesome_link_list(soup):
             print(item.find('span', class_='desktop-1lslbsi'))
 
         if continue_== 1:
+            # input('Введите что-нибудь')
             continue
 
         items_tuple['title'] = item.find('a').get('title')
-        print (items_tuple['url'])
-        print(item_date.text)
+        # print (items_tuple['url'])
+        # print(item_date.text)
+        string_to_add = item_name + ' ' + white_word_string.strip().replace('\n',' ') + ' ' + items_tuple['url']
+        print ('Записываем' + string_to_add)
         with open('data/work_with_links/item_links.txt', 'a') as f:
-            f.write(items_tuple['url'] + '\n')
+            f.write(string_to_add.strip()+'\n')
     print (f'Заблокировано по стоп - словам - {stop_words_counter} объявлений')
     print(f'Заблокировано из - зарейтинга - {bad_rating_counter} объявлений')
     return stop_search #
@@ -315,8 +215,12 @@ def get_new_items_lite(url):
     driver.close()
     driver.quit()
 
-# url = 'https://www.avito.ru/moskva/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?f=ASgBAQECAUSwwQ2I_DcBQOjrDjT~_dsC_P3bAvr92wIBRcaaDBh7ImZyb20iOjgwMDAsInRvIjo1MDAwMH0&q=обмен&s=104&user=1'
-# get_new_items_lite(url)
+if __name__ == '__main__':
+    with open('data/work_with_links/item_links.txt', 'w') as f:
+        f.close()
+    url = 'https://www.avito.ru/moskva/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?f=ASgBAQECAUSwwQ2I_DcBQOjrDjT~_dsC_P3bAvr92wIBRcaaDBh7ImZyb20iOjgwMDAsInRvIjo1MDAwMH0&q=обмен&s=104&user=1'
+    # url = 'https://www.avito.ru/moskva/planshety_i_elektronnye_knigi?cd=1&f=ASgCAQICAUD0vA0UkNI0&q=обмен&s=104&user=1'
+    get_new_items_lite(url)
 
 
 

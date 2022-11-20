@@ -5,7 +5,6 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.types import Message, CallbackQuery
 from loader import dp, bot
 from keyboards.inline.choice_buttons import next_link_buttons
-from work_with_links import count_links_quanity
 import datetime
 
 

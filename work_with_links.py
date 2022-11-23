@@ -1,3 +1,4 @@
+#coding: utf8
 import random
 import re
 import time
@@ -66,12 +67,15 @@ def make_awesome_link_list(soup):
             items_tuple['description'] = item.find('div', class_="iva-item-descriptionStep-C0ty1").text.replace('/n', ' ')
             # print (items_tuple['description'])
             stop_list = get_stop_list()
+            print(item_name)
             for stop_word in stop_list:
-                if stop_word.lower().strip().replace('\n', '') in item_name.lower().replace('/n', ''):
+                if stop_word.lower().strip() in item_name.lower().strip():
                     print ('Заблокировано по стоп слову', stop_word.lower().strip().replace("\n", ""))
                     stop_words_counter += 1
                     continue_ = 1
+                    break
                 elif stop_word.lower().strip().replace('\n', '') in items_tuple['description'].lower().replace('/n', ''):
+                    continue_ = 1
                     break
 
         if continue_== 1:
@@ -136,7 +140,7 @@ def make_awesome_link_list(soup):
         # print(item_date.text)
         string_to_add = item_name + ' ' + white_word_string.strip().replace('\n',' ') + ' ' + items_tuple['url']
         print ('Записываем' + string_to_add)
-        with open('data/work_with_links/item_links.txt', 'a') as f:
+        with open('data/work_with_links/item_links.txt', 'a' ,encoding='UTF-8') as f:
             f.write(string_to_add.strip()+'\n')
     print (f'Заблокировано по стоп - словам - {stop_words_counter} объявлений')
     print(f'Заблокировано из - зарейтинга - {bad_rating_counter} объявлений')
@@ -216,11 +220,15 @@ def get_new_items_lite(url):
     driver.quit()
 
 if __name__ == '__main__':
-    with open('data/work_with_links/item_links.txt', 'w') as f:
-        f.close()
+    # with open('data/work_with_links/item_links.txt', 'w') as f:
+    #     f.close()
     url = 'https://www.avito.ru/moskva/telefony/mobile-ASgBAgICAUSwwQ2I_Dc?f=ASgBAQECAUSwwQ2I_DcBQOjrDjT~_dsC_P3bAvr92wIBRcaaDBh7ImZyb20iOjgwMDAsInRvIjo1MDAwMH0&q=обмен&s=104&user=1'
     # url = 'https://www.avito.ru/moskva/planshety_i_elektronnye_knigi?cd=1&f=ASgCAQICAUD0vA0UkNI0&q=обмен&s=104&user=1'
     get_new_items_lite(url)
+
+    # stop_list = get_stop_list()
+    # for word in stop_list:
+    #     print (word.strip().encode())
 
 
 

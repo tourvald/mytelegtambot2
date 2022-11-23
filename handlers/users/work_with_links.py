@@ -3,10 +3,11 @@ from aiogram.types import Message
 from multiprocessing import Pool
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.types import Message, CallbackQuery
-from loader import dp, bot
 from keyboards.inline.choice_buttons import next_link_buttons
+from loader import dp, bot
 import datetime
 
+from work_with_links import get_new_items_lite
 
 
 @dp.message_handler(commands=['обмен'])
@@ -34,11 +35,11 @@ async def working_with_links(call: CallbackQuery):
             f.writelines(link_to_add)
         print ('Ссылка не подходит' + link_to_add)
 
-    with open('data/work_with_links/new_links.txt', 'r') as f:
+    with open('data/work_with_links/new_links.txt', 'r', encoding='utf-8') as f:
         string = f.readlines()
     msg = string[0]
     string.pop(0)
-    with open ('data/work_with_links/new_links.txt', 'w') as f:
+    with open ('data/work_with_links/new_links.txt', 'w', encoding='utf-8') as f:
         f.writelines(string)
     with open ('data/work_with_links/working_link', 'w', encoding='UTF-8') as f:
         f.writelines(msg)

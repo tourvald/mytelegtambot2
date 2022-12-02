@@ -38,9 +38,9 @@ async def check_auto():
     await bot.send_message(chat_id=324029452, text=outputs[-1])
 
 async def scheduler():
-    aioschedule.every().day.at("17:37").do(choose_your_dinner)
-    aioschedule.every().day.at("18:10").do(update_my_archive)
-    aioschedule.every().day.at("17:22").do(add_links)
+    aioschedule.every().day.at("03:00").do(choose_your_dinner)
+    aioschedule.every().day.at("05:00").do(update_my_archive)
+    aioschedule.every().day.at("07:00").do(add_links)
     #aioschedule.every().hour.at(':03').do(check_auto)
     while True:
         await aioschedule.run_pending()

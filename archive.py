@@ -1,4 +1,9 @@
+import datetime
 import json
+import random
+import time
+
+
 def archive(search_date, search_link, av_price, search_request):
     with open('data/archive.json', 'r', encoding='utf-8') as f:
         file=f.read()
@@ -133,9 +138,21 @@ def get_whole_price_history(req:str) -> list:
     return return_
 
 
+def archive_status():
+    amount = 0
+    arch = load_archive()
+    for key in arch:
+        date = get_last_date(key)
+        timedelta = (datetime.datetime.today() - datetime.datetime.strptime(date, '%Y-%m-%d')).days
+
+        if  timedelta > 7:
+            amount += 1
+    return amount
 
 
 if __name__ == '__main__':
-    update_archive(1)
-
+    req = 'iphone 12 pro max 128'
+    x = get_price_history(req)
+    for y in x:
+        print (y)
 

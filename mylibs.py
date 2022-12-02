@@ -25,9 +25,10 @@ def av_price_sdt(price_list):
         if price_list[i] - price_list[i - 1] > price_list_std:
             price_list_to_remove_right = i - 1
             break
-
-    price_list = price_list[price_list_to_remove_left:price_list_to_remove_right]
+    if len(price_list) > 5:
+        price_list = price_list[price_list_to_remove_left:price_list_to_remove_right]
     print(f'FINAL{price_list}')
+
     av_price = int(np.average(price_list))
     print(f'Средняя цена = {av_price}')
     return av_price

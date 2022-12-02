@@ -280,7 +280,7 @@ def update_archive(amount_of_keys:int):
             print('Ссылка = ',url)
             try:
                 soup = get_soup_for_avito_parce(url)
-                av_price_std = avito_parce_soup(soup)
+                av_price_std, search_request = avito_parce_soup(soup)
                 archive(datetime.date.today(), url, av_price_std, key)
                 amount +=1
                 time.sleep(random.uniform(1,10))
@@ -293,4 +293,4 @@ def update_archive(amount_of_keys:int):
 
 if __name__ == "__main__":
 
-    mycars_get_avarage_prices()
+    update_archive(85)

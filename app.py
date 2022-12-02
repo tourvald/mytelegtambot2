@@ -14,13 +14,13 @@ async def on_startup(_):
     await bot.send_message(user_should_be_notified, 'Бот запущен', reply_markup=main_menu)
 
 async def choose_your_dinner():
-    await bot.send_message(chat_id=324029452, text='Добавляем ссылки')
+    await bot.send_message(chat_id=324029452, text='---------------')
     outputs = myphones_get_avarage_prices()
     for output in outputs:
         await bot.send_message(chat_id=324029452, text=output)
 
 async def update_my_archive():
-    await bot.send_message(chat_id=324029452, text='Обновляем базу')
+    await bot.send_message(chat_id=324029452, text='---------------')
     amount_of_keys = 30
     update_archive(amount_of_keys)
     amount = archive_status()

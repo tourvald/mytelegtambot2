@@ -6,6 +6,10 @@ from add_links_lite import work_with_links
 from avito_parcer_script import myphones_get_avarage_prices, update_archive, mycars_get_avarage_prices
 from keyboards.inline.choice_buttons import next_link_buttons, main_menu
 from archive import archive_status
+import warnings
+
+
+warnings.simplefilter("ignore", UserWarning)
 
 
 async def on_startup(_):

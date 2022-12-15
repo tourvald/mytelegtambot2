@@ -1,3 +1,4 @@
+import csv
 import time
 import os
 import lxml
@@ -204,6 +205,7 @@ def myphones_get_avarage_prices_old():
     return return_
 
 def myphones_get_avarage_prices():
+    start_time = time.perf_counter()
     sum_av_price = 0
     sum_sell_price = 0
     with open('data/checked_proxies.txt', 'r', encoding='UTF-8') as f:
@@ -228,6 +230,8 @@ def myphones_get_avarage_prices():
         sum_sell_price += sellprice
     return_.append(f'Средняя цена -  {sum_av_price}')
     return_.append(f'Примерная цена продажи -  {sum_sell_price}')
+    finish_time = time.perf_counter()
+    print (f'Finished in {round (finish_time - start_time, 2)} second (s) ')
     return return_
 
 
@@ -256,6 +260,34 @@ def mycars_get_avarage_prices():
         sum_sell_price += sellprice
     return_.append(f'Средняя цена -  {sum_av_price}')
     return_.append(f'Примерная цена продажи -  {sum_sell_price}')
+    return return_
+
+def mycars_get_avarage_prices_2():
+    sum_av_price = 0
+    sum_sell_price = 0
+    with open('data/checked_proxies.txt', 'r', encoding='UTF-8') as f:
+        proxies = f.readlines()
+    print(proxies)
+    proxies.reverse()
+    proxy_cycle = 0
+    driver = create_chrome_driver_object(proxy=proxies[proxy_cycle])
+    return_ = []
+    myphones = get_myphones_spreadsheet(range='mycars')
+    for myphone in myphones['values']:
+        key = myphone[1]
+        key_link = myphone[3]
+        index = myphone[2]
+        driver.get(key_link)
+        contents = driver.page_source
+        soup = (BeautifulSoup(contents, 'lxml'))
+        av_price, key = avito_auto_parce_soup(soup)
+        sellprice = int(int(av_price) * float(myphone[2]))
+        return_.append([myphone[0], av_price])
+        sum_av_price += av_price
+        sum_sell_price += sellprice
+    return_.append(["total", sum_av_price])
+    return_.append(f'Примерная цена продажи -  {sum_sell_price}')
+    print(return_)
     return return_
 
 def parce_page(driver, url):
@@ -290,7 +322,23 @@ def update_archive(amount_of_keys:int):
             break
 
 
-
+def write_car_data():
+    write_data = []
+    write_data.append(datetime.datetime.now().strftime("%d-%m-%Y"))
+    write_data.append(datetime.datetime.now().strftime("%H:%M"))
+    outputs = mycars_get_avarage_prices_2()[:-1]
+    for output in outputs:
+        write_data.append(output[1])
+    with open('data/mycars/mycars.csv', 'a', encoding="cp1251") as f:
+        writer = csv.writer(f, delimiter=";")
+        writer.writerow(write_data)
 if __name__ == "__main__":
+    write_car_data()
 
-    update_archive(85)
+    # удаляет строки кличество элементов которых менее 14
+    # with open('data/mycars/test.csv', 'r', encoding="utf-8") as f:
+    #     old_data = f.readlines()
+    # with open('data/mycars/mycars.csv', 'w', encoding="utf-8") as f:
+    #     for line in old_data:
+    #         if len(line.split(';')) < 14:
+    #             f.writelines(line)

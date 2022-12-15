@@ -35,13 +35,11 @@ admin = InlineKeyboardMarkup(
 main_menu = choice = InlineKeyboardMarkup(
     inline_keyboard=[
         [
-            InlineKeyboardButton(text="14 Pro Prices", callback_data='14_pro_prices'),
-            InlineKeyboardButton(text="Add Links", callback_data='add_links'),
-            InlineKeyboardButton(text="14 Pro History", callback_data='14_pro_history')
+            InlineKeyboardButton(text="Myphones", callback_data='myphones'),
+            InlineKeyboardButton(text="Add Links", callback_data='add_links')
         ],
 
         [
-            InlineKeyboardButton(text="Myphones", callback_data='myphones'),
             InlineKeyboardButton(text="Отмена", callback_data="cancel_main")
         ]
     ]

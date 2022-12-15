@@ -358,27 +358,6 @@ async def iphone_14_parce(call: CallbackQuery):
         await call.message.answer(report)
 
 
-@dp.callback_query_handler(text_contains='14_pro_avito')
-async def iphone_14_parce(call: CallbackQuery):
-    reports = []
-    reports.append(avito_parcer_script.avito_parce('https://www.avito.ru/moskva_i_mo/telefony/mobilnye_telefony/apple-ASgBAgICAkS0wA3OqzmwwQ2I_Dc?cd=1&f=ASgBAQICA0SywA3YjuUQtMANzqs5sMENiPw3AkDm4A0U9sFc6OsORPj92wL8_dsC_v3bAvr92wI&q=iphone+14+pro+max+128'))
-    reports.append(avito_parcer_script.avito_parce('https://www.avito.ru/moskva_i_mo/telefony/mobilnye_telefony/apple-ASgBAgICAkS0wA3OqzmwwQ2I_Dc?f=ASgBAQICA0SywA3OjuUQtMANzqs5sMENiPw3AkDm4A0U~MFc6OsORPj92wL8_dsC_v3bAvr92wI&q=iphone+14+pro+256&s=104'))
-
-    await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
-    for report in reports:
-        time.sleep(0.1)
-        await call.message.answer(report)
-
-
-@dp.callback_query_handler(text_contains='14_pro_history')
-async def _pro_history(call: CallbackQuery):
-    reports = []
-    reports = archive.get_whole_price_history('iphone 14 pro max 128')
-    await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
-    for report in reports:
-        time.sleep(0.1)
-        await call.message.answer(report)
-
 @dp.callback_query_handler(text_contains='price_history')
 async def price_history(call: CallbackQuery):
 

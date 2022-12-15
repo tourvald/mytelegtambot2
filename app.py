@@ -1,15 +1,13 @@
 import asyncio
+import csv
 
 import aioschedule
 
 from add_links_lite import work_with_links
-from avito_parcer_script import myphones_get_avarage_prices, update_archive, mycars_get_avarage_prices
+from avito_parcer_script import myphones_get_avarage_prices, update_archive, write_car_data
 from keyboards.inline.choice_buttons import next_link_buttons, main_menu
 from archive import archive_status
-import warnings
-
-
-warnings.simplefilter("ignore", UserWarning)
+import time
 
 
 async def on_startup(_):
@@ -18,8 +16,10 @@ async def on_startup(_):
     await bot.send_message(user_should_be_notified, 'Бот запущен', reply_markup=main_menu)
 
 async def choose_your_dinner():
+    print(time.pref_counter())
     await bot.send_message(chat_id=324029452, text='---------------')
     outputs = myphones_get_avarage_prices()
+    print(time.pref_counter())
     for output in outputs:
         await bot.send_message(chat_id=324029452, text=output)
 
@@ -34,18 +34,15 @@ async def add_links():
     await bot.send_message(chat_id=324029452, text=f'Добавлено {new_links_quanity} ссылок')
     await bot.send_message(chat_id=324029452, text=msg, disable_web_page_preview=True, reply_markup=next_link_buttons)
 
-async def check_auto():
-    await bot.send_message(chat_id=324029452, text='Добавляем ссылки')
-    outputs = mycars_get_avarage_prices()
-    with open('data/auto_average.txt', 'a', encoding='UTF-8') as f:
-        f.writelines(f'{outputs[-1].split()[-1].strip()}\n')
-    await bot.send_message(chat_id=324029452, text=outputs[-1])
+async def add_car_data():
+    write_car_data()
+    print('Данные авто добавлены')
 
 async def scheduler():
     aioschedule.every().day.at("03:00").do(choose_your_dinner)
     aioschedule.every().day.at("05:00").do(update_my_archive)
     aioschedule.every().day.at("07:00").do(add_links)
-    #aioschedule.every().hour.at(':03').do(check_auto)
+    aioschedule.every().hour.at(":00").do(add_car_data)
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)

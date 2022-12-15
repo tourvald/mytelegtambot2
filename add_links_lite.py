@@ -1,10 +1,10 @@
 from multiprocessing import Pool
-
+import time
 from work_with_links import get_new_items_lite
 
 
 def work_with_links():
-
+    start_time = time.perf_counter()
     '''добавляет новые ссылки с объявлениями по обменам за вчерашний день'''
     with open('data/work_with_links/item_links.txt', 'w', encoding='UTF-8') as f:
         f.close()
@@ -30,5 +30,6 @@ def work_with_links():
     string.pop(0)
     with open('data/work_with_links/new_links.txt', 'w', encoding='UTF-8') as f:
         f.writelines(string)
-
+    finish_time = time.perf_counter()
+    print (f'Finished in {round ((finish_time - start_time)/60, 2)} second (s) ')
     return new_links_quanity, msg

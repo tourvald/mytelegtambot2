@@ -115,7 +115,7 @@ async def find_command(message: Message):
     [await message.answer(f'/find {output}')for output in sorted(outputs)]
 
 
-@dp.message_handler(text_contains='/myphones_price')
+@dp.message_handler(text_contains='/myphones')
 async def call_myphones(message: Message):
     try:
         outputs = myphones_get_avarage_prices()
@@ -135,6 +135,11 @@ async def call_myphones(message: Message):
         output = e
         await message.answer(text=output)
 
+@dp.message_handler(text_contains='archive_status')
+async def call_myphones(message: Message):
+    output = archive.archive_status()
+    print (123)
+    await message.answer(text=output)
 
 @dp.message_handler(text_contains='avtomobili')
 async def echo(message: Message):

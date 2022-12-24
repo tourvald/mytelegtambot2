@@ -333,7 +333,7 @@ def write_car_data():
         writer = csv.writer(f, delimiter=";")
         writer.writerow(write_data)
 if __name__ == "__main__":
-    write_car_data()
+    update_archive(10)
 
     # удаляет строки кличество элементов которых менее 14
     # with open('data/mycars/test.csv', 'r', encoding="utf-8") as f:

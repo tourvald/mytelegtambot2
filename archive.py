@@ -151,8 +151,10 @@ def archive_status():
 
 
 if __name__ == '__main__':
-    req = 'iphone 12 pro max 128'
-    x = get_price_history(req)
-    for y in x:
-        print (y)
+    # req = 'iphone 12 pro max 128'
+    # x = get_price_history(req)
+    # for y in x:
+    #     print (y)
+    print(archive_status())
+
 

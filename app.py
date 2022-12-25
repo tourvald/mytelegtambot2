@@ -13,6 +13,7 @@ import time
 async def on_startup(_):
     user_should_be_notified = 324029452  # Наверное это должны быть вы сами? Как всезнающий админ:)
     asyncio.create_task(scheduler())
+    print('Бот онлайн')
     await bot.send_message(user_should_be_notified, 'Бот запущен', reply_markup=main_menu)
 
 async def choose_your_dinner():

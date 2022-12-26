@@ -138,8 +138,11 @@ async def call_myphones(message: Message):
 @dp.message_handler(text_contains='archive_status')
 async def call_myphones(message: Message):
     output = archive.archive_status()
-    print (123)
     await message.answer(text=output)
+@dp.message_handler(text_contains='archive_update')
+async def call_myphones(message: Message):
+    avito_parcer_script.update_archive(10)
+    await message.answer(text='Обновлено 30 объявлений')
 
 @dp.message_handler(text_contains='avtomobili')
 async def echo(message: Message):

@@ -44,8 +44,8 @@ def check_cookies(url):
         driver.close()
         driver.quit()
 
-url = 'https://web.telegram.org'
-# url = 'https://www.avito.ru'
+# url = 'https://web.telegram.org'
+url = 'https://www.avito.ru'
 # url = 'https://youla.ru/'
-# save_cookies(url)
-check_cookies(url)
+save_cookies(url)
+# check_cookies(url)

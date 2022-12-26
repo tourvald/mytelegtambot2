@@ -141,7 +141,7 @@ async def call_myphones(message: Message):
     await message.answer(text=output)
 @dp.message_handler(text_contains='archive_update')
 async def call_myphones(message: Message):
-    avito_parcer_script.update_archive(10)
+    avito_parcer_script.update_archive(30)
     await message.answer(text='Обновлено 30 объявлений')
 
 @dp.message_handler(text_contains='avtomobili')

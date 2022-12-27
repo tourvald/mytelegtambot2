@@ -4,6 +4,7 @@ import os
 import time
 from multiprocessing import Pool
 import threading
+from my_libs.mycars_lib import daily_mean
 import avito_parcer_script
 from my_libs.big_geek_parce import get_price_from_site
 from add_links_lite import work_with_links
@@ -182,6 +183,10 @@ async def echo(message: Message):
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
     await message.answer(disable_web_page_preview = True, text=f'{price}, {search_request.lower()}')
 
+@dp.message_handler(commands='cars_daily_mean')
+async def cars_daily_mean(message: Message):
+    await message.answer_document(open('data/mycars/mycarsreport.csv', 'rb'))
+
 @dp.message_handler()
 async def myphones(message: Message):
     buttons = archive.get_keys_list(message.text.lower())
@@ -320,6 +325,7 @@ async def myphones_prices(message: Message):
 async def myphones(message: Message):
     await message.answer('Выберите пожалуйста одну из моделей', reply_markup=admin)
 
+
 @dp.callback_query_handler(text_contains='restart')
 async def restart(call: CallbackQuery):
     os.system('shutdown -r -t 0')
@@ -385,6 +391,8 @@ async def add_links(call: CallbackQuery):
     new_links_quanity, msg = work_with_links()
     await bot.send_message(chat_id=324029452, text=f'Добавлено {new_links_quanity} ссылок')
     await bot.send_message(chat_id=324029452, text=msg, disable_web_page_preview=True, reply_markup=next_link_buttons)
+
+
 
 
 

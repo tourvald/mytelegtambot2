@@ -3,6 +3,7 @@ import csv
 
 import aioschedule
 
+import avito_parcer_script
 from add_links_lite import work_with_links
 from avito_parcer_script import myphones_get_avarage_prices, update_archive, write_car_data
 from keyboards.inline.choice_buttons import next_link_buttons, main_menu
@@ -27,7 +28,7 @@ async def choose_your_dinner():
 async def update_my_archive():
     await bot.send_message(chat_id=324029452, text='---------------')
     amount_of_keys = 40
-    update_archive(amount_of_keys)
+    avito_parcer_script.update_archive(amount_of_keys)
     amount = archive_status()
     await bot.send_message(chat_id=324029452, text=f'Обновлено {amount_of_keys} позиций из {amount}')
 async def add_links():

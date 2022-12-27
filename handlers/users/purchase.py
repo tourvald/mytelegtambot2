@@ -12,6 +12,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.types import Message, CallbackQuery
+from my_libs.mycars_lib import daily_mean
 from my_libs.myphones_lib import get_last_3_months_report
 import archive
 from avito_parcer_script import myphones_get_avarage_prices, get_soup_for_avito_parce, avito_parce_soup, parce_page, avito_auto_parce_soup, mycars_get_avarage_prices
@@ -185,6 +186,7 @@ async def echo(message: Message):
 
 @dp.message_handler(commands='cars_daily_mean')
 async def cars_daily_mean(message: Message):
+    daily_mean()
     await message.answer_document(open('data/mycars/mycarsreport.csv', 'rb'))
 
 @dp.message_handler()

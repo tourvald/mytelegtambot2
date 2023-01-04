@@ -41,10 +41,10 @@ async def add_car_data():
     print('Данные авто добавлены')
 
 async def scheduler():
-    aioschedule.every().day.at("03:00").do(choose_your_dinner)
-    aioschedule.every().day.at("05:00").do(update_my_archive)
-    aioschedule.every().day.at("07:00").do(add_links)
-    aioschedule.every().hour.at(":00").do(add_car_data)
+    aioschedule.every().day.at("03:10").do(choose_your_dinner)
+    aioschedule.every().day.at("05:10").do(update_my_archive)
+    aioschedule.every().day.at("07:10").do(add_links)
+    aioschedule.every(3).hours.at(":00").do(add_car_data)
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)

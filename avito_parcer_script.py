@@ -1,5 +1,6 @@
 import csv
 import time
+import pandas as pd
 import os
 import lxml
 import random
@@ -329,16 +330,11 @@ def write_car_data():
     outputs = mycars_get_avarage_prices_2()[:-1]
     for output in outputs:
         write_data.append(output[1])
-    with open('data/mycars/mycars.csv', 'a', encoding="cp1251") as f:
+    with open('data/mycars/mycars.csv', 'a', encoding="utf-8") as f:
         writer = csv.writer(f, delimiter=";")
         writer.writerow(write_data)
-if __name__ == "__main__":
-    update_archive(10)
 
-    # удаляет строки кличество элементов которых менее 14
-    # with open('data/mycars/test.csv', 'r', encoding="utf-8") as f:
-    #     old_data = f.readlines()
-    # with open('data/mycars/mycars.csv', 'w', encoding="utf-8") as f:
-    #     for line in old_data:
-    #         if len(line.split(';')) < 14:
-    #             f.writelines(line)
+if __name__ == "__main__":
+    write_car_data()
+
+

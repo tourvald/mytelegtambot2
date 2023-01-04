@@ -36,8 +36,14 @@ class FSM_buy_phone(StatesGroup):
 
 @dp.message_handler(commands=['start'])
 async def find_command(message: Message):
-    await message.answer('Дратути', reply_markup=main_menu)
+    await message.answer('/cars - команды по автомобилям\n'
+                         '/phones - команды по телефонам', reply_markup=main_menu)
 
+@dp.message_handler(commands=['cars'])
+async def find_command(message: Message):
+    await message.answer('/cars_daily_mean - ежедневный отчет\n'
+                         '/cars_full_report - исходный файл\n'
+                         '/mycars - запрос средних цен')
 
 @dp.message_handler(text_contains='restart')
 async def restart_command(message: Message):
@@ -130,7 +136,7 @@ async def call_myphones(message: Message):
 @dp.message_handler(text_contains='/mycars')
 async def call_myphones(message: Message):
     try:
-        outputs = mycars_get_avarage_prices()
+        outputs = avito_parcer_script.mycars_get_avarage_prices_2()
         for output in outputs:
             await message.answer(text=output)
     except Exception as e:
@@ -188,6 +194,10 @@ async def echo(message: Message):
 async def cars_daily_mean(message: Message):
     daily_mean()
     await message.answer_document(open('data/mycars/mycarsreport.csv', 'rb'))
+
+@dp.message_handler(commands='cars_full_report')
+async def cars_daily_mean(message: Message):
+    await message.answer_document(open('data/mycars/mycars.csv', 'rb'))
 
 @dp.message_handler()
 async def myphones(message: Message):

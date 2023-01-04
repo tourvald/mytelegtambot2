@@ -1,1 +1,1 @@
-poco f3 256 -pro
+oneplus 9 8 128

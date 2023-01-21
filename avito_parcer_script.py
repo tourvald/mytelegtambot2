@@ -335,6 +335,6 @@ def write_car_data():
         writer.writerow(write_data)
 
 if __name__ == "__main__":
-    write_car_data()
+    mycars_get_avarage_prices_2()
 
 

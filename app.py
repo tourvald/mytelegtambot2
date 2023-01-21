@@ -27,7 +27,7 @@ async def choose_your_dinner():
 
 async def update_my_archive():
     await bot.send_message(chat_id=324029452, text='---------------')
-    amount_of_keys = 40
+    amount_of_keys = 5
     avito_parcer_script.update_archive(amount_of_keys)
     amount = archive_status()
     await bot.send_message(chat_id=324029452, text=f'Обновлено {amount_of_keys} позиций из {amount}')
@@ -42,7 +42,7 @@ async def add_car_data():
 
 async def scheduler():
     aioschedule.every().day.at("03:10").do(choose_your_dinner)
-    aioschedule.every().day.at("05:10").do(update_my_archive)
+    aioschedule.every().day.at("09:55").do(update_my_archive)
     aioschedule.every().day.at("07:10").do(add_links)
     aioschedule.every(3).hours.at(":00").do(add_car_data)
     while True:

@@ -15,18 +15,21 @@ def av_price_sdt(price_list):
     price_list_std = int(np.std(price_list))
     price_list_to_remove_right = len(price_list) - 1
     price_list_to_remove_left = 0
-
+    print (f'std = {price_list_std}')
     for i in range(len(price_list) // 2, 0, -1):
         if price_list[i] - price_list[i - 1] > price_list_std:
             price_list_to_remove_left = i
+            print(price_list_to_remove_left)
             break
 
     for i in range(len(price_list) // 2, len(price_list), 1):
         if price_list[i] - price_list[i - 1] > price_list_std:
             price_list_to_remove_right = i - 1
+            print(price_list_to_remove_right)
             break
     if len(price_list) > 5:
-        price_list = price_list[price_list_to_remove_left:price_list_to_remove_right]
+        if len(price_list[price_list_to_remove_left:price_list_to_remove_right]) > 2:
+            price_list = price_list[price_list_to_remove_left:price_list_to_remove_right]
     print(f'FINAL{price_list}')
 
     av_price = int(np.average(price_list))

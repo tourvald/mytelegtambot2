@@ -42,7 +42,7 @@ async def add_car_data():
 
 async def scheduler():
     aioschedule.every().day.at("03:10").do(choose_your_dinner)
-    aioschedule.every().day.at("09:55").do(update_my_archive)
+    aioschedule.every().day.at("11:5").do(update_my_archive)
     aioschedule.every().day.at("07:10").do(add_links)
     aioschedule.every(3).hours.at(":00").do(add_car_data)
     while True:

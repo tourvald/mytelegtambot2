@@ -145,13 +145,12 @@ def archive_status():
         date = get_last_date(key)
         timedelta = (datetime.datetime.today() - datetime.datetime.strptime(date, '%Y-%m-%d')).days
 
-        if  timedelta > 7:
+        if  timedelta > 14:
             amount += 1
     return amount
 
 
 if __name__ == '__main__':
-    print(archive_status())
     print(archive_status())
 
 

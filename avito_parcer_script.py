@@ -150,7 +150,11 @@ def avito_parce_soup(soup):
     div_catalog_serp = soup.find('div', {'data-marker': 'catalog-serp'})  # Выделяем блок в котором хранятся все цены
     for price in div_catalog_serp.find_all('meta', {'itemprop': 'price'}):  # Перебираем подблоки блока div_catalog_serp
         price_list.append(price.get('content'))  # Достаем из них цены и добавляем в список цен
-    av_price_std = mylibs.av_price_sdt(price_list)
+    if len(price_list) > 1:
+        av_price_std = mylibs.av_price_sdt(price_list)
+    else:
+        print('Длинна списка цен меньше 1')
+        av_price_std = "Цен не обнаружено"
     print(av_price_std)
     return av_price_std, search_request.lower()
 
@@ -302,13 +306,15 @@ def parce_page(driver, url):
 
 
 def update_archive(amount_of_keys:int):
+    print('Start')
     amount = 0
     arch = load_archive()
     for key in arch:
         date = get_last_date(key)
         timedelta = (datetime.datetime.today() - datetime.datetime.strptime(date, '%Y-%m-%d')).days
-
+        print (timedelta, key)
         if  timedelta > 14:
+            print('timedelta > 14')
             url = get_key_link(key)
             print('Ссылка = ',url)
             try:
@@ -318,7 +324,9 @@ def update_archive(amount_of_keys:int):
                 amount +=1
                 time.sleep(random.uniform(1,10))
             except Exception as e:
-                print (e)
+
+                print (f'Mistake here!, {e}')
+                continue
         if amount == amount_of_keys:
             break
 
@@ -335,6 +343,6 @@ def write_car_data():
         writer.writerow(write_data)
 
 if __name__ == "__main__":
-    mycars_get_avarage_prices_2()
+    update_archive(5)
 
 

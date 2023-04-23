@@ -40,10 +40,16 @@ async def find_command(message: Message):
                          '/phones - команды по телефонам', reply_markup=main_menu)
 
 @dp.message_handler(commands=['cars'])
-async def find_command(message: Message):
+async def cars_command(message: Message):
     await message.answer('/cars_daily_mean - ежедневный отчет\n'
                          '/cars_full_report - исходный файл\n'
                          '/mycars - запрос средних цен')
+
+@dp.message_handler(commands=['phones'])
+async def phones_command(message: Message):
+    await message.answer('/archive_status - сколько устаревших объявлений\n'
+                         '/archive_update - обновить архив\n'
+                         '/myphones - стоимость телефонов на руках')
 
 @dp.message_handler(text_contains='restart')
 async def restart_command(message: Message):

@@ -291,7 +291,6 @@ def mycars_get_avarage_prices_2():
         sum_av_price += av_price
         sum_sell_price += sellprice
     return_.append(["total", sum_av_price])
-    return_.append(f'Примерная цена продажи -  {sum_sell_price}')
     print(return_)
     return return_
 

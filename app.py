@@ -2,7 +2,7 @@ import asyncio
 import csv
 
 import aioschedule
-
+import os
 import avito_parcer_script
 from add_links_lite import work_with_links
 from avito_parcer_script import myphones_get_avarage_prices, update_archive, write_car_data
@@ -25,6 +25,9 @@ async def choose_your_dinner():
     for output in outputs:
         await bot.send_message(chat_id=324029452, text=output)
 
+async def restart():
+    os.system('shutdown -r -t 0')
+
 async def update_my_archive():
     await bot.send_message(chat_id=324029452, text='---------------')
     amount_of_keys = 5
@@ -41,9 +44,9 @@ async def add_car_data():
     print('Данные авто добавлены')
 
 async def scheduler():
-    aioschedule.every().day.at("03:10").do(choose_your_dinner)
-    aioschedule.every().day.at("11:5").do(update_my_archive)
-    # aioschedule.every().day.at("07:10").do(add_links)
+    #aioschedule.every().day.at("03:10").do(choose_your_dinner)
+    aioschedule.every().day.at("00:10").do(update_my_archive)
+    # aioschedule.every().day.at("07:10").do(restart)
     aioschedule.every(3).hours.at(":00").do(add_car_data)
     while True:
         await aioschedule.run_pending()

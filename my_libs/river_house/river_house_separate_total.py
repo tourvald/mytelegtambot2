@@ -3,8 +3,9 @@ import os
 from datetime import datetime
 
 def river_house_separate_total():
-    os.chdir('..')
-    df = pd.read_csv(f'/Users/iamgroot/PycharmProjects/mytelegtambot2/data/river_house/total/total2.csv', encoding='utf-8', delimiter=';')
+    os.chdir('../..')
+    print(os.getcwd())
+    df = pd.read_csv(f'data/river_house/total/total2.csv', encoding='utf-8', delimiter=';')
     for i in df.columns.values.tolist():
         if i == 'id':
             continue
@@ -28,6 +29,6 @@ def river_house_separate_total():
 
 
 if __name__ == "__main__":
-    os.chdir('..')
+    # os.chdir('..')
     # path = f'data/river_house/total/total2.csv'
     river_house_separate_total()

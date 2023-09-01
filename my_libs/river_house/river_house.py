@@ -32,16 +32,18 @@ def write_items_to_file(items):
         item.pop(1)
         print(item)
 
-        with open(filepath, 'a', encoding='UTF-8') as f:
+        with open(filepath, 'a', encoding='UTF-8', newline='') as f:
             writer = csv.writer(f, delimiter=";")
             writer.writerow(item)
-os.chdir('..')
+os.chdir('../..')
 
 # ФОРМАТИРОВАНИЕ ФАЙЛА ЗАПИСИ ДАННЫХ
 filename = datetime.today().date()
 print (datetime.today().date())
+print (os.getcwd())
+
 filepath = f'data/river_house/{filename}.csv'
-with open(filepath, 'w', encoding='UTF-8') as f:
+with open(filepath, 'w', encoding='UTF-8', newline='') as f:
     writer = csv.writer(f, delimiter=";")
     head = ['id', datetime.today().date()]
     writer.writerow(head)

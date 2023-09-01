@@ -342,6 +342,6 @@ def write_car_data():
         writer.writerow(write_data)
 
 if __name__ == "__main__":
-    update_archive(5)
+    update_archive(200)
 
 

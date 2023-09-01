@@ -23,11 +23,11 @@ def river_house_total():
 
     df2 = pd.read_csv(f'data/river_house/total/total2.csv', encoding='utf-8', delimiter=';')
     print(f'НАЗВАНИЯ СТОЛБЦОВ - {df2.columns.values.tolist()[1]}')
-    df = pd.read_csv(f'data/river_house/2023-08-30.csv', encoding='utf-8', delimiter=';')
+    df = pd.read_csv(f'data/river_house/2023-09-01.csv', encoding='utf-8', delimiter=';')
 
 
-    df = delete_duplicates(df)
-    df2 = delete_duplicates(df2)
+    df = delete_duplicates(df).dropna()
+    df2 = delete_duplicates(df2).dropna()
     print(df.info())
     print(df2.info())
     # df[df.columns.values.tolist()[1]].astype('int64')
@@ -47,6 +47,8 @@ def river_house_total():
     df3.to_csv(f'data/river_house/total/{datetime.today().date()}-total.csv', encoding='utf-8', sep=';', index=False)
 
 if __name__ == "__main__":
-    os.chdir('..')
+
+    os.chdir('../..')
+    print(os.getcwd())
     river_house_total()
 

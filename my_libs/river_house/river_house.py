@@ -35,7 +35,7 @@ def write_items_to_file(items):
         with open(filepath, 'a', encoding='UTF-8', newline='') as f:
             writer = csv.writer(f, delimiter=";")
             writer.writerow(item)
-os.chdir('../..')
+os.chdir('..')
 
 # ФОРМАТИРОВАНИЕ ФАЙЛА ЗАПИСИ ДАННЫХ
 filename = datetime.today().date()
@@ -49,8 +49,8 @@ with open(filepath, 'w', encoding='UTF-8', newline='') as f:
     writer.writerow(head)
 
 driver = create_chrome_driver_object(headless=False)
-# url = "https://www.avito.ru/user/3927f5d35ba5d4e69a7ad7a45bed0cbf/profile?gdlkerfdnwq=101&shopId=3096698&page_from=from_item_card&iid=2972689148"
-url = 'https://www.avito.ru/user/3927f5d35ba5d4e69a7ad7a45bed0cbf/profile/all/kvartiry?gdlkerfdnwq=101&shopId=3096698&page_from=from_item_card&iid=2972689148&sellerId=3927f5d35ba5d4e69a7ad7a45bed0cbf'
+url = "https://www.avito.ru/user/3927f5d35ba5d4e69a7ad7a45bed0cbf/profile?gdlkerfdnwq=101&shopId=3096698&page_from=from_item_card&iid=2972689148"
+# url = 'https://www.avito.ru/user/3927f5d35ba5d4e69a7ad7a45bed0cbf/profile/all/kvartiry?gdlkerfdnwq=101&shopId=3096698&page_from=from_item_card&iid=2972689148&sellerId=3927f5d35ba5d4e69a7ad7a45bed0cbf'
 driver.get(url)
 driver.implicitly_wait(10)
 sleep(10)
@@ -58,7 +58,9 @@ sleep(10)
 # next_btn = driver.find_element(By.XPATH, '//*[@id="item_list_with_filters"]/div[2]/div/div[2]/div/div[2]/button[2]')
 next_btn = driver.find_element(By.XPATH, '//*[@id="item_list_with_filters"]/div[2]/div/div[2]/div/nav/ul/li[9]/a')
 
-items = driver.find_elements(By.CLASS_NAME, 'styles-responsive-m3Vnz')
+# items = driver.find_elements(By.CLASS_NAME, 'styles-responsive-m3Vnz')
+items = driver.find_elements(By.CLASS_NAME, 'iva-item-body-KLUuy')
+print(f'Найдено - {len(items)} эелементов с ценами')
 write_items_to_file(items)
 for i in range (1,20):
     try:
@@ -68,5 +70,6 @@ for i in range (1,20):
         print ('Страницы закончились')
         break
     driver.implicitly_wait(10)
-    items = driver.find_elements(By.CLASS_NAME, 'styles-responsive-m3Vnz')
+    items = driver.find_elements(By.CLASS_NAME, 'iva-item-body-KLUuy')
+    print(f'Найдено - {len(items)} эелементов с ценами')
     write_items_to_file(items)

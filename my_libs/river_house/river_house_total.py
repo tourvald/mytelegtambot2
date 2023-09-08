@@ -23,7 +23,7 @@ def river_house_total():
 
     df2 = pd.read_csv(f'data/river_house/total/total2.csv', encoding='utf-8', delimiter=';')
     print(f'НАЗВАНИЯ СТОЛБЦОВ - {df2.columns.values.tolist()[1]}')
-    df = pd.read_csv(f'data/river_house/2023-09-01.csv', encoding='utf-8', delimiter=';')
+    df = pd.read_csv(f'data/river_house/2023-09-08.csv', encoding='utf-8', delimiter=';')
 
 
     df = delete_duplicates(df).dropna()
@@ -48,7 +48,7 @@ def river_house_total():
 
 if __name__ == "__main__":
 
-    os.chdir('../..')
+    os.chdir('..')
     print(os.getcwd())
     river_house_total()
 

@@ -6,6 +6,12 @@ from time import sleep
 import csv
 from datetime import datetime, timedelta
 import os
+import platform
+print (platform.processor())
+if platform.processor() == 'Intel64 Family 6 Model 42 Stepping 7, GenuineIntel':
+	chdir_path = '../..'
+else:
+	chdir_path = '..'
 def write_items_to_file(items):
     for i in items:
         item = i.text.split()
@@ -35,7 +41,7 @@ def write_items_to_file(items):
         with open(filepath, 'a', encoding='UTF-8', newline='') as f:
             writer = csv.writer(f, delimiter=";")
             writer.writerow(item)
-os.chdir('..')
+os.chdir(chdir_path)
 
 # ФОРМАТИРОВАНИЕ ФАЙЛА ЗАПИСИ ДАННЫХ
 filename = datetime.today().date()

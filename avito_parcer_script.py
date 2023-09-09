@@ -340,6 +340,9 @@ def write_car_data():
     with open('data/mycars/mycars.csv', 'a', encoding="utf-8") as f:
         writer = csv.writer(f, delimiter=";")
         writer.writerow(write_data)
+    with open('data/mycars/mycars2.csv', 'a', encoding="utf-8", newline='') as f:
+        writer = csv.writer(f, delimiter=";")
+        writer.writerow(write_data)
 
 if __name__ == "__main__":
     update_archive(200)

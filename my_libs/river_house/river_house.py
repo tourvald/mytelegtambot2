@@ -7,12 +7,14 @@ import csv
 from datetime import datetime, timedelta
 import os
 import platform
+# Определяем в какой системе мы находимся и задаем параметр для спуска в корневую дирректорию
 print (platform.processor())
 if platform.processor() == 'Intel64 Family 6 Model 42 Stepping 7, GenuineIntel':
 	chdir_path = '../..'
 else:
 	chdir_path = '..'
-def write_items_to_file(items):
+
+def write_items_to_file(items, filepath):
     for i in items:
         item = i.text.split()
 
@@ -41,41 +43,45 @@ def write_items_to_file(items):
         with open(filepath, 'a', encoding='UTF-8', newline='') as f:
             writer = csv.writer(f, delimiter=";")
             writer.writerow(item)
-os.chdir(chdir_path)
+# os.chdir(chdir_path)
+def rh_parce():
+    # ФОРМАТИРОВАНИЕ ФАЙЛА ЗАПИСИ ДАННЫХ
+    filename = datetime.today().date()
+    print (datetime.today().date())
+    print (os.getcwd())
 
-# ФОРМАТИРОВАНИЕ ФАЙЛА ЗАПИСИ ДАННЫХ
-filename = datetime.today().date()
-print (datetime.today().date())
-print (os.getcwd())
+    filepath = f'data/river_house/{filename}.csv'
+    with open(filepath, 'w', encoding='UTF-8', newline='') as f:
+        writer = csv.writer(f, delimiter=";")
+        head = ['id', datetime.today().date()]
+        writer.writerow(head)
 
-filepath = f'data/river_house/{filename}.csv'
-with open(filepath, 'w', encoding='UTF-8', newline='') as f:
-    writer = csv.writer(f, delimiter=";")
-    head = ['id', datetime.today().date()]
-    writer.writerow(head)
-
-driver = create_chrome_driver_object(headless=False)
-url = "https://www.avito.ru/user/3927f5d35ba5d4e69a7ad7a45bed0cbf/profile?gdlkerfdnwq=101&shopId=3096698&page_from=from_item_card&iid=2972689148"
-# url = 'https://www.avito.ru/user/3927f5d35ba5d4e69a7ad7a45bed0cbf/profile/all/kvartiry?gdlkerfdnwq=101&shopId=3096698&page_from=from_item_card&iid=2972689148&sellerId=3927f5d35ba5d4e69a7ad7a45bed0cbf'
-driver.get(url)
-driver.implicitly_wait(10)
-sleep(10)
-
-# next_btn = driver.find_element(By.XPATH, '//*[@id="item_list_with_filters"]/div[2]/div/div[2]/div/div[2]/button[2]')
-next_btn = driver.find_element(By.XPATH, '//*[@id="item_list_with_filters"]/div[2]/div/div[2]/div/nav/ul/li[9]/a')
-
-# items = driver.find_elements(By.CLASS_NAME, 'styles-responsive-m3Vnz')
-items = driver.find_elements(By.CLASS_NAME, 'iva-item-body-KLUuy')
-print(f'Найдено - {len(items)} эелементов с ценами')
-write_items_to_file(items)
-for i in range (1,20):
-    try:
-        next_btn.click()
-        sleep(5)
-    except WebDriverException:
-        print ('Страницы закончились')
-        break
+    driver = create_chrome_driver_object(headless=False)
+    url = "https://www.avito.ru/user/3927f5d35ba5d4e69a7ad7a45bed0cbf/profile?gdlkerfdnwq=101&shopId=3096698&page_from=from_item_card&iid=2972689148"
+    # url = 'https://www.avito.ru/user/3927f5d35ba5d4e69a7ad7a45bed0cbf/profile/all/kvartiry?gdlkerfdnwq=101&shopId=3096698&page_from=from_item_card&iid=2972689148&sellerId=3927f5d35ba5d4e69a7ad7a45bed0cbf'
+    driver.get(url)
     driver.implicitly_wait(10)
+    sleep(10)
+
+    # next_btn = driver.find_element(By.XPATH, '//*[@id="item_list_with_filters"]/div[2]/div/div[2]/div/div[2]/button[2]')
+    next_btn = driver.find_element(By.XPATH, '//*[@id="item_list_with_filters"]/div[2]/div/div[2]/div/nav/ul/li[9]/a')
+
+    # items = driver.find_elements(By.CLASS_NAME, 'styles-responsive-m3Vnz')
     items = driver.find_elements(By.CLASS_NAME, 'iva-item-body-KLUuy')
     print(f'Найдено - {len(items)} эелементов с ценами')
-    write_items_to_file(items)
+    write_items_to_file(items, filepath)
+    for i in range (1,20):
+        try:
+            next_btn.click()
+            sleep(5)
+        except WebDriverException:
+            print ('Страницы закончились')
+            break
+        driver.implicitly_wait(10)
+        items = driver.find_elements(By.CLASS_NAME, 'iva-item-body-KLUuy')
+        print(f'Найдено - {len(items)} эелементов с ценами')
+        write_items_to_file(items, filepath)
+if __name__ == "__main__":
+    os.chdir('..')
+    # path = f'data/river_house/total/total2.csv'
+    rh_parce()

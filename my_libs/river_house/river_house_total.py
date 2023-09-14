@@ -1,7 +1,12 @@
 import pandas as pd
 import os
 from datetime import datetime
-
+# Определяем в какой системе мы находимся и задаем параметр для спуска в корневую дирректорию
+print (platform.processor())
+if platform.processor() == 'Intel64 Family 6 Model 42 Stepping 7, GenuineIntel':
+	chdir_path = '../..'
+else:
+	chdir_path = '..'
 def delete_duplicates(df_to_change):
     dp = df_to_change[df_to_change.duplicated(subset='id')]
     print("\n\nПовторяющиеся строки : \n {}".format(dp))
@@ -23,7 +28,7 @@ def river_house_total():
 
     df2 = pd.read_csv(f'data/river_house/total/total2.csv', encoding='utf-8', delimiter=';')
     print(f'НАЗВАНИЯ СТОЛБЦОВ - {df2.columns.values.tolist()[1]}')
-    df = pd.read_csv(f'data/river_house/2023-09-01.csv', encoding='utf-8', delimiter=';')
+    df = pd.read_csv(f'data/river_house/{datetime.today().date()}.csv', encoding='utf-8', delimiter=';')
 
 
     df = delete_duplicates(df).dropna()
@@ -48,7 +53,7 @@ def river_house_total():
 
 if __name__ == "__main__":
 
-    os.chdir('../..')
+    os.chdir(chdir_path)
     print(os.getcwd())
     river_house_total()
 

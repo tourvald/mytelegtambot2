@@ -1,9 +1,14 @@
 import pandas as pd
 import os
 from datetime import datetime
-
+# Определяем в какой системе мы находимся и задаем параметр для спуска в корневую дирректорию
+print (platform.processor())
+if platform.processor() == 'Intel64 Family 6 Model 42 Stepping 7, GenuineIntel':
+	chdir_path = '../..'
+else:
+	chdir_path = '..'
 def river_house_separate_total():
-    os.chdir('../..')
+    os.chdir(chdir_path)
     print(os.getcwd())
     df = pd.read_csv(f'data/river_house/total/total2.csv', encoding='utf-8', delimiter=';')
     for i in df.columns.values.tolist():

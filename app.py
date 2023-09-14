@@ -6,6 +6,7 @@ import os
 import avito_parcer_script
 from add_links_lite import work_with_links
 from avito_parcer_script import myphones_get_avarage_prices, update_archive, write_car_data
+from my_libs.river_house.river_house import rh_parce
 from keyboards.inline.choice_buttons import next_link_buttons, main_menu
 from archive import archive_status
 import time
@@ -43,10 +44,15 @@ async def add_car_data():
     write_car_data()
     print('Данные авто добавлены')
 
+async def rh_parce_today():
+    rh_parce()
+    print('Ривер хаус парсинг завершен')
+
 async def scheduler():
     #aioschedule.every().day.at("03:10").do(choose_your_dinner)
-    aioschedule.every().day.at("00:10").do(update_my_archive)
+    aioschedule.every().day.at("16:35").do(update_my_archive)
     # aioschedule.every().day.at("07:10").do(restart)
+    # aioschedule.every().day.at("13:30").do(rh_parce)
     aioschedule.every(3).hours.at(":00").do(add_car_data)
     while True:
         await aioschedule.run_pending()

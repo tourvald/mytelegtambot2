@@ -7,6 +7,7 @@ import threading
 from my_libs.mycars_lib import daily_mean
 import avito_parcer_script
 from my_libs.big_geek_parce import get_price_from_site
+from my_libs.cian.parce_cian import cian_parce
 from add_links_lite import work_with_links
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
@@ -178,7 +179,7 @@ async def echo(message: Message):
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
     await message.answer(disable_web_page_preview = True, text=f'{price}, {price_std}, {search_request.lower()}')
 
-@dp.message_handler(text_contains='http')
+@dp.message_handler(text_contains='avito')
 async def echo(message: Message):
     url = message.text
     try:
@@ -195,6 +196,22 @@ async def echo(message: Message):
         price = e
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
     await message.answer(disable_web_page_preview = True, text=f'{price}, {search_request.lower()}')
+
+@dp.message_handler(text_contains='cian')
+async def echo(message: Message):
+    url = message.text
+    outputs = []
+    try:
+        average_flat_price, average_flat_price_nearby, flat_price = cian_parce(url)
+        outputs.append(f'{flat_price} - Цена квартиры')
+        outputs.append(f'{average_flat_price}({round((flat_price+50)/average_flat_price, 2)}) - средняя цена по дому')
+        outputs.append(f'{average_flat_price_nearby}({round((flat_price+50)/average_flat_price_nearby, 2)}) - средняя цена в округе')
+        outputs.append(f'{round( ((flat_price+50)/average_flat_price_nearby + (flat_price+50)/average_flat_price)/2,2)} - общая оценка')
+    except Exception as e:
+        outputs.append(e)
+    # await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
+    for output in outputs:
+        await bot.send_message(chat_id=message.chat.id, text=output)
 
 @dp.message_handler(commands='cars_daily_mean')
 async def cars_daily_mean(message: Message):

@@ -26,6 +26,7 @@ def cian_get_links_from_report():
     return (links_list)
 def parce_many_links(link_list):
     good_links_list = []
+    skipped_links = []
     print(f'(Количество ссылок - {len(link_list)} )')
     for i in link_list:
         print(i)
@@ -33,6 +34,7 @@ def parce_many_links(link_list):
             average_flat_price, average_flat_price_nearby, flat_price = cian_parce(i)
         except Exception as e:
             print('Не удалось спарсить страницу')
+            skipped_links.append(i)
         if (flat_price+50)/average_flat_price_nearby < 1.1 and (flat_price+50)/average_flat_price < 1.1:
             try:
                 print (f'{average_flat_price}({round((flat_price+50)/average_flat_price, 2)}) - средняя цена по дому')

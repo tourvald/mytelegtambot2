@@ -28,7 +28,7 @@ def river_house_separate_total():
             continue
         df3 = df3.astype({i: "Int64"})
 
-    df3.to_csv(f'data/river_house/total/{datetime.today().date()}-total_separated.csv', encoding='utf-8', sep=';', index=False)
+    df3.to_csv(f'data/river_house/total/{datetime.today().date()}-total_separated.csv', encoding='utf-8', sep=';', index=False, newline='')
 
     print (df3.info)
 

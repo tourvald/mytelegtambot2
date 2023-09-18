@@ -5,7 +5,7 @@ import aioschedule
 import os
 import avito_parcer_script
 from add_links_lite import work_with_links
-from avito_parcer_script import myphones_get_avarage_prices, update_archive, write_car_data
+from avito_parcer_script import myphones_get_avarage_prices, update_archive, write_car_data_2
 from my_libs.river_house.river_house import rh_parce
 from keyboards.inline.choice_buttons import next_link_buttons, main_menu
 from archive import archive_status
@@ -41,7 +41,7 @@ async def add_links():
     await bot.send_message(chat_id=324029452, text=msg, disable_web_page_preview=True, reply_markup=next_link_buttons)
 
 async def add_car_data():
-    write_car_data()
+    write_car_data_2()
     print('Данные авто добавлены')
 
 async def rh_parce_today():
@@ -53,7 +53,7 @@ async def scheduler():
     aioschedule.every().day.at("16:35").do(update_my_archive)
     # aioschedule.every().day.at("07:10").do(restart)
     # aioschedule.every().day.at("13:30").do(rh_parce)
-    aioschedule.every(3).hours.at(":00").do(add_car_data)
+    aioschedule.every(1).hours.at(":26").do(add_car_data)
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)

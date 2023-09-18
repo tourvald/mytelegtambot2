@@ -3,6 +3,9 @@ import time
 import pandas as pd
 import os
 import lxml
+import pandas as pd
+import os
+import openpyxl
 import random
 import unidecode
 import datetime
@@ -267,7 +270,7 @@ def mycars_get_avarage_prices():
     return_.append(f'Примерная цена продажи -  {sum_sell_price}')
     return return_
 
-def mycars_get_avarage_prices_2():
+def mycars_get_avarage_prices_3():
     sum_av_price = 0
     sum_sell_price = 0
     with open('data/checked_proxies.txt', 'r', encoding='UTF-8') as f:
@@ -291,6 +294,35 @@ def mycars_get_avarage_prices_2():
         sum_av_price += av_price
         sum_sell_price += sellprice
     return_.append(["total", sum_av_price])
+    print(return_)
+    return return_
+
+def mycars_get_avarage_prices_3():
+    sum_av_price = 0
+    sum_sell_price = 0
+    with open('data/checked_proxies.txt', 'r', encoding='UTF-8') as f:
+        proxies = f.readlines()
+    print(proxies)
+    proxies.reverse()
+    proxy_cycle = 0
+    driver = create_chrome_driver_object(proxy=proxies[proxy_cycle])
+    return_ = []
+    myphones = get_myphones_spreadsheet(range='mycars')
+    return_ = {}
+    for myphone in myphones['values']:
+        print(myphone)
+        key = myphone[1]
+        key_link = myphone[3]
+        index = myphone[2]
+        driver.get(key_link)
+        contents = driver.page_source
+        soup = (BeautifulSoup(contents, 'lxml'))
+        av_price, key = avito_auto_parce_soup(soup)
+        sellprice = int(int(av_price) * float(myphone[2]))
+        return_[myphone[0]]= av_price
+        sum_av_price += av_price
+        sum_sell_price += sellprice
+    return_['total'] = sum_av_price
     print(return_)
     return return_
 
@@ -343,8 +375,44 @@ def write_car_data():
     with open('data/mycars/mycars2.csv', 'a', encoding="utf-8", newline='') as f:
         writer = csv.writer(f, delimiter=";")
         writer.writerow(write_data)
+def write_car_data_2():
+    write_data = []
+    outputs = mycars_get_avarage_prices_3()
+    # outputs = {'Nissan Almera, МТ, 2017': 770360, 'Ford Focus, МТ, 2016': 849663, 'Volkswagen Polo, МТ, 2017': 1217052,
+    #  'Volkswagen Polo, АТ, 2018': 1245781, 'Hyundai Solaris, АТ, 2018': 1370821, 'Hyundai Solaris, АТ, 2020': 1670773,
+    #  'Kia Ceed, AT, 2019': 1855984, 'Hyundai Solaris, АТ, 2020 (2)': 1670773, 'Volkswagen Polo, АТ, 2021 (2)': 1895100,
+    #  'Hyundai Solaris, АТ, 2021': 1777699, 'total': 14324006, 'date': '19-09-2023', 'time': '01:08'}
+
+    outputs['date'] = datetime.datetime.now().strftime("%d-%m-%Y")
+    outputs['time'] = datetime.datetime.now().strftime("%H:%M")
+    print(outputs)
+    df = pd.read_excel('data/mycars/mycars2.xlsx' , engine='openpyxl')
+    df = df.sort_index(ascending=False)
+    # df.sort_index(ascending=False)
+    # print(df.head())
+    # df2 = pd.DataFrame(outputs, index=1)
+    # df = pd.concat([df,df2], ignore_index=True)
+    # df.sort_index(ascending=False)
+    # print(df.head())
+    new_df = pd.concat([df, pd.DataFrame.from_records([outputs])], ignore_index=True)
+    new_df = new_df.sort_index(ascending=False)
+    new_df = new_df.fillna(0)
+    for key in outputs.keys():
+        if key == 'date' or key == 'time':
+            continue
+        print(key)
+        new_df[key] = new_df[key].astype(int)
+    # new_df['total'] = new_df['total'].shift(-2)
+    total = new_df['total']
+    new_df = new_df.drop('total', axis=1)
+    new_df.insert(2, 'total', total)
+    print(new_df.head(400))
+    new_df.to_excel('data/mycars/mycars2.xlsx', engine='openpyxl', index=False)
+
 
 if __name__ == "__main__":
-    update_archive(200)
+
+    # mycars_get_avarage_prices_3()
+    write_car_data_2()
 
 

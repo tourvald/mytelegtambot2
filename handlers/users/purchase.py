@@ -222,7 +222,7 @@ async def cars_daily_mean(message: Message):
 
 @dp.message_handler(commands='cars_full_report')
 async def cars_daily_mean(message: Message):
-    await message.answer_document(open('data/mycars/mycars.csv', 'rb'))
+    await message.answer_document(open('data/mycars/mycars2.xlsx', 'rb'))
 
 @dp.message_handler()
 async def myphones(message: Message):

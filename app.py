@@ -53,7 +53,7 @@ async def scheduler():
     aioschedule.every().day.at("16:35").do(update_my_archive)
     # aioschedule.every().day.at("07:10").do(restart)
     # aioschedule.every().day.at("13:30").do(rh_parce)
-    aioschedule.every(1).hours.at(":26").do(add_car_data)
+    aioschedule.every(3).hours.at(":00").do(add_car_data)
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)

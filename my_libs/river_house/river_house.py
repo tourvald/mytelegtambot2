@@ -1,10 +1,12 @@
 from my_libs.libs_selenium import create_chrome_driver_object
 from mylibs import get_bs4_from_driver
+import pandas as pd
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
 from time import sleep
 import csv
 from datetime import datetime, timedelta
+import openpyxl
 import os
 import platform
 # Определяем в какой системе мы находимся и задаем параметр для спуска в корневую дирректорию
@@ -47,10 +49,10 @@ def write_items_to_file(items, filepath):
 def rh_parce():
     # ФОРМАТИРОВАНИЕ ФАЙЛА ЗАПИСИ ДАННЫХ
     filename = datetime.today().date()
+    filepath = f'data/river_house/{filename}.csv'
     print (datetime.today().date())
     print (os.getcwd())
 
-    filepath = f'data/river_house/{filename}.csv'
     with open(filepath, 'w', encoding='UTF-8', newline='') as f:
         writer = csv.writer(f, delimiter=";")
         head = ['id', datetime.today().date()]
@@ -81,7 +83,22 @@ def rh_parce():
         items = driver.find_elements(By.CLASS_NAME, 'iva-item-body-KLUuy')
         print(f'Найдено - {len(items)} эелементов с ценами')
         write_items_to_file(items, filepath)
+def convert_old_db():
+    # df = pd.read_csv('data/river_house/total/2023-09-15-total.csv', encoding='utf-8', sep=';')
+    df = pd.read_excel('data/river_house/total/2023-09-15-total.xlsx', engine='openpyxl')
+    df = df.fillna('0')
+    print(list(df))
+    for i in list(df)[2:]:
+        if i == 'id':
+            continue
+        df[i] = df[i].astype(int)
+    # df = df['2023-09-01'].astype(int)
+    print (df.head(1000))
+    df2 = pd.read_csv('data/river_house/2023-09-14.csv', encoding='utf-8', sep=';')
+    print(df2.head())
+    # df.to_excel('data/river_house/total/2023-09-15-total.xlsx', engine='openpyxl', index=False)
 if __name__ == "__main__":
-    os.chdir('..')
+    os.chdir('../..')
     # path = f'data/river_house/total/total2.csv'
     rh_parce()
+    # convert_old_db()

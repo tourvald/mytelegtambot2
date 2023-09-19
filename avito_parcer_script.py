@@ -369,12 +369,13 @@ def write_car_data():
     outputs = mycars_get_avarage_prices_2()[:-1]
     for output in outputs:
         write_data.append(output[1])
-    with open('data/mycars/mycars.csv', 'a', encoding="utf-8") as f:
-        writer = csv.writer(f, delimiter=";")
-        writer.writerow(write_data)
-    with open('data/mycars/mycars2.csv', 'a', encoding="utf-8", newline='') as f:
-        writer = csv.writer(f, delimiter=";")
-        writer.writerow(write_data)
+
+    # with open('data/mycars/mycars.csv', 'a', encoding="utf-8") as f:
+    #     writer = csv.writer(f, delimiter=";")
+    #     writer.writerow(write_data)
+    # with open('data/mycars/mycars2.csv', 'a', encoding="utf-8", newline='') as f:
+    #     writer = csv.writer(f, delimiter=";")
+    #     writer.writerow(write_data)
 def write_car_data_2():
     write_data = []
     outputs = mycars_get_avarage_prices_3()

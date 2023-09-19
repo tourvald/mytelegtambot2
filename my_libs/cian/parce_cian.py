@@ -29,7 +29,7 @@ def cian_parce(url = "https://www.cian.ru/sale/flat/292602659/"):
     # url = 'https://www.avito.ru/user/3927f5d35ba5d4e69a7ad7a45bed0cbf/profile/all/kvartiry?gdlkerfdnwq=101&shopId=3096698&page_from=from_item_card&iid=2972689148&sellerId=3927f5d35ba5d4e69a7ad7a45bed0cbf'
     driver.get(url)
     driver.implicitly_wait(10)
-    sleep(5)
+    sleep(7)
 
     # next_btn = driver.find_element(By.XPATH, '//*[@id="item_list_with_filters"]/div[2]/div/div[2]/div/div[2]/button[2]')
 
@@ -37,31 +37,30 @@ def cian_parce(url = "https://www.cian.ru/sale/flat/292602659/"):
     flat_price = int(flat_price_element.text.split()[3])
     # print (f'Цена квартиры - {flat_price}')
     open_history_btn = driver.find_element(By.CLASS_NAME, 'a10a3f92e9--show-more-btn--wmYm5')
-    driver.execute_script("arguments[0].scrollIntoView(true);", open_history_btn)
+    #driver.execute_script("arguments[0].scrollIntoView(true);", open_history_btn)
     sleep(2)
-    new_height = driver.execute_script("return document.body.scrollHeight")
-    driver.execute_script(f"window.scrollTo({new_height}, -200)")
-    sleep(2)
-    # for i in range (1,11):
-    #     driver.execute_script(f"window.scrollTo(0, {i*500})")
-    #     open_history_btn = driver.find_element(By.CLASS_NAME, 'a10a3f92e9--show-more-btn--wmYm5')
-    #     driver.execute_script("arguments[0].scrollIntoView();", open_history_btn)
-    #     print(open_history_btn.is_enabled())
-    #     sleep(1)
+    #new_height = driver.execute_script("return document.body.scrollHeight")
+    #driver.execute_script(f"window.scrollTo({new_height}, -100)")
+    #sleep(5)
+    for i in range (1,11):
+        driver.execute_script(f"window.scrollTo(0, {i*400})")
+        sleep(3)
 
     # open_history_btn = driver.find_element(By.XPATH, '//*[@id="frontend-offer-card"]/div[2]/div[2]/div[7]/div[4]/div/div/div[3]/button')
     open_history_btn = driver.find_element(By.CLASS_NAME, 'a10a3f92e9--show-more-btn--wmYm5')
+    sleep(2)
     open_history_btn.click()
     sleep(3)
 
     el_with_items = driver.find_element(By.CLASS_NAME, 'a10a3f92e9--inner--wbRIU')
+    sleep(2)
     elements = el_with_items.text.split('\n')
     sum = 0
     el_count = 0
     for i in elements:
         if '₽/м²' in i:
             el = f'\n{i}'
-            # print(el.split()[0])
+            print(el.split()[0])
             sum = sum + int(el.split()[0])
             el_count = el_count + 1
     average_flat_price = int(sum/el_count)
@@ -81,13 +80,14 @@ def cian_parce(url = "https://www.cian.ru/sale/flat/292602659/"):
     sleep(3)
 
     el_with_items = driver.find_element(By.CLASS_NAME, 'a10a3f92e9--inner--wbRIU')
+    sleep(2)
     elements = el_with_items.text.split('\n')
     sum = 0
     el_count = 0
     for i in elements:
         if '₽/м²' in i:
             el = f'\n{i}'
-            # print(el.split()[0])
+            print(el.split()[0])
             sum = sum + int(el.split()[0])
             el_count = el_count + 1
     average_flat_price_nearby = int(sum/el_count)

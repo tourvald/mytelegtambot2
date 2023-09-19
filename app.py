@@ -50,9 +50,9 @@ async def rh_parce_today():
 
 async def scheduler():
     #aioschedule.every().day.at("03:10").do(choose_your_dinner)
-    aioschedule.every().day.at("16:35").do(update_my_archive)
-    # aioschedule.every().day.at("07:10").do(restart)
-    # aioschedule.every().day.at("13:30").do(rh_parce)
+    aioschedule.every().day.at("04:35").do(update_my_archive)
+    aioschedule.every().day.at("04:55").do(restart)
+    aioschedule.every().day.at("04:21").do(rh_parce_today)
     aioschedule.every(3).hours.at(":00").do(add_car_data)
     while True:
         await aioschedule.run_pending()

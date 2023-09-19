@@ -29,7 +29,7 @@ def cian_parce(url = "https://www.cian.ru/sale/flat/292602659/"):
     # url = 'https://www.avito.ru/user/3927f5d35ba5d4e69a7ad7a45bed0cbf/profile/all/kvartiry?gdlkerfdnwq=101&shopId=3096698&page_from=from_item_card&iid=2972689148&sellerId=3927f5d35ba5d4e69a7ad7a45bed0cbf'
     driver.get(url)
     driver.implicitly_wait(10)
-    sleep(7)
+    sleep(4)
 
     # next_btn = driver.find_element(By.XPATH, '//*[@id="item_list_with_filters"]/div[2]/div/div[2]/div/div[2]/button[2]')
 
@@ -38,7 +38,6 @@ def cian_parce(url = "https://www.cian.ru/sale/flat/292602659/"):
     # print (f'Цена квартиры - {flat_price}')
     open_history_btn = driver.find_element(By.CLASS_NAME, 'a10a3f92e9--show-more-btn--wmYm5')
     #driver.execute_script("arguments[0].scrollIntoView(true);", open_history_btn)
-    sleep(2)
     new_height = driver.execute_script("return document.body.scrollHeight")
     driver.execute_script(f"window.scrollTo({new_height}, -100)")
     sleep(5)
@@ -109,7 +108,7 @@ def cian_parce_2(url = "https://www.cian.ru/sale/flat/292602659/"):
     # url = 'https://www.avito.ru/user/3927f5d35ba5d4e69a7ad7a45bed0cbf/profile/all/kvartiry?gdlkerfdnwq=101&shopId=3096698&page_from=from_item_card&iid=2972689148&sellerId=3927f5d35ba5d4e69a7ad7a45bed0cbf'
     driver.get(url)
     driver.implicitly_wait(10)
-    sleep(7)
+    sleep(4)
 
     # next_btn = driver.find_element(By.XPATH, '//*[@id="item_list_with_filters"]/div[2]/div/div[2]/div/div[2]/button[2]')
 
@@ -118,13 +117,12 @@ def cian_parce_2(url = "https://www.cian.ru/sale/flat/292602659/"):
     # print (f'Цена квартиры - {flat_price}')
     open_history_btn = driver.find_element(By.CLASS_NAME, 'a10a3f92e9--show-more-btn--wmYm5')
     #driver.execute_script("arguments[0].scrollIntoView(true);", open_history_btn)
-    sleep(2)
     # new_height = driver.execute_script("return document.body.scrollHeight")
     # driver.execute_script(f"window.scrollTo({new_height}, -100)")
     # sleep(5)
     for i in range (1,25):
-        driver.execute_script(f"window.scrollTo(500, {i*400})")
-        sleep(0.15)
+        driver.execute_script(f"window.scrollTo(500, {i*450})")
+        sleep(0.35)
         try:
             open_history_btn = driver.find_element(By.CLASS_NAME, 'a10a3f92e9--show-more-btn--wmYm5')
             open_history_btn.click()
@@ -162,10 +160,9 @@ def cian_parce_2(url = "https://www.cian.ru/sale/flat/292602659/"):
             break
     i.click()
 
-    sleep(3)
+    sleep(2)
 
     el_with_items = driver.find_element(By.CLASS_NAME, 'a10a3f92e9--inner--wbRIU')
-    sleep(2)
     elements = el_with_items.text.split('\n')
     sum = 0
     el_count = 0

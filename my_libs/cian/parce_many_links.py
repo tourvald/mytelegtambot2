@@ -8,7 +8,7 @@ from selenium.webdriver.common.by import By
 from time import sleep
 import csv
 from datetime import datetime, timedelta
-from parce_cian import cian_parce
+from my_libs.cian.parce_cian import cian_parce_2
 import os
 import platform
 # Определяем в какой системе мы находимся и задаем параметр для спуска в корневую дирректорию
@@ -31,19 +31,18 @@ def parce_many_links(link_list):
     for i in link_list:
         print(i)
         try:
-            average_flat_price, average_flat_price_nearby, flat_price = cian_parce(i)
-        except Exception as e:
-            print('Не удалось спарсить страницу')
+            average_flat_price, average_flat_price_nearby, flat_price = cian_parce_2(i)
+
             skipped_links.append(i)
-        if (flat_price+50)/average_flat_price_nearby < 1.1 and (flat_price+50)/average_flat_price < 1.1:
-            try:
+            if (flat_price+50)/average_flat_price_nearby < 1.1 and (flat_price+50)/average_flat_price < 1.1:
                 print (f'{average_flat_price}({round((flat_price+50)/average_flat_price, 2)}) - средняя цена по дому')
                 print (f'{average_flat_price_nearby}({round((flat_price+50)/average_flat_price_nearby, 2)}) - средняя цена в округе')
                 print (f'{round( ((flat_price+50)/average_flat_price_nearby + (flat_price+50)/average_flat_price)/2,2)} - общая оценка')
                 print('Ссылка добавлена')
                 good_links_list.append(i)
-            except Exception as e:
-                print('Не удалось спарсить страницу')
+        except Exception as e:
+            skipped_links.append(i)
+            print('Не удалось спарсить страницу')
         print('След ссылка')
     return (good_links_list)
 

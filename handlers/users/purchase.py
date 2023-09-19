@@ -5,9 +5,11 @@ import time
 from multiprocessing import Pool
 import threading
 from my_libs.mycars_lib import daily_mean
+from my_libs.cian.parce_many_links import parce_many_links
 import avito_parcer_script
 from my_libs.big_geek_parce import get_price_from_site
-from my_libs.cian.parce_cian import cian_parce
+from my_libs.cian.parce_cian import cian_parce_2
+from my_libs.cian.parce_many_links import cian_get_links_from_report
 from add_links_lite import work_with_links
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
@@ -203,7 +205,7 @@ async def echo(message: Message):
     outputs = []
     try:
 
-        average_flat_price, average_flat_price_nearby, flat_price = cian_parce(url)
+        average_flat_price, average_flat_price_nearby, flat_price = cian_parce_2(url)
         outputs.append(f'{flat_price} - Цена квартиры')
 
         outputs.append(f'{average_flat_price}({round((flat_price+50)/average_flat_price, 2)}) - средняя цена по дому')
@@ -381,6 +383,13 @@ async def waiting_for_new_link(message: Message, state: FSMContext):
     elif file_name.split('.')[-1] == 'pkl':
         await message.document.download(destination_file=f'cookies/test_cookies.pkl')
         await message.answer(text=f'{file_name} успешно загружен')
+    elif file_name.split('.')[-1] == 'xlsx':
+        await message.document.download(destination_file=f'my_libs/cian/offers.xlsx')
+        await message.answer(text=f'{file_name} успешно загружен')
+        links = cian_get_links_from_report()
+        outputs = parce_many_links(link_list=links)
+        for output in outputs:
+            await message.answer(text=output)
     else:
         await message.answer(text=f'Формат файла не поддерживается')
 

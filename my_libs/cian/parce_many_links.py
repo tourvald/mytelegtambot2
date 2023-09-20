@@ -38,7 +38,7 @@ def parce_many_links(link_list):
     for i in link_list:
         if i in black_list:
             pass
-        ii = ii+1
+        # ii = ii+1
         print(i)
         try:
             average_flat_price, average_flat_price_nearby, flat_price = cian_parce_2(i)
@@ -54,8 +54,8 @@ def parce_many_links(link_list):
                 bad_links_list.append(i)
         except Exception as e:
             print(e)
-        if ii == 30:
-            break
+        # if ii == 30:
+        #     break
     print(bad_links_list)
     print(black_list)
     bad_links_list = bad_links_list + black_list

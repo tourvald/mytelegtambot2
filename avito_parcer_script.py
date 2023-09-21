@@ -20,6 +20,7 @@ from mylibs import get_bs4_from_driver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from openpyxl.styles import Alignment
 
 
 def avito_parce(url):
@@ -270,7 +271,7 @@ def mycars_get_avarage_prices():
     return_.append(f'Примерная цена продажи -  {sum_sell_price}')
     return return_
 
-def mycars_get_avarage_prices_3():
+def mycars_get_avarage_prices_2():
     sum_av_price = 0
     sum_sell_price = 0
     with open('data/checked_proxies.txt', 'r', encoding='UTF-8') as f:
@@ -410,10 +411,30 @@ def write_car_data_2():
     print(new_df.head(400))
     new_df.to_excel('data/mycars/mycars2.xlsx', engine='openpyxl', index=False)
 
+def set_cols_width(filepath):
+    ws = openpyxl.load_workbook(filepath)
+    sheet = ws.active
+    list_with_values = []
+    column_names = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q']
+    for name in column_names:
+        width = 22
+        if name == 'A':
+            width = 10
+        elif name == 'B':
+            width = 5
+        elif name == 'C':
+            width = 9
+        sheet.column_dimensions[name].width = width
+        # sheet.column_dimensions[name].a
+
+
+    ws.save('data/mycars/mycars3.xlsx')
+
 
 if __name__ == "__main__":
 
     # mycars_get_avarage_prices_3()
-    write_car_data_2()
+    # write_car_data_2()
+    set_cols_width('data/mycars/mycars2.xlsx')
 
 

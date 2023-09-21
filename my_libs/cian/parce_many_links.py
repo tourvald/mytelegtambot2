@@ -47,8 +47,12 @@ def parce_many_links(link_list):
                 print (f'{average_flat_price_nearby}({round((flat_price+50)/average_flat_price_nearby, 2)}) - средняя цена в округе')
                 print (f'{round( ((flat_price+50)/average_flat_price_nearby + (flat_price+50)/average_flat_price)/2,2)} - общая оценка')
                 print('Ссылка добавлена')
-                good_links_list.append([i,flat_price,average_flat_price,f'{average_flat_price}{round( ((flat_price+50)/average_flat_price))}',f'{average_flat_price_nearby}({round(((flat_price + 50) / average_flat_price_nearby))}'])
-
+                outputs = []
+                outputs.append(f'{flat_price} - Цена квартиры')
+                outputs.append(f'{average_flat_price}({round((flat_price + 50) / average_flat_price, 2)}) - средняя цена по дому')
+                outputs.append(f'{average_flat_price_nearby}({round((flat_price + 50) / average_flat_price_nearby, 2)}) - средняя цена в округе')
+                outputs.append(f'{round(((flat_price + 50) / average_flat_price_nearby + (flat_price + 50) / average_flat_price) / 2, 2)} - общая оценка')
+                good_links_list.append([i, outputs])
                 print(good_links_list)
             else:
                 bad_links_list.append(i)

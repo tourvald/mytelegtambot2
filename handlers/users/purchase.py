@@ -18,7 +18,7 @@ from aiogram.types import Message, CallbackQuery
 from my_libs.mycars_lib import daily_mean
 from my_libs.myphones_lib import get_last_3_months_report
 import archive
-from avito_parcer_script import myphones_get_avarage_prices, get_soup_for_avito_parce, avito_parce_soup, parce_page, avito_auto_parce_soup, mycars_get_avarage_prices
+from avito_parcer_script import myphones_get_avarage_prices, get_soup_for_avito_parce, avito_parce_soup, parce_page, avito_auto_parce_soup, mycars_get_avarage_prices_3
 from keyboards.inline.choice_buttons import choice, admin, cancel_button, next_link_buttons, main_menu
 from keyboards.inline.equipment import box, charger, check, scratches, chips
 from loader import dp, bot

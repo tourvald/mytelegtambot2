@@ -5,7 +5,7 @@ import time
 from multiprocessing import Pool
 import threading
 from my_libs.mycars_lib import daily_mean
-from my_libs.cian.parce_many_links import parce_many_links
+from my_libs.cian.parce_many_links import parce_many_links, get_link_list_from_url
 import avito_parcer_script
 from my_libs.big_geek_parce import get_price_from_site
 from my_libs.cian.parce_cian import cian_parce_2
@@ -214,6 +214,19 @@ async def echo(message: Message):
     except Exception as e:
         outputs.append(e)
     # await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
+    for output in outputs:
+        await bot.send_message(chat_id=message.chat.id, text=output)
+
+@dp.message_handler(text_contains='flipping')
+async def echo(message: Message):
+    url = message.text
+    outputs = []
+    try:
+        link_list = get_link_list_from_url()
+        outputs = parce_many_links(link_list=link_list)
+    except Exception as e:
+        outputs.append(e)
+
     for output in outputs:
         await bot.send_message(chat_id=message.chat.id, text=output)
 

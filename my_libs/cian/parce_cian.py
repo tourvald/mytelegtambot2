@@ -104,11 +104,10 @@ def cian_parce_2(url = "https://www.cian.ru/sale/flat/292602659/"):
 
     driver = create_chrome_driver_object(headless=False)
     driver.set_window_size(1366,768)
-
-    # url = 'https://www.avito.ru/user/3927f5d35ba5d4e69a7ad7a45bed0cbf/profile/all/kvartiry?gdlkerfdnwq=101&shopId=3096698&page_from=from_item_card&iid=2972689148&sellerId=3927f5d35ba5d4e69a7ad7a45bed0cbf'
     driver.get(url)
     driver.implicitly_wait(10)
     sleep(4)
+
 
     # next_btn = driver.find_element(By.XPATH, '//*[@id="item_list_with_filters"]/div[2]/div/div[2]/div/div[2]/button[2]')
 

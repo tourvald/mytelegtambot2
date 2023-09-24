@@ -28,6 +28,7 @@ def parce_many_links(link_list):
     df = pd.read_excel('my_libs/cian/bad_links.xlsx', engine='openpyxl')
     black_list = df['link'].tolist()
     print(black_list)
+
     good_links_list = []
     skipped_links = []
     bad_links_list = []
@@ -37,9 +38,10 @@ def parce_many_links(link_list):
     ii = 1
     for i in link_list:
         if i in black_list:
-            pass
-        # ii = ii+1
-        print(i)
+            print('ССЫЛКА В ЧЕРНОМ СПИСЬКЕ')
+            continue
+        ii = ii+1
+        print(f'ПЫТАЕМСЯ СПАРСИТЬ {i}')
         try:
             average_flat_price, average_flat_price_nearby, flat_price = cian_parce_2(i)
             if (flat_price+50)/average_flat_price_nearby < 1.1 and (flat_price+50)/average_flat_price < 1.1:
@@ -55,10 +57,12 @@ def parce_many_links(link_list):
                 good_links_list.append([i, outputs])
                 print(good_links_list)
             else:
+                print(f'{i} ДОБАВЛЕНА В ЧЕРНЫЙ СПИСОК')
                 bad_links_list.append(i)
         except Exception as e:
+            skipped_links.append(i)
             print(e)
-        # if ii == 30:
+        # if ii == 10:
         #     break
     print(bad_links_list)
     print(black_list)
@@ -69,6 +73,8 @@ def parce_many_links(link_list):
     df_bad_links = pd.DataFrame(bad_links_list, columns=['link'])
     print(df_bad_links.head(100))
     df_bad_links.to_excel(f'my_libs/cian/bad_links.xlsx', engine='openpyxl', index=False)
+
+
 
     print('След ссылка')
     return (good_links_list)

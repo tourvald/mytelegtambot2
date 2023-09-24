@@ -23,7 +23,7 @@ def cian_parce(url = "https://www.cian.ru/sale/flat/292602659/"):
     print (datetime.today().date())
     print (os.getcwd())
 
-    driver = create_chrome_driver_object(headless=False)
+    driver = create_chrome_driver_object(headless=True)
     driver.maximize_window()
 
     # url = 'https://www.avito.ru/user/3927f5d35ba5d4e69a7ad7a45bed0cbf/profile/all/kvartiry?gdlkerfdnwq=101&shopId=3096698&page_from=from_item_card&iid=2972689148&sellerId=3927f5d35ba5d4e69a7ad7a45bed0cbf'

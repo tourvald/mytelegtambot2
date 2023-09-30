@@ -107,11 +107,23 @@ def separatate_first_column():
     filename = datetime.today().date()
     df.to_excel(f'data/river_house/total/total-{filename}.xlsx', engine='openpyxl', index=False)
 
+def rh_month_total():
+    file_list = []
+    template_name = str(datetime.today().date())[:-3]
+    for i in os.listdir('data/river_house'):
+        if template_name in i:
+            file_list.append(i)
+
+    df = pd.read_csv('data/river_house/2023-09-10.csv')
+    print(df.head())
+    df2 = pd.read_csv('data/river_house/2023-09-08.csv')
+    print(df.head())
 
 if __name__ == "__main__":
 
     os.chdir(chdir_path)
+    rh_month_total()
     # print(os.getcwd())
     # river_house_total_2()
-    separatate_first_column()
+    # separatate_first_column()
 

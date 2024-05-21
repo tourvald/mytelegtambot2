@@ -435,6 +435,6 @@ if __name__ == "__main__":
 
     # mycars_get_avarage_prices_3()
     # write_car_data_2()
-    set_cols_width('data/mycars/mycars2.xlsx')
+    avito_parce( "https://www.avito.ru/moskva/telefony/mobilnye_telefony/apple-ASgBAgICAkS0wA3OqzmwwQ2I_Dc?bt=1&cd=1&f=ASgBAQICA0SywA2MgTy0wA3OqzmwwQ2I_DcDQPa8DRSU0jTm4A0U9sFc6OsONP792wL8_dsC~v3bAg&q=iphone+12+pro+max+128&s=104&user=1")
 
 

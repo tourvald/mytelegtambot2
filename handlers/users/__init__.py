@@ -1,5 +1,3 @@
-from .purchase import dp
-from .nexia import dp
-from .work_with_links import  dp
+from .purchase import purchase_router
 
-__all__ = ["dp"]
+__all__ = ["purchase_router"]

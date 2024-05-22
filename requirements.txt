@@ -15,4 +15,4 @@ requests
 selenium
 users
 google-api-python-client
-webdriver_manager
+webdriver-manager

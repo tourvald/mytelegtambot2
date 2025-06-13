@@ -26,7 +26,8 @@ chats_file = os.path.join(data_dir, 'chats.txt')
 message_start_re = re.compile(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} UTC')
 
 # Регулярное выражение для фильтрации сообщений и поиска цены
-filter_re = re.compile(r'по (\d{2}[.,^\sр]?\d{0,2})', re.IGNORECASE)
+# Ищем упоминания "сини" или "бел" рядом с фразой "по" и числовым значением
+filter_re = re.compile(r'(син\w*|бел\w*)[^\n]*?по\s*(\d{2,3}(?:[.,]\d{1,2})?)', re.IGNORECASE)
 
 # Список для хранения дат и цен
 dates_and_prices = []
@@ -46,7 +47,7 @@ def display_chat_messages(chat_file):
             price_match = filter_re.search(message)
             if date_match and price_match:
                 date = date_match.group(0)
-                price_raw = price_match.group(1).replace(',', '.').replace('^', '.').replace('р', '.').replace(' ', '.')
+                price_raw = price_match.group(2).replace(',', '.').replace('^', '.').replace('р', '.').replace(' ', '.')
                 try:
                     price = f'{float(price_raw):.2f}'  # Форматируем цену с двумя десятичными знаками
                     dates_and_prices.append((date, price))
@@ -105,11 +106,19 @@ async def export_messages(chat_id, chat_name):
         if messages[-1].date.replace(tzinfo=timezone.utc) < one_week_ago:
             break
 
-    # Сохраняем сообщения в файл
+    # Сохраняем сообщения в файл, добавляя новые записи
     chat_file = os.path.join(data_dir, f'{chat_name}.txt')
-    with open(chat_file, 'w', encoding='utf-8') as f:
+    existing_lines = set()
+    if os.path.exists(chat_file):
+        with open(chat_file, 'r', encoding='utf-8') as f:
+            existing_lines = {line.strip() for line in f if line.strip()}
+
+    with open(chat_file, 'a', encoding='utf-8') as f:
         for message in all_messages:
-            f.write(f'{message.date.strftime("%Y-%m-%d %H:%M:%S %Z")} - {message.sender_id}: {message.message}\n')
+            text = (message.message or '').replace('\n', ' ').replace('\r', ' ')
+            line = f"{message.date.strftime('%Y-%m-%d %H:%M:%S %Z')} - {message.sender_id}: {text}"
+            if line not in existing_lines:
+                f.write(line + '\n')
 
 # Главная функция для чтения файла chats.txt и экспорта сообщений
 async def export_main():

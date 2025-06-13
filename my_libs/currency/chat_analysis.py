@@ -26,10 +26,10 @@ chats_file = os.path.join(data_dir, 'chats.txt')
 message_start_re = re.compile(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} UTC')
 
 # Регулярное выражение для фильтрации сообщений и поиска цены
-
 # Ищем фразы вида "по 80,90" и подобные. Допускаем 2-3 цифры и необязательную
 # десятичную часть, разделённую запятой, точкой, символом "^", пробелом или "р".
 filter_re = re.compile(r'по\s+(\d{2,3}(?:[.,^\sр]?\d{1,2})?)', re.IGNORECASE)
+
 
 
 # Список для хранения дат и цен
@@ -213,8 +213,6 @@ def analyze_main():
         for line in existing_lines:
             f.write(annotate_price(line) + '\n')
 
-
-    return sorted_dates_and_prices
 
 # Функция для вычисления средних цен за каждый день
 def calculate_daily_average(prices):

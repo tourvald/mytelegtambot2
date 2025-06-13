@@ -26,9 +26,11 @@ chats_file = os.path.join(data_dir, 'chats.txt')
 message_start_re = re.compile(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} UTC')
 
 # Регулярное выражение для фильтрации сообщений и поиска цены
+
 # Ищем фразы вида "по 80,90" и подобные. Допускаем 2-3 цифры и необязательную
 # десятичную часть, разделённую запятой, точкой, символом "^", пробелом или "р".
 filter_re = re.compile(r'по\s+(\d{2,3}(?:[.,^\sр]?\d{1,2})?)', re.IGNORECASE)
+
 
 # Список для хранения дат и цен
 dates_and_prices = []
@@ -56,7 +58,7 @@ def display_chat_messages(chat_file):
             price_match = filter_re.search(message)
             if date_match and price_match:
                 date = date_match.group(0)
-                price_raw = price_match.group(1).replace(',', '.').replace('^', '.').replace('р', '.').replace(' ', '.')
+                price_raw = price_match.group(2).replace(',', '.').replace('^', '.').replace('р', '.').replace(' ', '.')
                 try:
                     price = f'{float(price_raw):.2f}'  # Форматируем цену с двумя десятичными знаками
                     dates_and_prices.append((date, price))
@@ -210,6 +212,7 @@ def analyze_main():
     with open(messages_file, 'w', encoding='utf-8') as f:
         for line in existing_lines:
             f.write(annotate_price(line) + '\n')
+
 
     return sorted_dates_and_prices
 

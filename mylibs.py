@@ -129,26 +129,6 @@ def get_bs4_content(url, headless=True, path_to_webdriver='settings/webdriver.tx
     driver.quit()
     return soup
 
-def create_chrome_driver_object(path_to_webdriver='settings/webdriver.txt', headless=False):
-    with open(path_to_webdriver, 'r', encoding='utf-8') as f:
-        web_driver = f.readline()
-    chromeOptions = selenium.webdriver.ChromeOptions()
-    prefs = {"profile.managed_default_content_settings.images": 2}
-    chromeOptions.page_load_strategy = 'eager'
-    chromeOptions.add_experimental_option("prefs", prefs)
-    if headless ==  True:
-        print(f'headless={headless}')
-        chromeOptions.add_argument('headless')
-    chromeOptions.add_argument("--disable-blink-features=AutomationControlled")
-    chromeOptions.add_argument("--ignore-ssl-errors")
-    chromeOptions.add_experimental_option("excludeSwitches", ["ignore-certificate-errors"])
-    chromeOptions.add_argument("--disable-blink-features=AutomationControlled")  # Картинок
-    chromeOptions.add_argument(
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.105 YaBrowser/21.3.3.230 Yowser/2.5 Safari/537.36")
-    s = Service(executable_path=web_driver)
-    driver = webdriver.Chrome(service=s, options=chromeOptions)
-    return driver
-
 def get_bs4_from_driver(driver, url='https://vk.com', cookies=False):
     driver.get(url)
     if cookies:

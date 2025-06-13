@@ -1,6 +1,13 @@
 import pandas as pd
 import os
-import openpyxl
+import pandas as pd
+import datetime
+from openpyxl import load_workbook
+from openpyxl.utils import get_column_letter
+from avito_parcer_script import mycars_get_avarage_prices
+
+
+
 def daily_mean():
     df = pd.read_csv('data/mycars/mycars.csv', encoding='utf-8', delimiter=',')
     return_ = date_mean = df.groupby('date').mean()['total'].astype(int)
@@ -15,7 +22,4 @@ def convert_old_db():
     # df.to_csv(f'data/mycars/mycars2.csv', encoding='utf-8', sep=';', index=False)
     # print(df.head())
 
-if __name__ == "__main__":
-    os.chdir('..')
-    daily_mean()
-    convert_old_db()
+# if __name__ == "__main__":

@@ -1,0 +1,6 @@
+telethon
+configparser
+pytz
+pandas
+numpy
+scipy

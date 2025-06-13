@@ -1,24 +1,33 @@
 import datetime
 import json
 import os
+
 import time
+import types
 from multiprocessing import Pool
 import threading
 from my_libs.mycars_lib import daily_mean
+current_directory = os.getcwd()
+print(f"Текущая директория: {current_directory}")
 from my_libs.cian.parce_many_links import parce_many_links, get_link_list_from_url
+
 import avito_parcer_script
 from my_libs.big_geek_parce import get_price_from_site
 from my_libs.cian.parce_cian import cian_parce_2
+
 from my_libs.cian.parce_many_links import cian_get_links_from_report
 from add_links_lite import work_with_links
+
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.types import Message, CallbackQuery
+from aiogram import types
+
 from my_libs.mycars_lib import daily_mean
 from my_libs.myphones_lib import get_last_3_months_report
 import archive
-from avito_parcer_script import myphones_get_avarage_prices, get_soup_for_avito_parce, avito_parce_soup, parce_page, avito_auto_parce_soup, mycars_get_avarage_prices_3
+from avito_parcer_script import myphones_get_avarage_prices, get_soup_for_avito_parce, avito_parce_soup, avito_auto_parce_soup
 from keyboards.inline.choice_buttons import choice, admin, cancel_button, next_link_buttons, main_menu
 from keyboards.inline.equipment import box, charger, check, scratches, chips
 from loader import dp, bot
@@ -131,6 +140,15 @@ async def find_command(message: Message):
         outputs.append(f'{req} : {list(arch.get(req))[-1]} : {arch[req][list(arch.get(req))[-1]]["price"]}')
     [await message.answer(f'/find {output}')for output in sorted(outputs)]
 
+@dp.message_handler(text_contains='/myphones2')
+async def call_myphones(message: Message):
+    try:
+        outputs = myphones_get_avarage_prices(range_="myphones2")
+        for output in outputs:
+            await message.answer(text=output)
+    except Exception as e:
+        output = e
+        await message.answer(text=output)
 
 @dp.message_handler(text_contains='/myphones')
 async def call_myphones(message: Message):
@@ -145,7 +163,7 @@ async def call_myphones(message: Message):
 @dp.message_handler(text_contains='/mycars')
 async def call_myphones(message: Message):
     try:
-        outputs = avito_parcer_script.mycars_get_avarage_prices_2()
+        outputs = avito_parcer_script.myphones_get_avarage_prices(range_="mycars")
         for output in outputs:
             await message.answer(text=output)
     except Exception as e:
@@ -185,7 +203,8 @@ async def echo(message: Message):
 async def echo(message: Message):
     url = message.text
     try:
-        soup = get_soup_for_avito_parce(url)
+        driver = create_chrome_driver_object()
+        soup = get_soup_for_avito_parce(url, driver, attempts=5 )
         price, search_request = avito_parce_soup(soup)
         # try:
         #     last_date = archive.get_last_date(search_request.lower())
@@ -239,6 +258,37 @@ async def cars_daily_mean(message: Message):
 async def cars_daily_mean(message: Message):
     await message.answer_document(open('data/mycars/mycars2.xlsx', 'rb'))
 
+@dp.message_handler(commands='currency')
+async def send_currency(message: types.Message):
+    # Выводим текущую директорию
+    import os
+    current_directory = os.getcwd()
+    print(f"Текущая директория: {current_directory}")
+
+    # Читаем последние 5 строк из файла
+    try:
+        with open('my_libs/currency/data/currency.txt', 'r', encoding='utf-8') as file:
+            lines = file.readlines()
+            last_five_lines = lines[-5:]  # Получаем последние 5 строчек
+
+            # Форматируем строки в читаемый вид
+            formatted_lines = []
+            for line in last_five_lines:
+                date, bot_rate, cbr_rate, difference = line.strip().split(',')
+                formatted_lines.append(
+                    f"Дата: {date}\nКурс (БОТ): {bot_rate} руб.\nКурс (ЦБ РФ): {cbr_rate} руб.\nРазница: {difference} руб.\n"
+                )
+            response = '\n'.join(formatted_lines)
+    except FileNotFoundError:
+        response = "Файл не найден. Проверьте путь к файлу."
+    except Exception as e:
+        response = f"Произошла ошибка: {e}"
+
+    # Удаляем сообщение пользователя
+    await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
+
+    # Отправляем ответ с форматированными данными
+    await message.answer(response)
 @dp.message_handler()
 async def myphones(message: Message):
     buttons = archive.get_keys_list(message.text.lower())
@@ -255,6 +305,25 @@ async def myphones(message: Message):
         menu.clean()
     else:
         await message.answer(f'По запросу "{message.text}" в базе ничего не найдено')
+
+@dp.message_handler(commands=['currency'])
+async def send_currency(message: types.Message):
+    # Читаем последние 5 строк из файла
+    try:
+        with open('my_libs/currency/data/currency.txt', 'r', encoding='utf-8') as file:
+            lines = file.readlines()
+            last_five_lines = lines[-5:]  # Получаем последние 5 строчек
+            response = '\n'.join([line.strip() for line in last_five_lines])
+    except FileNotFoundError:
+        response = "Файл не найден. Проверьте путь к файлу."
+    except Exception as e:
+        response = f"Произошла ошибка: {e}"
+
+    # Удаляем сообщение пользователя
+    await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
+
+    # Отправляем ответ с последними строками файла
+    await message.answer(response)
 
 @dp.callback_query_handler(text_contains="working_button")
 async def send_choice_keyboard(call: CallbackQuery):
@@ -409,27 +478,12 @@ async def waiting_for_new_link(message: Message, state: FSMContext):
 
 @dp.callback_query_handler(text_contains='myphones')
 async def myphones(call: CallbackQuery):
+    print("MYPHONES PARCE")
     reports = myphones_get_avarage_prices()
     await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
     for report in reports:
         time.sleep(0.1)
         await call.message.answer(report)
-
-@dp.callback_query_handler(text_contains='14_pro_prices')
-async def iphone_14_parce(call: CallbackQuery):
-    reports = []
-    reports.append(['biggeek.ru'])
-    reports.append(get_price_from_site('https://biggeek.ru/catalog/apple-iphone-14-pro', 'Apple iPhone 14 Pro 256GB Deep Purple'))
-    reports.append(get_price_from_site('https://biggeek.ru/catalog/apple-iphone-14-pro-max', 'Apple iPhone 14 Pro Max 128GB Deep Purple'))
-    reports.append(['filin-smart.ru'])
-    driver = create_chrome_driver_object()
-    reports.append((parce_page(driver, 'https://www.avito.ru/moskva/telefony/iphone_14_pro_max_128_gb_fioletovyy_2594047038')))
-    reports.append((parce_page(driver, 'https://www.avito.ru/moskva/telefony/iphone_14_pro_256_fioletovyy_2594701075')))
-    await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
-    for report in reports:
-        time.sleep(0.1)
-        await call.message.answer(report)
-
 
 @dp.callback_query_handler(text_contains='price_history')
 async def price_history(call: CallbackQuery):
@@ -450,6 +504,9 @@ async def add_links(call: CallbackQuery):
     new_links_quanity, msg = work_with_links()
     await bot.send_message(chat_id=324029452, text=f'Добавлено {new_links_quanity} ссылок')
     await bot.send_message(chat_id=324029452, text=msg, disable_web_page_preview=True, reply_markup=next_link_buttons)
+
+
+
 
 
 

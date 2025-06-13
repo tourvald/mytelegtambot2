@@ -26,8 +26,12 @@ chats_file = os.path.join(data_dir, 'chats.txt')
 message_start_re = re.compile(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} UTC')
 
 # Регулярное выражение для фильтрации сообщений и поиска цены
-# Ищем упоминания "сини" или "бел" рядом с фразой "по" и числовым значением
-filter_re = re.compile(r'(син\w*|бел\w*)[^\n]*?по\s*(\d{2,3}(?:[.,]\d{1,2})?)', re.IGNORECASE)
+
+# Ищем фразы вида "по 80,90" и подобные. Допускаем 2-3 цифры и необязательную
+# десятичную часть, разделённую запятой, точкой, символом "^", пробелом или "р".
+filter_re = re.compile(r'по\s+(\d{2,3}(?:[.,^\sр]?\d{1,2})?)', re.IGNORECASE)
+
+
 
 # Список для хранения дат и цен
 dates_and_prices = []
@@ -37,8 +41,14 @@ filtered_messages = []
 # Функция для проверки, содержит ли сообщение ключевые слова для игнорирования
 def contains_ignore_keywords(message):
     message_lower = message.lower()
-    ignore_keywords = ['usdt', 'махачкала', '€', 'евро', '115 ФЗ']
-    return any(ignore_keyword.lower() in message_lower for ignore_keyword in ignore_keywords)
+    # Строки, по которым сообщения нужно игнорировать полностью
+    ignore_keywords = ['usdt', 'махачкала', '€', 'евро']
+
+    # Отдельная проверка на варианты написания "115 ФЗ"
+    if re.search(r'115[\s-]?фз', message_lower):
+        return True
+
+    return any(keyword in message_lower for keyword in ignore_keywords)
 
 # Функция для чтения и отображения содержимого файла с сообщениями чата
 def display_chat_messages(chat_file):
@@ -151,9 +161,7 @@ def analyze_main():
     # Читаем и отображаем сообщения из каждого файла
     for chat_file in chat_files:
         print(f"\nСообщения из чата: {chat_file}")
-        display_chat_messages(os.path.join(data_dir
-
-, chat_file))
+        display_chat_messages(os.path.join(data_dir, chat_file))
 
     # Сортируем список дат и цен
     sorted_dates_and_prices = sorted(dates_and_prices, key=lambda x: datetime.strptime(x[0], '%Y-%m-%d %H:%M:%S UTC'))
@@ -163,16 +171,49 @@ def analyze_main():
     for date, price in sorted_dates_and_prices:
         print(f'{date}: {price}')
 
-    # Записываем все отфильтрованные сообщения в отдельный файл
+    # Записываем все отфильтрованные сообщения в отдельный файл,
+    # сортируя их по дате от старых к новым и помечая используемую цену
     messages_file = os.path.join(data_dir, 'used_messages.txt')
-    existing = set()
+
+    def strip_price_tag(line):
+        """Удаляем ранее добавленную отметку цены в конце сообщения."""
+        return re.sub(r'\s\[\d{2,3}(?:\.\d{2})?\]$', '', line)
+
+    existing_lines = []
     if os.path.exists(messages_file):
         with open(messages_file, 'r', encoding='utf-8') as f:
-            existing = {line.strip() for line in f if line.strip()}
-    with open(messages_file, 'a', encoding='utf-8') as f:
-        for msg in filtered_messages:
-            if msg not in existing:
-                f.write(msg + '\n')
+            existing_lines = [strip_price_tag(l.strip()) for l in f if l.strip()]
+
+    existing_set = set(existing_lines)
+    for msg in filtered_messages:
+        base_msg = strip_price_tag(msg)
+        if base_msg not in existing_set:
+            existing_lines.append(base_msg)
+            existing_set.add(base_msg)
+
+    def parse_date(line: str):
+        m = message_start_re.match(line)
+        if m:
+            return datetime.strptime(m.group(0), '%Y-%m-%d %H:%M:%S UTC')
+        return datetime.min
+
+    existing_lines.sort(key=parse_date)
+
+    def annotate_price(line: str):
+        m = filter_re.search(line)
+        if m:
+            raw = m.group(1).replace(',', '.').replace('^', '.').replace('р', '.')
+            try:
+                price = f"{float(raw):.2f}"
+                return f"{line} [{price}]"
+            except ValueError:
+                return line
+        return line
+
+    with open(messages_file, 'w', encoding='utf-8') as f:
+        for line in existing_lines:
+            f.write(annotate_price(line) + '\n')
+
     return sorted_dates_and_prices
 
 # Функция для вычисления средних цен за каждый день

@@ -31,6 +31,8 @@ filter_re = re.compile(r'(син\w*|бел\w*)[^\n]*?по\s*(\d{2,3}(?:[.,]\d{1,
 
 # Список для хранения дат и цен
 dates_and_prices = []
+# Список сообщений, прошедших фильтр и использованных при расчётах
+filtered_messages = []
 
 # Функция для проверки, содержит ли сообщение ключевые слова для игнорирования
 def contains_ignore_keywords(message):
@@ -51,6 +53,7 @@ def display_chat_messages(chat_file):
                 try:
                     price = f'{float(price_raw):.2f}'  # Форматируем цену с двумя десятичными знаками
                     dates_and_prices.append((date, price))
+                    filtered_messages.append(message)
                 except ValueError as e:
                     logging.error(f'Error parsing price: {e}')
             else:
@@ -160,6 +163,16 @@ def analyze_main():
     for date, price in sorted_dates_and_prices:
         print(f'{date}: {price}')
 
+    # Записываем все отфильтрованные сообщения в отдельный файл
+    messages_file = os.path.join(data_dir, 'used_messages.txt')
+    existing = set()
+    if os.path.exists(messages_file):
+        with open(messages_file, 'r', encoding='utf-8') as f:
+            existing = {line.strip() for line in f if line.strip()}
+    with open(messages_file, 'a', encoding='utf-8') as f:
+        for msg in filtered_messages:
+            if msg not in existing:
+                f.write(msg + '\n')
     return sorted_dates_and_prices
 
 # Функция для вычисления средних цен за каждый день

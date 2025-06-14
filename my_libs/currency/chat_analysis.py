@@ -61,7 +61,7 @@ def display_chat_messages(chat_file):
             price_match = filter_re.search(message)
             if date_match and price_match:
                 date = date_match.group(0)
-                price_raw = price_match.group(2).replace(',', '.').replace('^', '.').replace('р', '.').replace(' ', '.')
+                price_raw = price_match.group(1).replace(',', '.').replace('^', '.').replace('р', '.').replace(' ', '.')
                 try:
                     price = f'{float(price_raw):.2f}'  # Форматируем цену с двумя десятичными знаками
                     dates_and_prices.append((date, price))

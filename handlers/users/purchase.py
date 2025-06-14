@@ -33,6 +33,8 @@ from keyboards.inline.equipment import box, charger, check, scratches, chips
 from loader import dp, bot
 from my_libs.libs_selenium import create_chrome_driver_object
 import asyncio
+from configparser import ConfigParser
+from telethon import TelegramClient
 
 ti = 0
 data = {}
@@ -289,7 +291,7 @@ async def send_currency(message: types.Message):
 
     # Отправляем ответ с форматированными данными
     await message.answer(response)
-@dp.message_handler()
+@dp.message_handler(lambda message: not message.text.startswith('/'))
 async def myphones(message: Message):
     buttons = archive.get_keys_list(message.text.lower())
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
@@ -324,6 +326,49 @@ async def send_currency(message: types.Message):
 
     # Отправляем ответ с последними строками файла
     await message.answer(response)
+
+
+@dp.message_handler(commands=['currency_add'])
+async def add_currency_chat(message: types.Message):
+    """Add new Telegram channel to currency parser list."""
+    channel = message.get_args()
+    if not channel:
+        await message.answer('Укажите канал после команды, например /currency_add @channel')
+        return
+    if not channel.startswith('@'):
+        channel = '@' + channel
+
+    config = ConfigParser()
+    config.read('my_libs/currency/config.ini')
+    api_id = config.getint('telegram', 'api_id')
+    api_hash = config.get('telegram', 'api_hash')
+    session_name = config.get('telegram', 'session_name')
+
+    async with TelegramClient(session_name, api_id, api_hash) as tg_client:
+        try:
+            entity = await tg_client.get_entity(channel)
+        except Exception as e:
+            await message.answer(f'Не удалось получить данные канала: {e}')
+            return
+        chat_id = entity.id
+        chat_name = entity.title
+
+    chats_file = 'my_libs/currency/data/chats.txt'
+    try:
+        with open(chats_file, 'r', encoding='utf-8') as f:
+            lines = [line.strip() for line in f if line.strip()]
+    except FileNotFoundError:
+        lines = []
+
+    existing_ids = {line.split(' - ')[0] for line in lines}
+    if str(chat_id) in existing_ids:
+        await message.answer('Канал уже есть в списке.')
+        return
+
+    with open(chats_file, 'a', encoding='utf-8') as f:
+        f.write(f'{chat_id} - {chat_name}\n')
+
+    await message.answer(f'Канал {chat_name} добавлен в список.')
 
 @dp.callback_query_handler(text_contains="working_button")
 async def send_choice_keyboard(call: CallbackQuery):

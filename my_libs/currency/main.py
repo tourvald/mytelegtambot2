@@ -1,4 +1,5 @@
 import chat_analysis
+
 if __name__ == '__main__':
     chat_analysis.start_export()
     raw_price_list = chat_analysis.analyze_main()

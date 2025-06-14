@@ -94,9 +94,11 @@ async def export_messages(chat_id, chat_name):
 
     all_messages = []
 
+    entity = await client.get_input_entity(chat_id)
+
     while True:
         history = await client(GetHistoryRequest(
-            peer=chat_id,
+            peer=entity,
             offset_id=offset_id,
             offset_date=None,
             add_offset=0,

@@ -291,7 +291,7 @@ async def send_currency(message: types.Message):
 
     # Отправляем ответ с форматированными данными
     await message.answer(response)
-@dp.message_handler()
+@dp.message_handler(lambda message: not message.text.startswith('/'))
 async def myphones(message: Message):
     buttons = archive.get_keys_list(message.text.lower())
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)

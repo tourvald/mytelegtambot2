@@ -338,8 +338,9 @@ async def add_currency_chat(message: types.Message):
     if not channel.startswith('@'):
         channel = '@' + channel
 
+    from config import PRIVATE_DIR
     config = ConfigParser()
-    config.read('my_libs/currency/config.ini')
+    config.read(os.path.join(PRIVATE_DIR, 'currency_config.ini'))
     api_id = config.getint('telegram', 'api_id')
     api_hash = config.get('telegram', 'api_hash')
     session_name = config.get('telegram', 'session_name')
@@ -508,7 +509,9 @@ async def waiting_for_new_link(message: Message, state: FSMContext):
         await message.document.download(destination_file=f'__pycache__/{file_name}')
         await message.answer(text=f'{file_name} успешно загружен')
     elif file_name.split('.')[-1] == 'pkl':
-        await message.document.download(destination_file=f'cookies/test_cookies.pkl')
+        from config import PRIVATE_DIR
+        dest = os.path.join(PRIVATE_DIR, 'cookies', 'test_cookies.pkl')
+        await message.document.download(destination_file=dest)
         await message.answer(text=f'{file_name} успешно загружен')
     elif file_name.split('.')[-1] == 'xlsx':
         await message.document.download(destination_file=f'my_libs/cian/offers.xlsx')

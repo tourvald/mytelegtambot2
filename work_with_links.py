@@ -178,7 +178,9 @@ def get_new_items_lite(url):
     driver.get(url)
     driver.implicitly_wait(10)
     try:
-        for cookie in pickle.load(open('cookies/test_cookies.pkl', "rb")):
+        from config import PRIVATE_DIR
+        cookies_file = os.path.join(PRIVATE_DIR, 'cookies', 'test_cookies.pkl')
+        for cookie in pickle.load(open(cookies_file, "rb")):
             driver.add_cookie(cookie)
         time.sleep(random.uniform(1,3))
         driver.refresh()
@@ -214,7 +216,7 @@ def get_new_items_lite(url):
 
     # with open('test_cookies.pkl', 'wb') as f:
     #    f.close()
-    # pickle.dump(driver.get_cookies(), open('cookies/test_cookies.pkl', 'wb'))
+    # pickle.dump(driver.get_cookies(), open(os.path.join(PRIVATE_DIR, 'cookies', 'test_cookies.pkl'), 'wb'))
 
     driver.close()
     driver.quit()

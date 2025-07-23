@@ -1,11 +1,12 @@
 from configparser import ConfigParser
 import os
+from config import PRIVATE_DIR
 from telethon import TelegramClient
 
 
 def _get_client():
     """Create TelegramClient using credentials from config.ini."""
-    config_path = os.path.join(os.path.dirname(__file__), 'config.ini')
+    config_path = os.path.join(PRIVATE_DIR, 'currency_config.ini')
     config = ConfigParser()
     config.read(config_path)
     api_id = config.getint('telegram', 'api_id')

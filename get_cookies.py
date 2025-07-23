@@ -12,7 +12,9 @@ def save_cookies(url):
         if input_ == 'y':
             with open('test_cookies2.pkl', 'wb') as f:
                f.close()
-            pickle.dump(driver.get_cookies(), open(f'cookies/{file_name}.pkl', 'wb'))
+            from config import PRIVATE_DIR
+            dest = os.path.join(PRIVATE_DIR, 'cookies', f'{file_name}.pkl')
+            pickle.dump(driver.get_cookies(), open(dest, 'wb'))
 
     except Exception as ex:
         print(ex)
@@ -28,7 +30,9 @@ def check_cookies(url):
     file_name = url.strip('https://').split('.')[-2]
     print(file_name)
     try:
-        cookies = pickle.load(open(f'cookies/{file_name}.pkl', 'rb'))
+        from config import PRIVATE_DIR
+        cookies_path = os.path.join(PRIVATE_DIR, 'cookies', f'{file_name}.pkl')
+        cookies = pickle.load(open(cookies_path, 'rb'))
         print(cookies)
         for cookie in cookies:
             driver.add_cookie(cookie)

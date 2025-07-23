@@ -1,6 +1,8 @@
 import re
 import numpy as np
 import  pickle
+import os
+from config import PRIVATE_DIR
 from bs4 import BeautifulSoup
 import time
 import lxml
@@ -114,7 +116,8 @@ def get_bs4_content(url, headless=True, path_to_webdriver='settings/webdriver.tx
     print('Селениум успешно загружен')
     driver.get(url)
     time.sleep(6)
-    for cookie in pickle.load(open('cookies/test_cookies.pkl', "rb")):
+    cookies_file = os.path.join(PRIVATE_DIR, 'cookies', 'test_cookies.pkl')
+    for cookie in pickle.load(open(cookies_file, "rb")):
         driver.add_cookie(cookie)
     time.sleep(3)
     print('Куки загружены')
@@ -124,7 +127,7 @@ def get_bs4_content(url, headless=True, path_to_webdriver='settings/webdriver.tx
     print ('Ссылка успешно загружена')
     contents = driver.page_source
     soup = BeautifulSoup(contents, 'lxml')
-    pickle.dump(driver.get_cookies(), open('cookies/avito.pkl', "wb"))
+    pickle.dump(driver.get_cookies(), open(os.path.join(PRIVATE_DIR, 'cookies', 'avito.pkl'), "wb"))
     driver.close()
     driver.quit()
     return soup

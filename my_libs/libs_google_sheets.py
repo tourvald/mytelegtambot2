@@ -3,12 +3,11 @@ import os
 import httplib2
 import apiclient.discovery
 from oauth2client.service_account import ServiceAccountCredentials
-
-
-import os
+from pathlib import Path
+from config import PRIVATE_DIR
 
 def get_mysells_spreadsheet():
-    CREDENTIALS_FILE = 'settings/api_google_sheets_token.json'
+    CREDENTIALS_FILE = PRIVATE_DIR / 'api_google_sheets_token.json'
     spreadsheet_id = '1nJHlfoRuqu3boqb7Bf3ymI-NRdV0kIkzE80PqI5igVg'
 
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
@@ -25,7 +24,7 @@ def get_mysells_spreadsheet():
     ).execute()
     return values
 def get_myphones_spreadsheet(range='myphones'):
-    CREDENTIALS_FILE = 'settings/api_google_sheets_token.json'
+    CREDENTIALS_FILE = PRIVATE_DIR / 'api_google_sheets_token.json'
     spreadsheet_id = '1nJHlfoRuqu3boqb7Bf3ymI-NRdV0kIkzE80PqI5igVg'
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
         CREDENTIALS_FILE,

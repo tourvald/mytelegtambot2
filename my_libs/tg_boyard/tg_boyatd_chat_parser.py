@@ -6,12 +6,17 @@ from telethon import TelegramClient
 from telethon.errors import SessionPasswordNeededError
 from telethon.tl.functions.messages import GetHistoryRequest
 import asyncio
+from config import PRIVATE_DIR
 
-# Введите ваши данные
-api_id = 9389967          # Замените на ваш api_id
-api_hash = 'a701b1d0675674c9ba7b5d05a76d15ae'    # Замените на ваш api_hash
-phone_number = '+79263816112'  # В формате '+1234567890'
-chat_id = 1573843884             # ID чата, который нужно мониторить
+# Load credentials from private_data/tg_boyard_config.json
+creds_path = PRIVATE_DIR / 'tg_boyard_config.json'
+with open(creds_path, 'r', encoding='utf-8') as f:
+    creds = json.load(f)
+
+api_id = creds.get('api_id')
+api_hash = creds.get('api_hash')
+phone_number = creds.get('phone_number')
+chat_id = creds.get('chat_id')
 
 
 # Время задержки между проверками в секундах

@@ -290,8 +290,10 @@ def update_currency_rates(dates_and_rates):
         f.writelines(updated_data)
 
 # Чтение данных из файла конфигурации для экспорта сообщений
+from config import PRIVATE_DIR
+
 config = ConfigParser()
-config.read('config.ini')
+config.read(os.path.join(PRIVATE_DIR, 'currency_config.ini'))
 
 api_id = config.getint('telegram', 'api_id')
 api_hash = config.get('telegram', 'api_hash')

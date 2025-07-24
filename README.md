@@ -12,5 +12,7 @@ Place your `.env` file inside `private_data/`. It may define the following varia
 BOT_TOKEN=<token used on Linux/macOS>
 BOT_TOKEN_WIN=<token used on Windows>
 ```
-
-At least one of these tokens must be present for the bot to start. The `config.py` file loads this `.env` file automatically.
+At least one of these tokens must be present for the bot to start. The
+`config.py` file loads this `.env` file automatically. Whichever token is set
+will be used; if both are provided the one appropriate for the current
+platform is chosen.

@@ -1,4 +1,39 @@
-/settings/
-/data/
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# виртуальное окружение
+venv/
+env/
+.venv/
+
+# IDE / редакторы
+.idea/
+*.iml
+.vscode/
+
+# Личные и приватные данные
+.env
+*.session
 private_data/
 cookies/
+my_libs/www.youtube.com_cookies.txt
+
+# Логи и временные
+*.log
+app.log
+saved_html.html
+
+# macOS
+.DS_Store
+
+# Данные / артефакты
+/data/          # если это деректиория с генерируемыми данными, иначе уточним
+/settings/      # если это конфиги, которые не должны быть в репо
+
+# Архивы
+*.zip
+*.tar.gz

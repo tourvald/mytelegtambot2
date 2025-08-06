@@ -1,6 +1,5 @@
 import os
 import yt_dlp
-from pydub import AudioSegment
 
 def download_youtube_audio(url):
     try:
@@ -27,5 +26,7 @@ def download_youtube_audio(url):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-# Пример использования
-download_youtube_audio("https://www.youtube.com/watch?v=sXC6AUbY69A&t=14179s")
+if __name__ == "__main__":
+    download_youtube_audio(
+        "https://www.youtube.com/watch?v=sXC6AUbY69A&t=14179s"
+    )

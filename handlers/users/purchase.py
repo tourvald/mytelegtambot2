@@ -34,6 +34,7 @@ from loader import dp, bot
 from my_libs.libs_selenium import create_chrome_driver_object
 import asyncio
 from configparser import ConfigParser
+from pathlib import Path
 from telethon import TelegramClient
 
 ti = 0
@@ -340,12 +341,15 @@ async def add_currency_chat(message: types.Message):
 
     from config import PRIVATE_DIR
     config = ConfigParser()
-    config.read(os.path.join(PRIVATE_DIR, 'currency_config.ini'))
+    config_path = PRIVATE_DIR / 'currency_config.ini'
+    config.read(config_path)
     api_id = config.getint('telegram', 'api_id')
     api_hash = config.get('telegram', 'api_hash')
     session_name = config.get('telegram', 'session_name')
+    session_path = Path(PRIVATE_DIR) / session_name
+    session_path.parent.mkdir(parents=True, exist_ok=True)
 
-    async with TelegramClient(session_name, api_id, api_hash) as tg_client:
+    async with TelegramClient(str(session_path), api_id, api_hash) as tg_client:
         try:
             entity = await tg_client.get_entity(channel)
         except Exception as e:
@@ -354,9 +358,9 @@ async def add_currency_chat(message: types.Message):
         chat_id = entity.id
         chat_name = entity.title
 
-    chats_file = 'my_libs/currency/data/chats.txt'
+    chats_file = Path(__file__).resolve().parents[2] / 'my_libs' / 'currency' / 'data' / 'chats.txt'
     try:
-        with open(chats_file, 'r', encoding='utf-8') as f:
+        with chats_file.open('r', encoding='utf-8') as f:
             lines = [line.strip() for line in f if line.strip()]
     except FileNotFoundError:
         lines = []
@@ -366,7 +370,7 @@ async def add_currency_chat(message: types.Message):
         await message.answer('Канал уже есть в списке.')
         return
 
-    with open(chats_file, 'a', encoding='utf-8') as f:
+    with chats_file.open('a', encoding='utf-8') as f:
         f.write(f'{chat_id} - {chat_name}\n')
 
     await message.answer(f'Канал {chat_name} добавлен в список.')
@@ -510,7 +514,7 @@ async def waiting_for_new_link(message: Message, state: FSMContext):
         await message.answer(text=f'{file_name} успешно загружен')
     elif file_name.split('.')[-1] == 'pkl':
         from config import PRIVATE_DIR
-        dest = os.path.join(PRIVATE_DIR, 'cookies', 'test_cookies.pkl')
+        dest = PRIVATE_DIR / 'cookies' / 'test_cookies.pkl'
         await message.document.download(destination_file=dest)
         await message.answer(text=f'{file_name} успешно загружен')
     elif file_name.split('.')[-1] == 'xlsx':

@@ -1,7 +1,7 @@
-import os
 import json
 import random
 import unicodedata
+from pathlib import Path
 from telethon import TelegramClient
 from telethon.errors import SessionPasswordNeededError
 from telethon.tl.functions.messages import GetHistoryRequest
@@ -23,19 +23,19 @@ chat_id = creds.get('chat_id')
 polling_interval = 10
 
 # Получаем директорию, где находится скрипт
-script_dir = os.path.dirname(os.path.abspath(__file__))
+script_dir = Path(__file__).resolve().parent
 
 # Файл для сохранения реакций (полный путь)
-reactions_file = os.path.join(script_dir, 'reactions.json')
+reactions_file = script_dir / 'reactions.json'
 
 # Файл с ответами (полный путь)
-messages_file = os.path.join(script_dir, 'messages.txt')
+messages_file = script_dir / 'messages.txt'
 
 # Функция для загрузки сохранённых реакций из файла
 def load_reactions():
-    if os.path.exists(reactions_file):
+    if reactions_file.exists():
         try:
-            with open(reactions_file, 'r', encoding='utf-8') as file:
+            with reactions_file.open('r', encoding='utf-8') as file:
                 reactions = json.load(file)
                 return reactions
         except json.JSONDecodeError:
@@ -45,14 +45,14 @@ def load_reactions():
 
 # Функция для сохранения реакций в файл
 def save_reactions(reactions):
-    with open(reactions_file, 'w', encoding='utf-8') as file:
+    with reactions_file.open('w', encoding='utf-8') as file:
         json.dump(reactions, file, ensure_ascii=False, indent=4)
 
 # Функция для загрузки сообщений из файла messages.txt
 def load_messages():
-    if os.path.exists(messages_file):
+    if messages_file.exists():
         try:
-            with open(messages_file, 'r', encoding='utf-8') as file:
+            with messages_file.open('r', encoding='utf-8') as file:
                 lines = [line.strip() for line in file if line.strip()]
                 return lines
         except Exception as e:
@@ -63,7 +63,10 @@ def load_messages():
         return []
 
 async def main():
-    client = TelegramClient('session_name', api_id, api_hash)
+    session_name = creds.get('session_name', 'tg_boyard_session')
+    session_path = PRIVATE_DIR / session_name
+    session_path.parent.mkdir(parents=True, exist_ok=True)
+    client = TelegramClient(str(session_path), api_id, api_hash)
     await client.start()
 
     if not await client.is_user_authorized():

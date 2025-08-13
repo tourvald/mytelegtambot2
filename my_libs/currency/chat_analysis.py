@@ -291,7 +291,8 @@ def update_currency_rates(dates_and_rates):
         f.writelines(updated_data)
 
 # Чтение данных из файла конфигурации для экспорта сообщений
-from config import PRIVATE_DIR
+BASE_DIR = Path(__file__).resolve().parents[2]
+PRIVATE_DIR = BASE_DIR / 'private_data'
 
 config = ConfigParser()
 config.read(PRIVATE_DIR / 'currency_config.ini')

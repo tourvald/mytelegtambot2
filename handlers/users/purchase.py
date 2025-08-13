@@ -37,6 +37,9 @@ import asyncio
 from configparser import ConfigParser
 from telethon import TelegramClient
 
+BASE_DIR = Path(__file__).resolve().parents[2]
+PRIVATE_DIR = BASE_DIR / 'private_data'
+
 ti = 0
 data = {}
 class FSM_change_link(StatesGroup):
@@ -339,7 +342,6 @@ async def add_currency_chat(message: types.Message):
     if not channel.startswith('@'):
         channel = '@' + channel
 
-    from config import PRIVATE_DIR
     config = ConfigParser()
     config.read(PRIVATE_DIR / 'currency_config.ini')
     api_id = config.getint('telegram', 'api_id')
@@ -513,7 +515,6 @@ async def waiting_for_new_link(message: Message, state: FSMContext):
         await message.document.download(destination_file=f'__pycache__/{file_name}')
         await message.answer(text=f'{file_name} успешно загружен')
     elif file_name.split('.')[-1] == 'pkl':
-        from config import PRIVATE_DIR
         dest = os.path.join(PRIVATE_DIR, 'cookies', 'test_cookies.pkl')
         await message.document.download(destination_file=dest)
         await message.answer(text=f'{file_name} успешно загружен')

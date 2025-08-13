@@ -1,7 +1,9 @@
 from configparser import ConfigParser
 from pathlib import Path
-from config import PRIVATE_DIR
 from telethon import TelegramClient
+
+BASE_DIR = Path(__file__).resolve().parents[2]
+PRIVATE_DIR = BASE_DIR / 'private_data'
 
 
 def _get_client():

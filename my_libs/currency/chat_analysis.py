@@ -1,4 +1,3 @@
-import os
 import re
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -9,19 +8,23 @@ import pandas as pd
 import requests
 import logging
 
+# Базовые пути относительно корня проекта
+BASE_DIR = Path(__file__).resolve().parents[2]
+CURRENCY_DIR = BASE_DIR / 'my_libs' / 'currency'
+DATA_DIR = CURRENCY_DIR / 'data'
+LOG_FILE = CURRENCY_DIR / 'app.log'
+CHATS_FILE = DATA_DIR / 'chats.txt'
+CURRENCY_FILE = DATA_DIR / 'currency.txt'
+
 # Настройка логирования
 logging.basicConfig(
     level=logging.INFO,  # Уровень логирования
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',  # Формат сообщений
     handlers=[
-        logging.FileHandler("app.log"),  # Запись логов в файл
+        logging.FileHandler(LOG_FILE),  # Запись логов в файл
         logging.StreamHandler()  # Вывод логов на консоль
     ]
 )
-
-# Путь к папке data
-data_dir = 'data'
-chats_file = os.path.join(data_dir, 'chats.txt')
 
 # Регулярное выражение для определения начала нового сообщения (дата и время в формате YYYY-MM-DD HH:MM:SS UTC)
 message_start_re = re.compile(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} UTC')
@@ -125,13 +128,13 @@ async def export_messages(chat_id, chat_name):
             break
 
     # Сохраняем сообщения в файл, добавляя новые записи
-    chat_file = os.path.join(data_dir, f'{chat_name}.txt')
+    chat_file = DATA_DIR / f'{chat_name}.txt'
     existing_lines = set()
-    if os.path.exists(chat_file):
-        with open(chat_file, 'r', encoding='utf-8') as f:
+    if chat_file.exists():
+        with chat_file.open('r', encoding='utf-8') as f:
             existing_lines = {line.strip() for line in f if line.strip()}
 
-    with open(chat_file, 'a', encoding='utf-8') as f:
+    with chat_file.open('a', encoding='utf-8') as f:
         for message in all_messages:
             text = (message.message or '').replace('\n', ' ').replace('\r', ' ')
             line = f"{message.date.strftime('%Y-%m-%d %H:%M:%S %Z')} - {message.sender_id}: {text}"
@@ -140,7 +143,7 @@ async def export_messages(chat_id, chat_name):
 
 # Главная функция для чтения файла chats.txt и экспорта сообщений
 async def export_main():
-    with open(chats_file, 'r', encoding='utf-8') as f:
+    with CHATS_FILE.open('r', encoding='utf-8') as f:
         lines = f.readlines()
         for line in lines:
             chat_id, chat_name = line.strip().split(' - ')
@@ -152,12 +155,12 @@ async def export_main():
 # Главная функция для отображения сообщений из всех файлов чатов
 def analyze_main():
     # Проверяем, существует ли папка data
-    if not os.path.exists(data_dir):
+    if not DATA_DIR.exists():
         print("Папка data не существует. Убедитесь, что папка data и файлы с сообщениями чатов существуют.")
         return
 
     # Получаем список файлов в папке data
-    chat_files = [f for f in os.listdir(data_dir) if f.endswith('.txt')]
+    chat_files = [f.name for f in DATA_DIR.glob('*.txt')]
 
     if not chat_files:
         print("Нет файлов с сообщениями чатов в папке data.")
@@ -166,7 +169,7 @@ def analyze_main():
     # Читаем и отображаем сообщения из каждого файла
     for chat_file in chat_files:
         print(f"\nСообщения из чата: {chat_file}")
-        display_chat_messages(os.path.join(data_dir, chat_file))
+        display_chat_messages(DATA_DIR / chat_file)
 
     # Сортируем список дат и цен
     sorted_dates_and_prices = sorted(dates_and_prices, key=lambda x: datetime.strptime(x[0], '%Y-%m-%d %H:%M:%S UTC'))
@@ -178,15 +181,15 @@ def analyze_main():
 
     # Записываем все отфильтрованные сообщения в отдельный файл,
     # сортируя их по дате от старых к новым и помечая используемую цену
-    messages_file = os.path.join(data_dir, 'used_messages.txt')
+    messages_file = DATA_DIR / 'used_messages.txt'
 
     def strip_price_tag(line):
         """Удаляем ранее добавленную отметку цены в конце сообщения."""
         return re.sub(r'\s\[\d{2,3}(?:\.\d{2})?\]$', '', line)
 
     existing_lines = []
-    if os.path.exists(messages_file):
-        with open(messages_file, 'r', encoding='utf-8') as f:
+    if messages_file.exists():
+        with messages_file.open('r', encoding='utf-8') as f:
             existing_lines = [strip_price_tag(l.strip()) for l in f if l.strip()]
 
     existing_set = set(existing_lines)
@@ -252,7 +255,7 @@ def calculate_daily_average(prices):
 
 def update_currency_rates(dates_and_rates):
     # Путь к файлу с курсами валют
-    currency_file = 'data/currency.txt'
+    currency_file = CURRENCY_FILE
 
     # Функция для получения курса ЦБ РФ на указанную дату
     def get_cbr_rate(date):
@@ -266,8 +269,8 @@ def update_currency_rates(dates_and_rates):
         return None
 
     # Чтение существующего файла с курсами
-    if os.path.exists(currency_file):
-        with open(currency_file, 'r') as f:
+    if currency_file.exists():
+        with currency_file.open('r') as f:
             existing_data = f.readlines()
         existing_dates = {line.split(',')[0] for line in existing_data}
     else:
@@ -287,11 +290,11 @@ def update_currency_rates(dates_and_rates):
                 updated_data.append(f'{date_str},{rate},{cbr_rate},{diff}\n')
 
     # Запись обновленных данных в файл
-    with open(currency_file, 'a') as f:
+    with currency_file.open('a') as f:
         f.writelines(updated_data)
 
 # Чтение данных из файла конфигурации для экспорта сообщений
-BASE_DIR = Path(__file__).resolve().parents[2]
+# (BASE_DIR определён выше)
 PRIVATE_DIR = BASE_DIR / 'private_data'
 
 config = ConfigParser()
@@ -300,7 +303,7 @@ config.read(PRIVATE_DIR / 'currency_config.ini')
 api_id = config.getint('telegram', 'api_id')
 api_hash = config.get('telegram', 'api_hash')
 phone = config.get('telegram', 'phone')
-session_name = config.get('telegram', 'session_name')
+session_name = Path(config.get('telegram', 'session_name')).stem
 
 # Создаем кросс-платформенный путь для сессии
 session_path = PRIVATE_DIR / 'sessions' / session_name
@@ -308,9 +311,6 @@ session_path.parent.mkdir(parents=True, exist_ok=True)
 
 # Создаем клиента для экспорта сообщений
 client = TelegramClient(str(session_path), api_id, api_hash)
-
-# Включаем логирование для экспорта сообщений
-logging.basicConfig(level=logging.INFO)
 
 def start_export():
     with client:

@@ -13,7 +13,7 @@ def _get_client():
     config.read(config_path)
     api_id = config.getint('telegram', 'api_id')
     api_hash = config.get('telegram', 'api_hash')
-    session_name = config.get('telegram', 'session_name')
+    session_name = Path(config.get('telegram', 'session_name')).stem
     session_path = PRIVATE_DIR / 'sessions' / session_name
     session_path.parent.mkdir(parents=True, exist_ok=True)
     return TelegramClient(str(session_path), api_id, api_hash)

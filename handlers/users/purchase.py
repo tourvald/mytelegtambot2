@@ -39,6 +39,18 @@ from telethon import TelegramClient
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 PRIVATE_DIR = BASE_DIR / 'private_data'
+DATA_DIR = BASE_DIR / 'data'
+MYCARS_DIR = DATA_DIR / 'mycars'
+CURRENCY_DATA_DIR = BASE_DIR / 'my_libs' / 'currency' / 'data'
+CIAN_DIR = BASE_DIR / 'my_libs' / 'cian'
+NEW_LINKS_FILE = BASE_DIR / 'new_links.txt'
+ARCHIVE_FILE = DATA_DIR / 'archive.json'
+MYCARS_REPORT = MYCARS_DIR / 'mycarsreport.csv'
+MYCARS_XLSX = MYCARS_DIR / 'mycars2.xlsx'
+CURRENCY_FILE = CURRENCY_DATA_DIR / 'currency.txt'
+CHATS_FILE = CURRENCY_DATA_DIR / 'chats.txt'
+WORKING_BUTTON_FILE = BASE_DIR / 'working_button.txt'
+QUALITY_FILE = BASE_DIR / 'quality.txt'
 
 ti = 0
 data = {}
@@ -76,11 +88,11 @@ async def restart_command(message: Message):
 @dp.message_handler(commands=['обмен'])
 async def initiate_work_with_links(message: Message):
     '''начало работы с ссылками, переводит в замкнутый блок CallBackQuery'''
-    with open('new_links.txt', 'r') as f:
+    with open(NEW_LINKS_FILE, 'r') as f:
         string = f.readlines()
     msg = string[0]
     string.pop(0)
-    with open('new_links.txt', 'w') as f:
+    with open(NEW_LINKS_FILE, 'w') as f:
         f.writelines(string)
     await bot.send_message(text=msg, reply_markup=keyboard, chat_id=message.chat.id, disable_web_page_preview = True)
 
@@ -95,7 +107,7 @@ async def initiate_work_with_links(message: Message):
 @dp.message_handler(commands=['find'])
 async def find_command(message: Message):
     outputs = []
-    with open('data/archive.json', 'r', encoding='utf-8') as f:
+    with open(ARCHIVE_FILE, 'r', encoding='utf-8') as f:
         arch = json.loads(f.read())
         f.close()
     id = message.text[6:].strip().split(':')[0].lower().strip()
@@ -133,7 +145,7 @@ async def find_command(message: Message):
 @dp.message_handler(commands=['look'])
 async def find_command(message: Message):
     outputs = []
-    with open('data/archive.json', 'r', encoding='utf-8') as f:
+    with open(ARCHIVE_FILE, 'r', encoding='utf-8') as f:
         arch = json.loads(f.read())
         f.close()
     reqs = [req for req in arch.keys() if message.text[6:].lower() in req]  # Собираем в reqs совпадения
@@ -258,11 +270,11 @@ async def echo(message: Message):
 @dp.message_handler(commands='cars_daily_mean')
 async def cars_daily_mean(message: Message):
     daily_mean()
-    await message.answer_document(open('data/mycars/mycarsreport.csv', 'rb'))
+    await message.answer_document(open(MYCARS_REPORT, 'rb'))
 
 @dp.message_handler(commands='cars_full_report')
 async def cars_daily_mean(message: Message):
-    await message.answer_document(open('data/mycars/mycars2.xlsx', 'rb'))
+    await message.answer_document(open(MYCARS_XLSX, 'rb'))
 
 @dp.message_handler(commands='currency')
 async def send_currency(message: types.Message):
@@ -273,7 +285,7 @@ async def send_currency(message: types.Message):
 
     # Читаем последние 5 строк из файла
     try:
-        with open('my_libs/currency/data/currency.txt', 'r', encoding='utf-8') as file:
+        with open(CURRENCY_FILE, 'r', encoding='utf-8') as file:
             lines = file.readlines()
             last_five_lines = lines[-5:]  # Получаем последние 5 строчек
 
@@ -316,7 +328,7 @@ async def myphones(message: Message):
 async def send_currency(message: types.Message):
     # Читаем последние 5 строк из файла
     try:
-        with open('my_libs/currency/data/currency.txt', 'r', encoding='utf-8') as file:
+        with open(CURRENCY_FILE, 'r', encoding='utf-8') as file:
             lines = file.readlines()
             last_five_lines = lines[-5:]  # Получаем последние 5 строчек
             response = '\n'.join([line.strip() for line in last_five_lines])
@@ -346,7 +358,7 @@ async def add_currency_chat(message: types.Message):
     config.read(PRIVATE_DIR / 'currency_config.ini')
     api_id = config.getint('telegram', 'api_id')
     api_hash = config.get('telegram', 'api_hash')
-    session_name = config.get('telegram', 'session_name')
+    session_name = Path(config.get('telegram', 'session_name')).stem
 
     session_path = PRIVATE_DIR / 'sessions' / session_name
     session_path.parent.mkdir(parents=True, exist_ok=True)
@@ -360,7 +372,7 @@ async def add_currency_chat(message: types.Message):
         chat_id = entity.id
         chat_name = entity.title
 
-    chats_file = 'my_libs/currency/data/chats.txt'
+    chats_file = CHATS_FILE
     try:
         with open(chats_file, 'r', encoding='utf-8') as f:
             lines = [line.strip() for line in f if line.strip()]
@@ -379,7 +391,7 @@ async def add_currency_chat(message: types.Message):
 
 @dp.callback_query_handler(text_contains="working_button")
 async def send_choice_keyboard(call: CallbackQuery):
-    with open('working_button.txt', 'w') as f:
+    with open(WORKING_BUTTON_FILE, 'w') as f:
         f.write(call.data.split(":")[1])
     key = call.data.split(":")[1]
     text = f'Работаем с {key}, Последняя цена - {archive.get_last_price(key)} от {archive.get_last_date(key)}'
@@ -392,7 +404,7 @@ async def send_choice_keyboard(call: CallbackQuery):
                                 reply_markup=choice)
 @dp.callback_query_handler(text_contains="w_b")
 async def send_choice_keyboard(call: CallbackQuery):
-    with open('working_button.txt', 'w') as f:
+    with open(WORKING_BUTTON_FILE, 'w') as f:
         f.write(call.data.split(":")[1])
     key = call.data.split(":")[1]
     text = f'Работаем с {key}, Последняя цена - {archive.get_last_price(key)} от {archive.get_last_date(key)}'
@@ -407,7 +419,7 @@ async def send_choice_keyboard(call: CallbackQuery):
 @dp.callback_query_handler(text_contains="parce")
 async def show_link(call: CallbackQuery):
     await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
-    with open('working_button.txt') as f:
+    with open(WORKING_BUTTON_FILE) as f:
         url = archive.get_key_link(f.readline())
     try:
         soup = get_soup_for_avito_parce(url)
@@ -425,7 +437,7 @@ async def show_link(call: CallbackQuery):
 
 @dp.callback_query_handler(text_contains="show_link")
 async def show_link(call: CallbackQuery):
-    with open('working_button.txt') as f:
+    with open(WORKING_BUTTON_FILE) as f:
         working_button = f.readline()
         link = archive.get_key_link(working_button)
     print(call.data)
@@ -438,7 +450,7 @@ async def show_link(call: CallbackQuery):
 
 @dp.callback_query_handler(text_contains="change_key_link", state=None)
 async def change_key_link(call: CallbackQuery):
-    with open('working_button.txt') as f:
+    with open(WORKING_BUTTON_FILE) as f:
         working_button = f.readline()
     await bot.edit_message_text(disable_web_page_preview=True,
                                 chat_id=call.message.chat.id,
@@ -448,7 +460,7 @@ async def change_key_link(call: CallbackQuery):
 
 @dp.message_handler(state=FSM_change_link.waiting_for_new_link)
 async def waiting_for_new_link(message: Message, state: FSMContext):
-    with open('working_button.txt') as f:
+    with open(WORKING_BUTTON_FILE) as f:
         working_button = f.readline()
     print ('waiting_for_new_link')
     archive.change_key_link(working_button, message.text)
@@ -459,12 +471,12 @@ async def waiting_for_new_link(message: Message, state: FSMContext):
 @dp.callback_query_handler(text_contains='buy')
 async def buy_phone(call: CallbackQuery):
     await call.message.answer('Что есть у телефона в комплекте?', reply_markup=box)
-    with open('quality.txt', 'w') as f:
+    with open(QUALITY_FILE, 'w') as f:
         f.write('1')
 
 @dp.callback_query_handler(text_contains='delete')
 async def rate_(call: CallbackQuery):
-    with open('working_button.txt') as f:
+    with open(WORKING_BUTTON_FILE) as f:
         archive.delete_key(f.readline())
     await call.message.answer('Запись удалена')
 
@@ -515,11 +527,11 @@ async def waiting_for_new_link(message: Message, state: FSMContext):
         await message.document.download(destination_file=f'__pycache__/{file_name}')
         await message.answer(text=f'{file_name} успешно загружен')
     elif file_name.split('.')[-1] == 'pkl':
-        dest = os.path.join(PRIVATE_DIR, 'cookies', 'test_cookies.pkl')
+        dest = PRIVATE_DIR / 'cookies' / 'test_cookies.pkl'
         await message.document.download(destination_file=dest)
         await message.answer(text=f'{file_name} успешно загружен')
     elif file_name.split('.')[-1] == 'xlsx':
-        await message.document.download(destination_file=f'my_libs/cian/offers.xlsx')
+        await message.document.download(destination_file=CIAN_DIR / 'offers.xlsx')
         await message.answer(text=f'{file_name} успешно загружен')
         links = cian_get_links_from_report()
         outputs = parce_many_links(link_list=links)
@@ -541,7 +553,7 @@ async def myphones(call: CallbackQuery):
 @dp.callback_query_handler(text_contains='price_history')
 async def price_history(call: CallbackQuery):
 
-    with open('working_button.txt') as f:
+    with open(WORKING_BUTTON_FILE) as f:
         key = f.readline()
     reports = []
     reports = archive.get_price_history(key)

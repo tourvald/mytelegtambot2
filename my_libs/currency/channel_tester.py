@@ -1,18 +1,22 @@
 from configparser import ConfigParser
-import os
-from config import PRIVATE_DIR
+from pathlib import Path
 from telethon import TelegramClient
+
+BASE_DIR = Path(__file__).resolve().parents[2]
+PRIVATE_DIR = BASE_DIR / 'private_data'
 
 
 def _get_client():
     """Create TelegramClient using credentials from config.ini."""
-    config_path = os.path.join(PRIVATE_DIR, 'currency_config.ini')
+    config_path = PRIVATE_DIR / 'currency_config.ini'
     config = ConfigParser()
     config.read(config_path)
     api_id = config.getint('telegram', 'api_id')
     api_hash = config.get('telegram', 'api_hash')
-    session_name = config.get('telegram', 'session_name')
-    return TelegramClient(session_name, api_id, api_hash)
+    session_name = Path(config.get('telegram', 'session_name')).stem
+    session_path = PRIVATE_DIR / 'sessions' / session_name
+    session_path.parent.mkdir(parents=True, exist_ok=True)
+    return TelegramClient(str(session_path), api_id, api_hash)
 
 
 async def test_channel_by_id(channel_id: int):

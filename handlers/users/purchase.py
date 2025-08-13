@@ -1,6 +1,7 @@
 import datetime
 import json
 import os
+from pathlib import Path
 
 import time
 import types
@@ -340,12 +341,15 @@ async def add_currency_chat(message: types.Message):
 
     from config import PRIVATE_DIR
     config = ConfigParser()
-    config.read(os.path.join(PRIVATE_DIR, 'currency_config.ini'))
+    config.read(PRIVATE_DIR / 'currency_config.ini')
     api_id = config.getint('telegram', 'api_id')
     api_hash = config.get('telegram', 'api_hash')
     session_name = config.get('telegram', 'session_name')
 
-    async with TelegramClient(session_name, api_id, api_hash) as tg_client:
+    session_path = PRIVATE_DIR / 'sessions' / session_name
+    session_path.parent.mkdir(parents=True, exist_ok=True)
+
+    async with TelegramClient(str(session_path), api_id, api_hash) as tg_client:
         try:
             entity = await tg_client.get_entity(channel)
         except Exception as e:

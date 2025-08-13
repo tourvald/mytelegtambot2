@@ -1,6 +1,7 @@
 import os
 import re
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from telethon import TelegramClient
 from telethon.tl.functions.messages import GetHistoryRequest
 from configparser import ConfigParser
@@ -293,15 +294,19 @@ def update_currency_rates(dates_and_rates):
 from config import PRIVATE_DIR
 
 config = ConfigParser()
-config.read(os.path.join(PRIVATE_DIR, 'currency_config.ini'))
+config.read(PRIVATE_DIR / 'currency_config.ini')
 
 api_id = config.getint('telegram', 'api_id')
 api_hash = config.get('telegram', 'api_hash')
 phone = config.get('telegram', 'phone')
 session_name = config.get('telegram', 'session_name')
 
+# Создаем кросс-платформенный путь для сессии
+session_path = PRIVATE_DIR / 'sessions' / session_name
+session_path.parent.mkdir(parents=True, exist_ok=True)
+
 # Создаем клиента для экспорта сообщений
-client = TelegramClient(session_name, api_id, api_hash)
+client = TelegramClient(str(session_path), api_id, api_hash)
 
 # Включаем логирование для экспорта сообщений
 logging.basicConfig(level=logging.INFO)
